@@ -286,3 +286,36 @@ input,textarea,select,button{font-family:inherit}
 .pulseCard .pulseCardBottom{margin-top:auto;min-height:18px;align-items:baseline;gap:12px}
 .pulseCard .pulseCardBottom span{line-height:1.4}
 @media(max-width:540px){.pulseAsset{gap:6px}.pulseAsset strong{font-size:13px}.pulseCard .pulsePrice{font-size:17px}.pulseCard .pulseCardBottom{flex-wrap:wrap;gap:4px}}
+
+/* Original 82coin live market module */
+.liveMarketSplit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:34px;border-bottom:1px solid #e5ebf1;padding:34px 0 28px}
+.liveColumn,.derivativesColumn{min-width:0}
+.liveHead{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}
+.liveHead h2{font-size:20px;font-weight:800;letter-spacing:-.45px;margin:4px 0}
+.liveHead p{font-size:12px;color:#8392a5;margin:0}
+.liveHead .viewMore{margin:0;white-space:nowrap}
+.liveHead .liveDot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#f14b60;margin-right:9px;vertical-align:2px}
+.liveFeed{border-top:2px solid #263b53;min-height:235px}
+.liveFeedRow{display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid #eaf0f4;padding:13px 0}
+.liveFeedRow:hover strong{color:#358fe5}
+.liveFeedTime{background:#f0f3f7;color:#7b8999;border-radius:5px;font-size:11px;font-weight:700;padding:4px 6px;flex-shrink:0;font-variant-numeric:tabular-nums}
+.liveFeedContent{min-width:0;display:flex;flex-direction:column;gap:6px}
+.liveFeedContent strong{font-size:14px;font-weight:650;line-height:1.5;color:#293a4e;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.liveFeedContent small{font-size:11px;color:#8b9aad}
+.liveEmpty{padding:40px 10px;text-align:center;color:#8e9dab;font-size:13px}
+.derivativeTabs{display:flex;gap:8px;margin-bottom:12px}
+.derivativeTabs button{border:0;background:#f3f6fa;color:#77889c;padding:9px 15px;border-radius:18px;font-size:12px;font-weight:650}
+.derivativeTabs button.active{background:#e8f4ff;color:#277fca}
+.derivativeBoard{background:#f8fafc;border:1px solid #e8edf3;border-radius:12px;padding:14px 17px}
+.derivativeLabel,.derivativeRow{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:8px;align-items:center}
+.derivativeLabel{font-size:11px;color:#8595a5;padding:8px 0 12px;border-bottom:1px solid #e6edf3}
+.derivativeRow{font-size:13px;padding:15px 0;border-bottom:1px solid #e7edf3;font-variant-numeric:tabular-nums}
+.derivativeRow strong{font-weight:750;color:#2c3b4e}
+.derivativeLabel span:not(:first-child),.derivativeRow span{text-align:right}
+.derivativeRow span{font-weight:700}
+.derivativeMissing{font-size:13px;text-align:center;color:#8999a8;padding:27px 0}
+.derivativeGuide{background:#f8fafc;border:1px solid #e7edf4;border-radius:10px;padding:19px}
+.derivativeGuide strong{font-size:14px}
+.derivativeGuide p{font-size:12px;margin:10px 0}
+@media(max-width:850px){.liveMarketSplit{gap:20px}}
+@media(max-width:700px){.liveMarketSplit{grid-template-columns:1fr;gap:30px;padding:26px 0}.liveFeedContent strong{font-size:13px}}
