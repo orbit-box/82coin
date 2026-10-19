@@ -272,3 +272,17 @@ input,textarea,select,button{font-family:inherit}
 .coinPremium{text-align:right;white-space:nowrap;font-weight:750;font-size:12px;font-variant-numeric:tabular-nums;color:#7f8b98}
 .fullCoins .coinPremium{font-size:14px}
 @media(max-width:720px){.compactCoins .coinsTableRow,.compactCoins .coinsTableHead{grid-template-columns:minmax(0,1.2fr) minmax(75px,1fr) minmax(76px,.8fr) minmax(52px,.7fr)}.compactCoins .coinIdentity strong,.compactCoins .coinPrice,.compactCoins .coinChange,.compactCoins .coinPremium{font-size:11px}.compactCoins .coinsTitle{gap:4px}.compactCoins .coinOrder{min-width:10px}.compactCoins .coinIcon{width:19px!important;height:19px!important}}
+
+/* Consistent market signal card alignment */
+.pulseCard{display:flex;flex-direction:column;min-width:0;min-height:144px;gap:0}
+.pulseCardTop{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:30px}
+.pulseAsset{display:inline-flex;align-items:center;gap:9px;min-width:0;line-height:1}
+.pulseAsset .coinIcon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 25px;width:25px;height:25px;vertical-align:middle}
+.pulseAsset .coinIcon img{display:block;object-fit:contain;width:100%;height:100%}
+.pulseAsset strong{display:inline-block;line-height:25px;font-weight:750;font-size:14px;white-space:nowrap}
+.pulseCardTop>span:last-child{line-height:25px;font-size:13px;font-weight:750;white-space:nowrap}
+.pulseCard .pulsePrice{margin:18px 0 16px;line-height:1.25;min-height:27px;font-size:20px;letter-spacing:-.4px}
+.pulseCard .pulsePrice small{vertical-align:baseline;letter-spacing:0}
+.pulseCard .pulseCardBottom{margin-top:auto;min-height:18px;align-items:baseline;gap:12px}
+.pulseCard .pulseCardBottom span{line-height:1.4}
+@media(max-width:540px){.pulseAsset{gap:6px}.pulseAsset strong{font-size:13px}.pulseCard .pulsePrice{font-size:17px}.pulseCard .pulseCardBottom{flex-wrap:wrap;gap:4px}}
