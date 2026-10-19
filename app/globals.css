@@ -265,3 +265,10 @@ input,textarea,select,button{font-family:inherit}
 .compactCoins .rankTabs button.active{font-weight:750}
 @media(max-width:840px){.portalSidebar{grid-template-columns:minmax(0,1fr) 215px;gap:12px 15px}.compactCoins .rankTabs button{font-size:11px;padding:7px 9px}}
 @media(max-width:650px){.portalSidebar{display:flex;flex-direction:column;gap:16px}.portalSidebar>.allCoins{order:0;width:100%}.portalSidebar>.welcomeBox{order:1;width:100%}.portalSidebar>.smallPromo{order:2;width:100%}.compactCoins .rankTabs{flex-wrap:wrap}.compactCoins .rankTabs button{font-size:11px}}
+
+/* 82coin: premium column across all ranking views */
+.coinsTableHead,.coinsTableRow{grid-template-columns:minmax(0,1.4fr) minmax(110px,1fr) minmax(100px,.95fr) minmax(72px,.7fr)}
+.compactCoins .coinsTableRow,.compactCoins .coinsTableHead{grid-template-columns:minmax(0,1.5fr) minmax(115px,1fr) minmax(105px,.9fr) minmax(74px,.7fr)}
+.coinPremium{text-align:right;white-space:nowrap;font-weight:750;font-size:12px;font-variant-numeric:tabular-nums;color:#7f8b98}
+.fullCoins .coinPremium{font-size:14px}
+@media(max-width:720px){.compactCoins .coinsTableRow,.compactCoins .coinsTableHead{grid-template-columns:minmax(0,1.2fr) minmax(75px,1fr) minmax(76px,.8fr) minmax(52px,.7fr)}.compactCoins .coinIdentity strong,.compactCoins .coinPrice,.compactCoins .coinChange,.compactCoins .coinPremium{font-size:11px}.compactCoins .coinsTitle{gap:4px}.compactCoins .coinOrder{min-width:10px}.compactCoins .coinIcon{width:19px!important;height:19px!important}}
