@@ -432,3 +432,19 @@ input,textarea,select,button{font-family:inherit}
 .scheduleType{font-size:11px;color:#358fe5;font-weight:800}
 @media(max-width:780px){.homeEventsSection{grid-template-columns:1fr;gap:30px;padding:25px 0}.homeScheduleCanvas{min-height:0}}
 @media(max-width:440px){.scheduleEntry{grid-template-columns:98px minmax(0,1fr)}.homeScheduleCanvas{padding:12px}.homeEventsSection .liveHead{gap:8px}}
+
+.issueScore{flex:0 0 auto;min-width:43px;text-align:center;background:#eaf4ff;color:#2c88d8;font-size:11px;font-weight:800;border-radius:7px;padding:6px 7px}
+.homeEventsSection .liveHead .viewMore{font-size:12px}
+.sectionBottomMore{display:flex;align-items:center;justify-content:center;gap:9px;padding:12px;color:#3187d8;font-size:12px;font-weight:750;border:1px solid #e4ebf3;border-radius:9px;margin-top:13px;background:#fff}
+.sectionBottomMore:hover{background:#f3f9ff}
+.listingPage{padding:32px 0 65px;max-width:980px;margin:auto}
+.listingPage .pageHeading{margin-bottom:22px}
+.listingFilters{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px}
+.listingFilters button{border:0;border-radius:99px;background:#f2f5f8;padding:9px 16px;color:#718396;font-size:12px;font-weight:750;cursor:pointer}
+.listingFilters button.active{background:#358fe5;color:white}
+.listingArticle{display:flex;align-items:flex-start;gap:15px;border-bottom:1px solid #e9eff4;padding:17px 8px}
+.listingArticle:hover{background:#f9fcff}
+.listingArticle>div{display:flex;flex-direction:column;gap:7px;min-width:0}
+.listingArticle strong{font-size:15px;line-height:1.5;color:#24394e;font-weight:680}
+.listingArticle small{font-size:11px;color:#8899ab}
+.listingMore{border:1px solid #dfeaf5;border-radius:9px;background:#f5faff;color:#3286d0;font-weight:750;font-size:13px;padding:13px;width:100%;margin-top:20px;cursor:pointer}
