@@ -1,0 +1,27 @@
+import pg from "pg";
+import fs from "node:fs/promises";
+import {fileURLToPath} from "node:url";
+import path from "node:path";
+const {Pool}=pg;
+if(!process.env.DATABASE_URL)throw Error("DATABASE_URL required");
+const pool=new Pool({connectionString:process.env.DATABASE_URL,max:3,connectionTimeoutMillis:8000});
+await pool.query(await fs.readFile(path.join(path.dirname(fileURLToPath(import.meta.url)),"schema.sql"),"utf8"));
+const venues=[
+ {id:"bybit",url:"wss://stream.bybit.com/v5/public/linear",subscribe:JSON.stringify({op:"subscribe",args:["allLiquidation.BTCUSDT","allLiquidation.ETHUSDT","allLiquidation.SOLUSDT"]}),coverage:"venue-stream-observed"},
+ {id:"binance",url:"wss://fstream.binance.com/ws/!forceOrder@arr",coverage:"snapshot-max-1-per-symbol-per-1000ms"}
+];
+const state=new Map();
+const pause=ms=>new Promise(r=>setTimeout(r,ms));
+const positive=x=>{const n=Number(x);return Number.isFinite(n)&&n>0?n:null};
+function normalize(venue,data){
+ if(venue==="bybit"){if(typeof data.topic!=="string"||!data.topic.startsWith("allLiquidation.")||!Array.isArray(data.data))return [];return data.data.flatMap(e=>{const price=positive(e.p),quantity=positive(e.v),stamp=Number(e.T),side=e.S==="Buy"?"SHORT":e.S==="Sell"?"LONG":null;if(!price||!quantity||!side||!Number.isFinite(stamp)||stamp<=0)return [];return [{symbol:String(e.s||"").slice(0,32),side,price,quantity,stamp,key:[e.s,e.T,e.S,e.p,e.v].join(":" )}]})}
+ if(venue==="binance"){const raw=data.data||data;const events=Array.isArray(raw)?raw:[raw];return events.flatMap(v=>{const e=v.o;if(v.e!=="forceOrder"||!e)return [];const price=positive(e.ap)||positive(e.p),quantity=positive(e.z)||positive(e.q),stamp=Number(e.T||v.E),side=e.S==="BUY"?"SHORT":e.S==="SELL"?"LONG":null;if(!price||!quantity||!side||!Number.isFinite(stamp))return [];return [{symbol:String(e.s||"").slice(0,32),side,price,quantity,stamp,key:[e.s,e.T||v.E,e.S,e.ap||e.p,e.z||e.q].join(":")}]})}
+ return [];
+}
+async function status(id,connected,error=null){await pool.query(`INSERT INTO collector_status(source,connected,last_heartbeat,last_error,updated_at) VALUES($1,$2,now(),$3,now()) ON CONFLICT(source) DO UPDATE SET connected=EXCLUDED.connected,last_heartbeat=now(),last_error=EXCLUDED.last_error,updated_at=now()`,[id,connected,error?.slice(0,180)||null])}
+async function save(id,records,coverage){for(const r of records){if(Date.now()-r.stamp>300000||r.stamp>Date.now()+60000||!/^[A-Z0-9]{2,30}$/.test(r.symbol))continue;await pool.query(`INSERT INTO liquidation_events(venue,symbol,position_side,occurred_at,price,quantity,amount_usdt,event_key,coverage_type) VALUES($1,$2,$3,to_timestamp($4/1000.0),$5,$6,$7,$8,$9) ON CONFLICT(venue,event_key) DO NOTHING`,[id,r.symbol,r.side,r.stamp,r.price,r.quantity,(r.price*r.quantity).toFixed(6),r.key,coverage])}if(records.length)await pool.query("UPDATE collector_status SET last_event_at=now() WHERE source=$1",[id])}
+async function connect(source){let attempt=0;while(true){let socket;let timer;try{socket=new WebSocket(source.url);await new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(Error("WebSocket timeout")),12000);socket.addEventListener("open",()=>{clearTimeout(timeout);resolve()},{once:true});socket.addEventListener("error",()=>{clearTimeout(timeout);reject(Error("WebSocket connection failed"))},{once:true})});attempt=0;await status(source.id,true);if(source.subscribe)socket.send(source.subscribe);let chain=Promise.resolve();socket.addEventListener("message",ev=>{chain=chain.then(async()=>{const d=JSON.parse(typeof ev.data==="string"?ev.data:String(ev.data));if(d.op==="ping")return;await save(source.id,normalize(source.id,d),source.coverage)}).catch(e=>console.warn(source.id,"event",e.message))});await new Promise(resolve=>{socket.addEventListener("close",resolve,{once:true});socket.addEventListener("error",resolve,{once:true});timer=setInterval(()=>{if(socket.readyState!==WebSocket.OPEN)return;status(source.id,true).catch(e=>console.warn("db",e.message));const minute=new Date(Math.floor(Date.now()/60000)*60000);pool.query(`INSERT INTO collector_coverage(source,minute,connected_seconds) VALUES($1,$2,10) ON CONFLICT(source,minute) DO UPDATE SET connected_seconds=LEAST(60,collector_coverage.connected_seconds+10)`,[source.id,minute]).catch(e=>console.warn(e.message))},10000)})}catch(e){console.warn(source.id,e.message);await status(source.id,false,e.message).catch(()=>{})}finally{clearInterval(timer);try{socket?.close()}catch{}await status(source.id,false).catch(()=>{})}attempt=Math.min(attempt+1,7);await pause(Math.min(60000,1000*2**attempt)+Math.random()*1000)}}
+for(const source of venues)connect(source).catch(e=>console.error("collector",source.id,e));
+setInterval(()=>pool.query("DELETE FROM liquidation_events WHERE occurred_at < now()-interval '30 days'; DELETE FROM collector_coverage WHERE minute < now()-interval '35 days'").catch(e=>console.warn(e.message)),86400000);
+process.on("SIGTERM",async()=>{await pool.end();process.exit(0)});
+console.log("82coin collector started",venues.map(v=>v.id).join(","));
