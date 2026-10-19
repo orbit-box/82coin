@@ -494,3 +494,18 @@ input,textarea,select,button{font-family:inherit}
 .legalPage h1{font-size:34px}.legalPage h2{margin:32px 0 9px;font-size:19px}
 .legalPage p{font-size:14px}.legalWarning{border:1px solid #f0d6a7;background:#fffaf1;color:#875b28;padding:15px;border-radius:10px}
 @media(max-width:600px){.authPage{margin:22px auto 50px;padding:0 13px}.authBrand{margin-bottom:34px}.authIntro h1{font-size:35px}.authForm>input,.authPassword input{height:54px}.authPrimary{height:54px}}
+
+/* Account verification and reset flow */
+.authInputPair{display:grid;grid-template-columns:minmax(0,1fr) 139px;gap:9px;margin-bottom:16px}
+.authInputPair input{min-width:0;width:100%;height:56px;padding:0 16px;background:#fff;border:1px solid #e0e8f0;border-radius:11px;font-size:15px;outline:0;color:#202d3e}
+.authInputPair input:focus{border-color:#358fe5}
+.authInputPair>button{border:1px solid #dae4ee;background:white;border-radius:11px;color:#26394b;font-size:13px;font-weight:750;cursor:pointer}
+.authInputPair>button:hover:not(:disabled){border-color:#358fe5;color:#358fe5}
+.authInputPair>button:disabled{opacity:.5;cursor:not-allowed}
+.authForm>.authInputPair+input{margin-bottom:10px}
+.authInlineNote{font-size:12px;line-height:1.5;color:#4389c5;margin:-3px 0 13px}
+.authForm>.authPassword{margin-top:0}
+.authForm>.authPassword+input{margin-bottom:16px}
+.authForm>.authInputPair~.authConsent{margin:5px 0 23px}
+.authAside a{color:#358fe5}
+@media(max-width:460px){.authInputPair{grid-template-columns:minmax(0,1fr) 112px;gap:7px}.authInputPair>button{font-size:11px}}
