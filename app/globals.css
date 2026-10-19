@@ -677,3 +677,13 @@ input,textarea,select,button{font-family:inherit}
 .marketNewsLeading{display:flex;flex-direction:column;gap:7px}
 .marketNewsScore{font-size:11px;font-weight:750;color:#358fe5}
 @media(max-width:760px){.marketWorkspace .marketNewsTools{grid-template-columns:minmax(0,1fr);gap:11px}.marketWorkspace .marketNewsFilters{max-width:100%;}.marketWorkspace .marketNewsTools input{width:100%}}
+
+/* Important issues: use reserved right column for related coin tags */
+.marketNewsItem:has(.marketNewsRelated){grid-template-columns:70px minmax(0,1fr) minmax(175px,230px);gap:18px}
+.marketNewsAside{display:flex;justify-content:flex-end;align-items:flex-start;gap:12px;min-width:0}
+.marketNewsRelated{display:flex;flex-direction:column;align-items:flex-end;gap:9px;min-width:0}
+.marketNewsRelatedLabel{font-size:11px;color:#8395a7;font-weight:600}
+.marketNewsCoinTags{display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:5px}
+.marketNewsCoinTag{font-size:11px;font-weight:700;color:#287ec8;background:#eff7ff;border:1px solid #e0f0ff;border-radius:6px;padding:5px 8px;white-space:nowrap}
+.marketNewsNoCoin{font-size:11px;color:#a1afbd}
+@media(max-width:760px){.marketNewsItem:has(.marketNewsRelated){grid-template-columns:57px minmax(0,1fr) 15px;gap:9px}.marketNewsAside:has(.marketNewsRelated){display:contents}.marketNewsRelated{grid-column:2;grid-row:2;align-items:flex-start;gap:5px}.marketNewsRelatedLabel{display:none}.marketNewsCoinTags{justify-content:flex-start}.marketNewsLink{grid-column:3;grid-row:1}.marketNewsNoCoin{font-size:10px}}
