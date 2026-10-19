@@ -15,7 +15,7 @@ export async function authAction(data:FormData){
  let id=0;
  if(mode==="register"){
  const name=clean(data.get("name"));
- if(mailReady()){const otp=clean(data.get("emailCode"));if(!/^\\d{6}$/.test(otp)||!await validateToken(email,"verify",otp,true))fail("인증번호가 올바르지 않거나 만료되었습니다.",mode);}
+ if(mailReady()){const otp=clean(data.get("emailCode"));if(!/^[0-9]{6}$/.test(otp)||!await validateToken(email,"verify",otp,true))fail("인증번호가 올바르지 않거나 만료되었습니다.",mode);}
  if(name.length<2||name.length>30)fail("닉네임은 2~30자로 입력해주세요.",mode);
  if(found.rows.length)fail("이미 가입된 이메일입니다.",mode);
  const duplicate=await query<{id:number}>("SELECT id FROM members WHERE lower(name)=lower($1) LIMIT 1",[name]);
