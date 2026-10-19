@@ -386,3 +386,21 @@ input,textarea,select,button{font-family:inherit}
 .economicDescription small{font-size:10px;color:#98a7b6}
 @media(max-width:1100px){.derivativeTabs button{font-size:11px;padding:9px 10px}.marketDataCanvas{padding:16px}.economicEvent{grid-template-columns:115px minmax(0,1fr)}}
 @media(max-width:500px){.marketDataCanvas{padding:14px 13px}.marketDataIntro{flex-direction:column;align-items:flex-start}.economicEvent{grid-template-columns:112px minmax(0,1fr)}.marketHighlight strong{font-size:21px}}
+
+/* Indexed news metadata and quick suggestion search */
+.newsEntry .newsMetaLine{display:flex;flex-wrap:wrap;gap:3px 11px;align-items:center;font-size:11px;line-height:1.45;margin-top:5px;color:#8695a7}
+.newsMetaLine b{font-weight:750;color:#3688d2}
+.newsSearch{position:relative;width:238px;flex-shrink:0;z-index:50}
+.newsSearch form{display:flex;width:100%;height:37px;background:#f7f9fc;border:1px solid #e5eaf1;border-radius:9px;overflow:hidden}
+.newsSearch form:focus-within{border-color:#8bc9fb;background:white}
+.newsSearch input{min-width:0;width:100%;padding:0 10px;border:0;outline:0;background:transparent;font-size:12px;color:#263950}
+.newsSearch form button{border:0;background:transparent;color:#418eda;font-size:23px;padding:0 11px;cursor:pointer}
+.newsSearchDropdown{position:absolute;top:43px;right:0;background:white;border:1px solid #dbe5f0;border-radius:12px;box-shadow:0 12px 36px #15314c24;width:min(460px,calc(100vw - 24px));max-height:390px;overflow-y:auto;padding:6px}
+.newsSearchHeading{font-size:11px;font-weight:750;color:#6b8cac;background:#f5f9fe;padding:11px;border-radius:7px}
+.newsSearchResult{display:flex;flex-direction:column;gap:6px;padding:12px 10px;border-bottom:1px solid #edf1f5}
+.newsSearchResult:hover{background:#f7faff}
+.newsSearchResult strong{font-weight:650;font-size:12px;line-height:1.5;color:#263b51}
+.newsSearchResult span{font-size:10px;line-height:1.45;color:#8495a6}
+.newsSearchNoResult{font-size:12px;padding:15px 10px;color:#8697a8;margin:0}
+@media(max-width:1000px){.newsSearch{width:175px}}
+@media(max-width:760px){.newsSearch{width:145px}}
