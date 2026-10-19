@@ -694,3 +694,14 @@ input,textarea,select,button{font-family:inherit}
 .marketWorkspace .premiumRow.head{font-size:12px}
 .marketWorkspace .premiumAnomaly{color:#a8762b;font-size:12px}
 @media(max-width:540px){.marketWorkspace .premiumRow{min-width:820px;grid-template-columns:145px 125px 130px 140px 110px 110px}.marketWorkspace .premiumTable{scrollbar-width:thin}}
+
+/* Five-column coin prices with actual 24h KRW turnover */
+.allCoins .coinsTableHeadFive,.allCoins .coinsTableRow{display:grid;grid-template-columns:minmax(150px,2fr) minmax(115px,1.1fr) minmax(100px,1fr) minmax(95px,.85fr) minmax(85px,.8fr);gap:12px;align-items:center}
+.allCoins .coinsTableHeadFive button,.marketWorkspace .premiumRow.head button{border:0;background:transparent;padding:0;text-align:right;font:inherit;font-weight:600;color:#78899d;cursor:pointer;white-space:nowrap}
+.allCoins .coinsTableHeadFive button:hover,.marketWorkspace .premiumRow.head button:hover,.marketWorkspace .premiumRow.head button.selectedSort{color:#358fe5}
+.allCoins .coinsTableHeadFive button span,.marketWorkspace .premiumRow.head button span{font-size:11px;margin-left:3px;color:#358fe5}
+.allCoins .coinsTableHeadFive button:focus-visible,.marketWorkspace .premiumRow.head button:focus-visible{outline:2px solid #358fe5;outline-offset:3px;border-radius:3px}
+.allCoins .coinVolume{text-align:right;font-size:12px;white-space:nowrap;color:#586b80;font-variant-numeric:tabular-nums}
+.marketWorkspace .premiumRow.head button{font-size:12px}
+.allCoins .rankTabs{display:flex;flex-wrap:wrap;gap:6px}
+@media(max-width:700px){.allCoins.fullCoins{overflow-x:auto}.allCoins.fullCoins .coinsTableHeadFive,.allCoins.fullCoins .coinsTableRow{min-width:660px;grid-template-columns:175px 125px 115px 105px 90px}.allCoins.compactCoins .coinsTableHeadFive,.allCoins.compactCoins .coinsTableRow{grid-template-columns:minmax(105px,1.5fr) minmax(75px,1fr) minmax(65px,.8fr) minmax(64px,.75fr) minmax(56px,.7fr);gap:4px}.allCoins.compactCoins .coinsTableHeadFive button,.allCoins.compactCoins .coinsTableHeadFive span{font-size:9px}}
