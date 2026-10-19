@@ -1,0 +1,1 @@
+import {Suspense} from "react";import Reset from "./Reset";export default function Page(){return <Suspense fallback={<p>불러오는 중…</p>}><Reset/></Suspense>}
