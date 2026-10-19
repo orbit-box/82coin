@@ -522,3 +522,29 @@ input,textarea,select,button{font-family:inherit}
 .homeEventsSection .homeScheduleCanvas>.marketFinePrint{margin-top:15px}
 @media(min-width:781px){.homeEventsSection .homeScheduleCanvas>.sectionBottomMore{margin-top:auto}}
 @media(max-width:780px){.homeEventsSection .homeScheduleCanvas{border-top-width:2px}.homeEventsSection .scheduleEntry{grid-template-columns:102px minmax(0,1fr)}}
+
+/* Schedule actions alongside heading; align twin listing baselines */
+@media(min-width:781px){
+.homeEventsSection .homeNotices>.liveHead,
+.homeEventsSection .homeSchedule>.liveHeadSchedule{min-height:118px;margin-bottom:0;align-items:flex-start}
+.homeEventsSection .homeSchedule>.liveHeadSchedule{display:flex;justify-content:space-between;gap:16px}
+.homeEventsSection .scheduleHeadActions{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:20px;align-self:stretch;flex-shrink:0;padding-bottom:12px}
+.homeEventsSection .scheduleHeadActions .viewMore{margin:0}
+.homeEventsSection .scheduleHeadActions .eventCategoryTabs{margin:0;justify-content:flex-end}
+.homeEventsSection .homeScheduleCanvas>.sectionBottomMore{margin-top:20px}
+}
+.homeEventsSection .homeScheduleCanvas>.sectionBottomMore{margin-bottom:0}
+.homeEventsSection .homeScheduleCanvas>.scheduleEntry:last-of-type{margin-bottom:4px}
+.homeEventsSection .homeScheduleCanvas>.scheduleEntry+.sectionBottomMore{margin-top:20px}
+@media(max-width:780px){
+.homeEventsSection .homeSchedule>.liveHeadSchedule{display:flex;align-items:flex-start;flex-wrap:wrap;gap:14px}
+.homeEventsSection .scheduleHeadActions{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.homeEventsSection .scheduleHeadActions .eventCategoryTabs{margin:0}
+.homeEventsSection .homeScheduleCanvas>.sectionBottomMore{margin-top:20px}
+}
+@media(max-width:480px){
+.homeEventsSection .homeSchedule>.liveHeadSchedule{display:block}
+.homeEventsSection .scheduleHeadActions{margin-top:12px;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.homeEventsSection .scheduleHeadActions .eventCategoryTabs{order:0}
+.homeEventsSection .scheduleHeadActions .viewMore{order:1;font-size:11px}
+}
