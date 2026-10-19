@@ -554,3 +554,17 @@ input,textarea,select,button{font-family:inherit}
 .header .officialHeaderLogo{width:178px;height:auto;max-height:54px;object-fit:contain;display:block}
 @media(max-width:900px){.header .officialHeaderLogo{width:144px}}
 @media(max-width:560px){.header .officialHeaderLogo{width:115px}}
+
+/* Searchable coin market selector, no fixed 4-coin strip */
+.chartMarketMenu{position:relative;z-index:20;min-width:155px}
+.chartMarketTrigger{display:flex;align-items:center;gap:9px;border:1px solid #dce6f0;background:#fff;border-radius:9px;padding:8px 11px;font:inherit;cursor:pointer;color:#253b51;max-width:220px;width:100%}
+.chartMarketSymbol{font-size:12px;font-weight:850;color:#358fe5}.chartMarketName{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chartMarketArrow{margin-left:auto;color:#8191a4}
+.chartMarketDropdown{position:absolute;right:0;top:calc(100% + 7px);width:290px;background:#fff;border:1px solid #dce6f0;box-shadow:0 12px 35px #112b4426;border-radius:12px;padding:10px;z-index:50}
+.chartMarketDropdown>input{width:100%;height:39px;border:1px solid #e0e8f1;border-radius:7px;outline:none;padding:0 11px;font-size:12px}
+.chartMarketDropdown>input:focus{border-color:#358fe5}
+.chartMarketResults{max-height:300px;overflow-y:auto;margin-top:8px}
+.chartMarketResults button{display:flex;width:100%;gap:10px;align-items:center;text-align:left;padding:10px;border:0;border-bottom:1px solid #f0f2f5;background:white;cursor:pointer}
+.chartMarketResults button:hover,.chartMarketResults button[aria-selected="true"]{background:#eff7ff}
+.chartMarketResults strong{font-size:12px;min-width:52px;color:#2a4056}.chartMarketResults span{font-size:12px;color:#66788c}
+.chartMarketResults p,.chartMarketMessage{margin:8px 3px;font-size:11px;color:#8799ab}
+@media(max-width:600px){.chartMarketDropdown{width:min(290px,calc(100vw - 36px))}.chartMarketTrigger{max-width:160px}}
