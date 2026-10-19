@@ -1,3 +1,4 @@
+import NewsSearch from "@/components/NewsSearch";
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
@@ -7,7 +8,7 @@ export default function RootLayout({children}:{children:React.ReactNode}){
  <header className="header"><div className="shell headerInner">
  <Link className="logo" href="/" aria-label="82coin 홈"><span className="logomark">82</span><span className="logoName">coin<small>MARKET & COMMUNITY</small></span></Link>
  <nav aria-label="주요 메뉴" className="mainNav"><Link href="/">홈</Link><Link href="/market">시장정보</Link><Link href="/community">커뮤니티</Link><Link href="/benefits">혜택</Link></nav>
- <div className="headerActions"><form action="/community" role="search" className="headerSearch"><input type="search" name="q" aria-label="커뮤니티 글 검색" placeholder="종목 · 게시글 검색"/><button type="submit" aria-label="검색">⌕</button></form><Link className="headerAccount" href="/profile">MY</Link><Link className="headerSignIn" href="/login">로그인</Link></div>
+ <div className="headerActions"><NewsSearch/><Link className="headerAccount" href="/profile">MY</Link><Link className="headerSignIn" href="/login">로그인</Link></div>
  </div></header>
  <main className="shell">{children}</main>
  <footer className="footer"><div className="shell footerInner"><div><strong>82coin</strong><p>실시간 암호화폐 정보와 자유로운 투자자 커뮤니티</p></div><div className="footerLinks"><Link href="/notices">이용 안내</Link><Link href="/calendar">경제 일정</Link><Link href="/community">커뮤니티</Link></div><p className="footerDisclaimer">© 2026 82coin · 제공 정보는 참고용입니다. 투자 판단과 책임은 이용자에게 있습니다.</p></div></footer>
