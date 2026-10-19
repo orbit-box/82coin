@@ -548,3 +548,9 @@ input,textarea,select,button{font-family:inherit}
 .homeEventsSection .scheduleHeadActions .eventCategoryTabs{order:0}
 .homeEventsSection .scheduleHeadActions .viewMore{order:1;font-size:11px}
 }
+
+/* User-supplied 82coin lockup (no re-drawn letters) */
+.header .logo{display:flex;align-items:center;flex-shrink:0}
+.header .officialHeaderLogo{width:178px;height:auto;max-height:54px;object-fit:contain;display:block}
+@media(max-width:900px){.header .officialHeaderLogo{width:144px}}
+@media(max-width:560px){.header .officialHeaderLogo{width:115px}}
