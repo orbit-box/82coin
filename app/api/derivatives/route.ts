@@ -1,0 +1,6 @@
+import {NextResponse} from "next/server";
+export const dynamic="force-dynamic";
+const symbols=["BTCUSDT","ETHUSDT","SOLUSDT"];
+async function fetchJSON<T>(url:string):Promise<T>{const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),4500);try{const r=await fetch(url,{cache:"no-store",signal:controller.signal});if(!r.ok)throw Error("provider "+r.status);return r.json() as Promise<T>}finally{clearTimeout(timeout)}}
+type Funding={symbol:string;lastFundingRate:string;nextFundingTime:number;markPrice:string};
+export async function GET(){try{const result=await Promise.allSettled(symbols.map(symbol=>fetchJSON<Funding>("https://fapi.binance.com/fapi/v1/premiumIndex?symbol="+symbol)));const data=result.flatMap((r,i)=>r.status==="fulfilled"&&Number.isFinite(Number(r.value.lastFundingRate))?[{symbol:symbols[i].replace("USDT",""),fundingPercent:Number(r.value.lastFundingRate)*100,markPrice:Number(r.value.markPrice),nextFundingTime:r.value.nextFundingTime}]:[]);return NextResponse.json({items:data,source:"Binance Futures",updatedAt:new Date().toISOString(),available:data.length>0},{headers:{"Cache-Control":"public, s-maxage=30"}})}catch{return NextResponse.json({items:[],available:false,source:"Binance Futures"})}}
