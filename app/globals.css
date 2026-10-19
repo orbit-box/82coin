@@ -509,3 +509,16 @@ input,textarea,select,button{font-family:inherit}
 .authForm>.authInputPair~.authConsent{margin:5px 0 23px}
 .authAside a{color:#358fe5}
 @media(max-width:460px){.authInputPair{grid-template-columns:minmax(0,1fr) 112px;gap:7px}.authInputPair>button{font-size:11px}}
+
+/* Harmonize issue and schedule lists: no enclosing grey panel */
+.homeEventsSection .homeScheduleCanvas{background:#fff;border:0;border-top:2px solid #253b55;border-radius:0;padding:0;min-height:0}
+.homeEventsSection .homeSchedule .eventCategoryTabs{margin:8px 0 15px}
+.homeEventsSection .scheduleHead{padding:12px 0;border-bottom:1px solid #e5ebf1}
+.homeEventsSection .scheduleEntry{padding:14px 0;border-bottom:1px solid #e8edf2;grid-template-columns:108px minmax(0,1fr);align-items:center}
+.homeEventsSection .scheduleEntry>span:last-child{min-width:0}
+.homeEventsSection .scheduleEntry>span:last-child>strong{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:13px;line-height:1.5}
+.homeEventsSection .scheduleEntry>span:last-child>small{font-size:11px}
+.homeEventsSection .scheduleType{font-size:11px}
+.homeEventsSection .homeScheduleCanvas>.marketFinePrint{margin-top:15px}
+@media(min-width:781px){.homeEventsSection .homeScheduleCanvas>.sectionBottomMore{margin-top:auto}}
+@media(max-width:780px){.homeEventsSection .homeScheduleCanvas{border-top-width:2px}.homeEventsSection .scheduleEntry{grid-template-columns:102px minmax(0,1fr)}}
