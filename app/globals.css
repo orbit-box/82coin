@@ -448,3 +448,15 @@ input,textarea,select,button{font-family:inherit}
 .listingArticle strong{font-size:15px;line-height:1.5;color:#24394e;font-weight:680}
 .listingArticle small{font-size:11px;color:#8899ab}
 .listingMore{border:1px solid #dfeaf5;border-radius:9px;background:#f5faff;color:#3286d0;font-weight:750;font-size:13px;padding:13px;width:100%;margin-top:20px;cursor:pointer}
+
+/* Align daily brief and schedule columns without empty trailing whitespace */
+@media(min-width:781px){
+.homeEventsSection{align-items:stretch}
+.homeEventsSection>.homeNotices,.homeEventsSection>.homeSchedule{display:flex;flex-direction:column;min-height:0}
+.homeEventsSection .homeNotices>.homeNoticeFeed{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.homeEventsSection .homeNotices>.homeNoticeFeed>.homeNoticeItem{flex:1;align-items:center;min-height:72px}
+.homeEventsSection .homeNotices>.sectionBottomMore{flex-shrink:0}
+.homeEventsSection .homeNotices>.marketFinePrint{margin-top:14px}
+.homeEventsSection .homeSchedule>.homeScheduleCanvas{flex:1;display:flex;flex-direction:column}
+.homeEventsSection .homeScheduleCanvas>.sectionBottomMore{margin-top:auto}
+}
