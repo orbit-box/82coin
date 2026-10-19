@@ -93,3 +93,5 @@ button{font:inherit;cursor:pointer}
 .hint{font-size:12px}
 @media(max-width:780px){.pageHeading{align-items:flex-start;flex-direction:column}.layoutGrid{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:10px}.panel{padding:17px}.actionRow{width:100%}.tabs{margin:0 -4px}}
 @media(max-width:480px){.sidebar{display:block}.sectionTitle h2{font-size:18px}}
+
+.resourceList a{display:block;border-bottom:1px solid #e9eef4;padding:15px 0}.resourceList a:hover strong{color:#328ee5}.resourceList a p{margin:5px 0}.authModes input[type=radio]{width:auto}
