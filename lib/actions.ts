@@ -1,3 +1,4 @@
+import {validateToken,validEmail,mailReady} from "./email-tokens";
 "use server";
 import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
@@ -8,12 +9,14 @@ const fail=(m:string,mode="login"):never=>redirect((mode==="register"?"/signup":
 export async function authAction(data:FormData){
  const mode=clean(data.get("mode"))==="register"?"register":"login";
  const email=clean(data.get("email")).toLowerCase(),password=String(data.get("password")||"");
- if(!/^\\S+@\\S+\\.\\S+$/.test(email)||email.length>254||password.length<8||password.length>128)fail("이메일과 8자 이상의 비밀번호를 확인해주세요.",mode);
+ if(!validEmail(email)||email.length>254||password.length<8||password.length>128)fail("이메일과 8자 이상의 비밀번호를 확인해주세요.",mode);
  if(mode==="register"&&clean(data.get("consent"))!=="yes")fail("필수 약관 및 개인정보 처리방침 동의가 필요합니다.",mode);
  const found=await query<{id:number;password_hash:string}>("SELECT id,password_hash FROM members WHERE email=$1",[email]);
  let id=0;
  if(mode==="register"){
  const name=clean(data.get("name"));
+ if(!mailReady())fail("이메일 인증 서비스 준비 중입니다. 관리자에게 문의해주세요.",mode);
+ const otp=clean(data.get("emailCode"));if(!/^\\d{6}$/.test(otp)||!await validateToken(email,"verify",otp,true))fail("인증번호가 올바르지 않거나 만료되었습니다.",mode);
  if(name.length<2||name.length>30)fail("닉네임은 2~30자로 입력해주세요.",mode);
  if(found.rows.length)fail("이미 가입된 이메일입니다.",mode);
  const duplicate=await query<{id:number}>("SELECT id FROM members WHERE lower(name)=lower($1) LIMIT 1",[name]);
