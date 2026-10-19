@@ -319,3 +319,26 @@ input,textarea,select,button{font-family:inherit}
 .derivativeGuide p{font-size:12px;margin:10px 0}
 @media(max-width:850px){.liveMarketSplit{gap:20px}}
 @media(max-width:700px){.liveMarketSplit{grid-template-columns:1fr;gap:30px;padding:26px 0}.liveFeedContent strong{font-size:13px}}
+
+/* 82coin creator feed and five futures market views */
+.derivativeTabs{display:flex;gap:6px;flex-wrap:wrap}
+.derivativeTabs button{font-size:11px;padding:8px 11px;white-space:nowrap}
+.derivativeBoard{min-height:280px}
+.derivativeLabel{grid-template-columns:minmax(60px,.75fr) minmax(0,2fr)}
+.derivativeLabel span:last-child{text-align:right}
+.derivativeRow{grid-template-columns:minmax(60px,.75fr) minmax(0,2fr);min-height:65px}
+.creatorAvatar{flex:0 0 35px;width:35px;height:35px;border-radius:50%;background:#eff6ff;color:#318bdb;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+.creatorByline{font-size:12px;font-weight:800;color:#26374c;display:flex;gap:8px;align-items:center}
+.creatorByline small{font-size:10px;font-weight:500;color:#99a7b5}
+.ratioPanel{display:flex;flex-direction:column;gap:7px;width:100%}
+.ratioNumbers{display:flex;justify-content:space-between;gap:8px}
+.ratioNumbers b{font-size:12px}
+.ratioTrack{display:block;overflow:hidden;border-radius:20px;height:7px;background:#357bf0}
+.ratioTrack i{display:block;height:100%;background:#ef4556;border-radius:20px 0 0 20px}
+.derivativeUnavailable{padding:30px 6px;text-align:center}
+.derivativeUnavailable strong{font-size:14px;color:#30455b}
+.derivativeUnavailable p{font-size:12px;margin:12px auto;max-width:370px}
+.macroNewsRow{display:flex;gap:13px;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #e8edf3}
+.macroNewsRow strong{font-size:12px;font-weight:650;line-height:1.5;min-width:0}
+.macroNewsRow small{font-size:10px;color:#8b9bad;white-space:nowrap}
+@media(max-width:1080px){.derivativeTabs{gap:4px}.derivativeTabs button{padding:7px 9px;font-size:10px}}
