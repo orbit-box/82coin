@@ -1,0 +1,1 @@
+import type {MetadataRoute} from "next";export default function sitemap():MetadataRoute.Sitemap{const base="https://82coin-web-production.up.railway.app";return ["/","/market","/community","/calendar","/benefits","/notices"].map(path=>({url:base+path,lastModified:new Date(),changeFrequency:"daily" as const,priority:path==="/"?1:0.7}))}
