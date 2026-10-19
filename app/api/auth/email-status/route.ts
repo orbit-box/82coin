@@ -1,0 +1,1 @@
+import {NextResponse} from "next/server";import {mailReady} from "../../../../lib/email-tokens";export async function GET(){return NextResponse.json({enabled:mailReady()},{headers:{"Cache-Control":"no-store"}})}
