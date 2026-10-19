@@ -7,7 +7,7 @@ export default function RootLayout({children}:{children:React.ReactNode}){
  return <html lang="ko"><body>
  <header className="header"><div className="shell headerInner">
  <Link className="logo" href="/" aria-label="82coin 홈"><img className="officialHeaderLogo" src="/82coin-header-logo.png" width="178" height="54" alt="82coin MARKET & COMMUNITY"/></Link>
- <nav aria-label="주요 메뉴" className="mainNav"><Link href="/">홈</Link><Link href="/market">시장정보</Link><Link href="/community">커뮤니티</Link><Link href="/benefits">혜택</Link><Link href="/paper-trading">가상매매</Link></nav>
+ <nav aria-label="주요 메뉴" className="mainNav"><Link href="/">홈</Link><Link href="/market">시장정보</Link><Link href="/community">커뮤니티</Link><Link href="/benefits">리워드존</Link><Link href="/paper-trading">가상매매</Link></nav>
  <div className="headerActions"><NewsSearch/><Link className="headerAccount" href="/profile">MY</Link><Link className="headerSignIn" href="/login">로그인</Link></div>
  </div></header>
  <main className="shell">{children}</main>
