@@ -1,0 +1,2 @@
+import {NextResponse} from "next/server";import {sessionId} from "@/lib/auth";import {accountSnapshot,leaderboard} from "@/lib/paper";export const dynamic="force-dynamic";
+export async function GET(){try{const member=await sessionId();const board=await leaderboard();return NextResponse.json({board,account:member?await accountSnapshot(member):null,tradingEnabled:false},{headers:{"Cache-Control":"no-store"}})}catch{return NextResponse.json({error:"가상매매 정보를 불러올 수 없습니다."},{status:503})}}
