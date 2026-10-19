@@ -568,3 +568,48 @@ input,textarea,select,button{font-family:inherit}
 .chartMarketResults strong{font-size:12px;min-width:52px;color:#2a4056}.chartMarketResults span{font-size:12px;color:#66788c}
 .chartMarketResults p,.chartMarketMessage{margin:8px 3px;font-size:11px;color:#8799ab}
 @media(max-width:600px){.chartMarketDropdown{width:min(290px,calc(100vw - 36px))}.chartMarketTrigger{max-width:160px}}
+
+/* 82coin original Market Workspace: information-by-intent, not homepage duplication */
+.marketWorkspace{padding:8px 0 60px}
+.workspaceIntro{padding:12px 0 26px;border-bottom:1px solid #e4ebf2}
+.workspaceIntro h1{margin:10px 0;font-size:clamp(27px,3vw,36px);letter-spacing:-1.1px}
+.workspaceIntro p{font-size:14px;margin:0}
+.workspaceNav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:22px 0 26px;border-bottom:1px solid #e4ebf2}
+.workspaceNav button{text-align:left;display:flex;flex-direction:column;gap:10px;min-height:128px;padding:17px 17px 14px;background:#fff;border:1px solid #e2eaf2;border-radius:12px;color:#2a3f56;cursor:pointer;font-family:inherit;transition:border-color .15s,background .15s}
+.workspaceNav button:hover{border-color:#9dcef7;background:#f9fcff}
+.workspaceNav button.active{border-color:#78bff7;background:#f1f8ff;box-shadow:inset 0 3px #358fe5}
+.workspaceNumber{color:#358fe5;font-size:11px;font-weight:850;letter-spacing:1px}
+.workspaceNav strong{font-size:17px;letter-spacing:-.3px}
+.workspaceNav small{font-size:11px;color:#7f90a4;line-height:1.5}
+.workspaceView{padding:28px 0 0}
+.workspaceTitle{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:18px}
+.workspaceTitle h2{margin:0 0 6px;font-size:23px}
+.workspaceTitle p{font-size:13px;margin:0}
+.workspaceStatus{color:#7c95aa;font-size:11px;white-space:nowrap}
+.workspaceView .allCoins.fullCoins{border:0;margin:0;padding:0}
+.workspaceView .pulseSection{padding:0;border:0}
+.workspaceNote{font-size:12px;color:#8191a5;margin-top:12px}
+.premiumToolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:0 0 18px}
+.premiumToolbar input{width:min(330px,100%);height:44px;border:1px solid #dfe8f0;border-radius:9px;padding:0 14px;font-family:inherit;font-size:13px;outline:none}
+.premiumToolbar input:focus{border-color:#358fe5}
+.premiumToolbar>span{font-size:12px;color:#8293a7}
+.premiumTable{border-top:2px solid #2b4055}
+.premiumRow{display:grid;grid-template-columns:2fr 1.3fr 1fr 1fr;align-items:center;gap:14px;padding:15px 10px;border-bottom:1px solid #e8eef4;font-size:13px;font-variant-numeric:tabular-nums}
+.premiumRow>*:not(:first-child){text-align:right}
+.premiumRow.head{color:#8898aa;font-size:12px;font-weight:600;padding-top:13px;padding-bottom:13px}
+.premiumCoin{display:flex;align-items:center;gap:9px;min-width:0}
+.premiumCoin strong{font-size:14px}.premiumCoin small{font-size:12px;color:#9ba9b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.workspaceSubtabs{display:flex;gap:9px;margin:0 0 16px}
+.workspaceSubtabs button{border:0;border-radius:100px;background:#f1f5f9;color:#708197;padding:10px 17px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.workspaceSubtabs button.active{background:#358fe5;color:#fff}
+.workspaceEvents{border-top:2px solid #2c4158}
+.workspaceEvents a{display:grid;grid-template-columns:175px minmax(0,1fr);gap:16px;align-items:center;padding:19px 10px;border-bottom:1px solid #e8edf2}
+.workspaceEvents a>span{display:flex;flex-direction:column;gap:6px;min-width:0}
+.workspaceEvents a b{font-size:14px;color:#263c53;line-height:1.55}
+.workspaceEvents a small{font-size:12px;color:#8b9caf;line-height:1.5}
+.workspaceEvents .eventDate{font-size:13px;font-weight:750;color:#2a4158}
+.workspaceEvents .eventDate small{color:#358fe5}
+.workspaceEvents a:hover b{color:#358fe5}
+.workspaceEmpty{padding:35px;text-align:center;font-size:13px;color:#8393a5}
+@media(max-width:850px){.workspaceNav{grid-template-columns:repeat(2,minmax(0,1fr))}.workspaceNav button{min-height:110px}}
+@media(max-width:540px){.workspaceNav{gap:8px}.workspaceNav button{padding:12px;min-height:120px}.workspaceNav strong{font-size:15px}.workspaceTitle{align-items:flex-start;flex-direction:column;gap:7px}.premiumRow{grid-template-columns:1.3fr 1fr .85fr .85fr;gap:6px;padding:12px 3px;font-size:11px}.premiumCoin{gap:5px}.premiumCoin small{display:none}.workspaceEvents a{grid-template-columns:110px minmax(0,1fr);gap:9px;padding:15px 4px}.workspaceEvents a b{font-size:12px}.workspaceEvents a small{font-size:10px}}
