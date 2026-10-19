@@ -1,0 +1,1 @@
+import {NextResponse} from "next/server";import {readNews} from "../../../../lib/news-store";export const dynamic="force-dynamic";export async function GET(){try{return NextResponse.json({items:await readNews("",100)},{headers:{"Cache-Control":"public, s-maxage=45"}})}catch{return NextResponse.json({items:[],error:"뉴스 저장소 연결 오류"},{status:503})}}
