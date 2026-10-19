@@ -705,3 +705,36 @@ input,textarea,select,button{font-family:inherit}
 .marketWorkspace .premiumRow.head button{font-size:12px}
 .allCoins .rankTabs{display:flex;flex-wrap:wrap;gap:6px}
 @media(max-width:700px){.allCoins.fullCoins{overflow-x:auto}.allCoins.fullCoins .coinsTableHeadFive,.allCoins.fullCoins .coinsTableRow{min-width:660px;grid-template-columns:175px 125px 115px 105px 90px}.allCoins.compactCoins .coinsTableHeadFive,.allCoins.compactCoins .coinsTableRow{grid-template-columns:minmax(105px,1.5fr) minmax(75px,1fr) minmax(65px,.8fr) minmax(64px,.75fr) minmax(56px,.7fr);gap:4px}.allCoins.compactCoins .coinsTableHeadFive button,.allCoins.compactCoins .coinsTableHeadFive span{font-size:9px}}
+
+/* 82coin independent market radar */
+.radarExplorer{color:#202d3e}
+.radarIntro,.radarSectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.radarIntro h2{font-size:21px;letter-spacing:-.5px;margin:0 0 7px}.radarIntro p,.radarSectionHead p{font-size:13px;color:#7c8da1;margin:0;line-height:1.5}
+.radarTimestamp,.radarTableHeading>span{color:#8394a7;font-size:12px;white-space:nowrap}
+.radarSummary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:23px 0 32px;border:1px solid #e3eaf1;border-radius:12px;overflow:hidden}
+.radarSummaryItem{display:flex;flex-direction:column;gap:7px;padding:20px 24px;min-width:0}
+.radarSummaryItem+.radarSummaryItem{border-left:1px solid #e3eaf1}
+.radarSummaryItem>span{font-size:13px;color:#66788c;font-weight:600}
+.radarSummaryItem>strong{font-size:27px;font-weight:800;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
+.radarSummaryItem>strong small{font-size:12px;font-weight:500;color:#8193a7}
+.radarSummaryItem>small{font-size:11px;color:#93a0b0}
+.radarSectionHead{margin-bottom:17px}.radarSectionHead h3{font-size:19px;letter-spacing:-.4px;margin:0 0 6px}
+.radarHighlightGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.radarHighlight{border:1px solid #e1e9f2;border-radius:12px;padding:19px 16px;min-width:0;display:flex;flex-direction:column;gap:17px;background:#fff;transition:background .15s,border-color .15s}
+.radarHighlight:hover{background:#f8fbff;border-color:#abd5f5}
+.radarHighlightTop,.radarHighlightTop>span{display:flex;align-items:center;gap:8px}
+.radarHighlightTop{justify-content:space-between}.radarHighlightTop strong{font-size:14px}.radarHighlightTop b{font-size:13px;font-variant-numeric:tabular-nums}
+.radarHighlightPrice{font-size:23px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:-.4px}.radarHighlightPrice small{font-size:11px;color:#91a1b2;font-weight:500}
+.radarReason{display:flex;flex-wrap:wrap;gap:6px}.radarTag{font-size:11px;color:#358fe5;background:#eff7ff;border-radius:6px;padding:5px 7px;font-weight:650}.radarTag.muted{background:#f3f6f9;color:#75889a}
+.radarHighlightFoot{border-top:1px solid #eff2f6;padding-top:12px;display:flex;justify-content:space-between;gap:6px;font-size:11px;color:#8494a6}.radarHighlightFoot strong{color:#445c74;font-weight:700}
+.radarTableHeading{margin-top:34px}.radarControls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:15px}
+.radarFilters{display:flex;align-items:center;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;gap:7px}.radarFilters button{border:0;border-radius:25px;background:#f2f5f8;color:#6b7f94;padding:10px 13px;font:inherit;font-size:12px;font-weight:650;cursor:pointer;white-space:nowrap}.radarFilters button.active{background:#e7f3ff;color:#247ed0}
+.radarControls input{height:41px;border:1px solid #dfe7ef;border-radius:8px;padding:0 13px;font:inherit;font-size:12px;min-width:220px;outline:none}.radarControls input:focus{border-color:#358fe5}
+.radarTable{border-top:1px solid #dce5ef}.radarTableRow{display:grid;grid-template-columns:minmax(145px,1.6fr) repeat(3,minmax(110px,1fr)) minmax(125px,1fr);gap:15px;align-items:center;padding:16px 11px;border-bottom:1px solid #e9eef3;font-variant-numeric:tabular-nums}
+.radarTableRow>*:not(:first-child){text-align:right}.radarTableHeader{font-size:12px;color:#8395a7;font-weight:600;background:#fbfcfe}.radarTableRow:not(.radarTableHeader){font-size:13px}.radarTableRow:not(.radarTableHeader):hover{background:#f8fbff}
+.radarCoin{display:flex;align-items:center;gap:9px;min-width:0}.radarCoin strong{font-size:14px}.radarCoin small{font-size:11px;color:#9aaaba;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.radarMore{width:100%;border:1px solid #dce7f1;background:#fff;border-radius:8px;padding:12px;color:#358fe5;font-weight:700;font-size:13px;margin-top:14px;cursor:pointer}.radarMore:hover{background:#f4f9ff}
+.radarEmpty{grid-column:1/-1;color:#7c8fa3;font-size:13px;text-align:center;padding:36px}
+.radarExplorer .dataFoot{margin-top:15px;line-height:1.65}
+@media(max-width:900px){.radarHighlightGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.radarControls{flex-direction:column;align-items:stretch}.radarControls input{width:100%}.radarTableScroll{overflow-x:auto}.radarTable{min-width:760px}}
+@media(max-width:550px){.radarIntro{flex-direction:column;align-items:flex-start}.radarSummaryItem{padding:14px 10px}.radarSummaryItem>strong{font-size:22px}.radarSummaryItem>small{font-size:10px}.radarHighlight{padding:14px 12px;gap:12px}.radarHighlightPrice{font-size:19px}.radarHighlightTop{flex-wrap:wrap}.radarHighlightFoot{flex-wrap:wrap}.radarTag{font-size:10px}.radarSectionHead h3{font-size:17px}}
