@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
 :root{--brand-primary:#358FE5;--brand-hover:#2277CC;--brand-muted:#EAF5FF;--brand-dark:#173C65;--background:#FFFFFF;--surface:#FFFFFF;--subtle:#F6F9FC;--text:#1C2938;--secondary:#67788C;--line:#E4EBF2}
 *{box-sizing:border-box}
 html{color-scheme:light}
@@ -149,3 +150,74 @@ button{font:inherit;cursor:pointer}
 .calendarPanel>.viewMore{margin-top:16px}
 @media(max-width:900px){.pulseGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.discoveryGrid{grid-template-columns:1fr}}
 @media(max-width:540px){.pulseCard{padding:13px}.pulsePrice{font-size:17px}.topicGrid{grid-template-columns:1fr 1fr}.topicGrid a{min-height:125px;padding:12px}.topicGrid strong{font-size:12px}.calendarLinks a{grid-template-columns:85px 1fr 12px}.lowerTitle{align-items:flex-start}.lowerTitle .viewMore{white-space:nowrap;font-size:11px}}
+
+/* 82coin 2026 unified design system — applied after legacy rules */
+
+:root{--brand-primary:#4DABF7;--brand-hover:#358FE5;--blue:#358FE5;--brand-muted:#EFF7FF;--background:#fff;--surface:#fff;--subtle:#F7F9FC;--text:#202D3E;--secondary:#66788C;--line:#E6EBF1}
+html,body{font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+body{color:var(--text);font-size:14px;line-height:1.55;letter-spacing:-.012em}
+.shell{width:min(1240px,calc(100% - 44px))}
+h1,h2,h3,p{letter-spacing:-.03em}
+h1{font-size:clamp(26px,3vw,30px);font-weight:800}
+h2{font-size:19px;font-weight:700}
+p{line-height:1.55}
+.header{box-shadow:none;border-bottom:1px solid var(--line)}
+.headerInner{min-height:66px;gap:28px}
+.logo{font-size:25px;letter-spacing:-.75px;flex-shrink:0}
+.logoName{line-height:1.1}.logo small{font-size:8px;margin-top:4px}
+.logomark{width:38px;height:38px;border-radius:9px;background:#4DABF7;font-size:19px}
+.header .mainNav{gap:24px;align-items:center;margin-right:auto}
+.header .mainNav a{font-size:14px;color:#607187;font-weight:600;white-space:nowrap;transition:color .15s}
+.header .mainNav a:first-child{color:#24354a;font-weight:750}
+.header .mainNav a:hover{color:#358FE5}
+.headerActions{display:flex;align-items:center;gap:10px}
+.headerSearch{display:flex;align-items:center;width:226px;background:#f7f9fc;border:1px solid #e6ebf1;border-radius:9px;overflow:hidden;height:36px}
+.headerSearch input[type=search]{width:100%;border:0;background:transparent;box-shadow:none;padding:9px 10px;font-size:12px;outline:0}
+.headerSearch button{background:transparent;border:0;color:#5684b5;font-size:23px;padding:0 12px}
+.headerAccount,.headerSignIn{border:1px solid #dde6ef;border-radius:8px;padding:7px 13px;font-size:12px;font-weight:700;white-space:nowrap}
+.headerAccount{color:#358FE5;background:#f5faff}.headerSignIn{color:#42536a}
+.footer{background:#fff;border-top:1px solid #e6ebf1}
+.footerInner{display:grid;grid-template-columns:1fr auto;gap:5px 28px;padding-top:8px}
+.footerInner strong{font-size:16px}.footerInner p{font-size:12px;margin:5px 0;color:#8895a5}
+.footerLinks{display:flex;gap:20px;align-items:start;color:#78899d;font-size:12px}
+.footerDisclaimer{grid-column:1/-1}
+.panel,.card{border:1px solid var(--line);border-radius:10px;box-shadow:none;padding:20px}
+.panel h2,.card h2{margin-bottom:12px}
+.button,.portalAction,.welcomeButton{background:#358FE5;border-radius:8px;color:#fff;font-weight:700}
+.button:hover,.portalAction:hover,.welcomeButton:hover{background:#2177cf}
+.sectionKicker{font-size:11px;letter-spacing:0;font-weight:700;color:#428fd2}
+.pageHeading{margin:6px 0 22px}
+.pageHeading h1{font-size:28px;margin:6px 0}
+.pageHeading p{font-size:13px;color:#7b8b9f}
+.portalIntro{padding:21px 0 19px}
+.portalIntro h1{font-size:26px;margin:6px 0;letter-spacing:-.85px}
+.portalIntro p{font-size:13px}
+.portalMain{grid-template-columns:minmax(0,1.08fr) minmax(0,1.14fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);min-height:0}
+.breakingModule{padding:22px 21px 18px 0}.chartModule{padding:22px 0 18px 22px;border-left:1px solid var(--line)}
+.portalSidebar{grid-column:1/-1;display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:22px;align-items:start;padding:21px 0;border-left:0;border-top:1px solid var(--line)}
+.welcomeBox,.smallPromo{margin:0;border-radius:10px}.marketRanks{padding-top:0}
+.moduleHead{margin-bottom:14px}
+.moduleHead h2{font-size:18px;font-weight:750;letter-spacing:-.4px}
+.newsStream{max-height:370px}
+.newsEntry{padding:11px 0}.newsEntry strong{font-size:14px;font-weight:600;line-height:1.52}
+.newsEntry time{font-variant-numeric:tabular-nums}
+.marketChart{height:370px}
+.tickerStrip{background:#f7f9fc;border-color:#edf0f4}
+.tickerInner{min-height:40px}
+.tickerItem strong,.rankRow>span,.rankRow>strong,.pulsePrice,.pulseCardTop span{font-variant-numeric:tabular-nums}
+.pulseSection{padding:28px 0}.discoveryGrid{padding-top:27px}
+.pulseCard{background:#fff;border:1px solid var(--line);box-shadow:none}
+.pulseCard:hover{border-color:#9bcdfa}
+.topicGrid a{border-color:var(--line)}
+.lowerTitle h2{font-size:19px}
+.portalLower{margin-top:27px}
+.sponsorSlot,.portalAd{background:#fafbfd;border:1px dashed #e2e8f0}
+.feedPost{padding:15px 0}
+.feedTitle{font-size:15px;font-weight:650}
+.table th,.table td{font-variant-numeric:tabular-nums}
+.table th{background:#f8fafc}
+input,textarea,select,button{font-family:inherit}
+:focus-visible{outline:2px solid #358FE5;outline-offset:2px}
+@media(max-width:1080px){.headerInner{gap:16px}.header .mainNav{gap:15px}.headerSearch{width:172px}.portalSidebar{grid-template-columns:1fr 1.15fr}.smallPromo{grid-column:1/-1}}
+@media(max-width:760px){.shell{width:min(100% - 28px,1240px)}.headerInner{flex-wrap:wrap;min-height:0;gap:9px;padding:10px 0}.logo{font-size:23px}.header .mainNav{order:3;width:100%;overflow-x:auto;gap:20px;white-space:nowrap;margin:0;padding:4px 0 0}.headerActions{margin-left:auto;gap:6px}.headerSearch{width:140px}.headerAccount{display:none}.headerSignIn{padding:7px 9px}.portalMain{display:block}.breakingModule,.chartModule{padding:18px 0;border-left:0;border-bottom:1px solid var(--line)}.portalSidebar{display:grid;grid-template-columns:1fr 1fr;padding:17px 0;gap:12px}.marketRanks{grid-column:1/-1;grid-row:2}.smallPromo{grid-column:2;grid-row:1}.welcomeBox{grid-column:1;grid-row:1}.portalIntro h1{font-size:23px}.newsStream{max-height:300px}.marketChart{height:330px}.footerInner{grid-template-columns:1fr}.footerDisclaimer{grid-column:auto}}
+@media(max-width:480px){.headerSearch{width:120px}.portalSidebar{display:block}.portalSidebar>*{margin-bottom:14px}.portalIntro{padding:17px 0}.header .mainNav a{font-size:14px}.footerLinks{flex-wrap:wrap}}
