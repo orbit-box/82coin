@@ -404,3 +404,31 @@ input,textarea,select,button{font-family:inherit}
 .newsSearchNoResult{font-size:12px;padding:15px 10px;color:#8697a8;margin:0}
 @media(max-width:1000px){.newsSearch{width:175px}}
 @media(max-width:760px){.newsSearch{width:145px}}
+
+/* Simplified 82coin launch-stage alerts and dual calendars */
+.homeEventsSection{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;border-bottom:1px solid #e6edf3;padding:34px 0}
+.homeNotices,.homeSchedule{min-width:0}
+.homeEventsSection .liveHead h2{font-size:19px;margin:5px 0}
+.homeNoticeFeed{border-top:2px solid #253b55}
+.homeNoticeItem{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid #e8edf2}
+.noticeLabel{font-size:10px;padding:5px 7px;background:#eef5fc;color:#337db5;border-radius:6px;white-space:nowrap;font-weight:800}
+.noticeLabel.delisting{background:#fff0f0;color:#d94359}.noticeLabel.caution{background:#fff7ea;color:#bf831e}
+.noticeContents{display:flex;flex-direction:column;gap:5px;min-width:0}
+.noticeContents strong{font-size:13px;font-weight:650;color:#263a50;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.homeNoticeItem:hover strong,.scheduleEntry:hover strong{color:#358fe5}
+.noticeContents span{font-size:10px;color:#8d9caf}
+.homeNoticeEmpty{padding:35px 12px;text-align:center;color:#8292a4;font-size:12px;line-height:1.7}
+.eventCategoryTabs{display:flex;gap:7px;margin:8px 0 14px}
+.eventCategoryTabs button{appearance:none;border:0;border-radius:999px;background:#f0f3f7;color:#74859b;padding:10px 17px;font-family:inherit;font-weight:750;font-size:12px;cursor:pointer}
+.eventCategoryTabs button.active{background:#358fe5;color:white}
+.homeScheduleCanvas{background:#f8fafc;border:1px solid #e8edf4;border-radius:13px;padding:14px 18px;min-height:326px}
+.scheduleHead{display:flex;justify-content:space-between;gap:7px;align-items:center;padding:5px 0 13px;border-bottom:1px solid #e4ebf2}
+.scheduleHead strong{font-size:13px;color:#26394e}.scheduleHead small{font-size:10px;color:#95a4b4}
+.scheduleEntry{display:grid;grid-template-columns:110px minmax(0,1fr);gap:9px;align-items:center;padding:13px 0;border-bottom:1px solid #e5ebf1}
+.scheduleEntry>span:last-child{display:flex;flex-direction:column;gap:5px;min-width:0}
+.scheduleEntry strong{color:#283d53;font-size:12px;font-weight:650;line-height:1.45}
+.scheduleEntry small{color:#8397aa;font-size:10px;line-height:1.4}
+.scheduleDate{display:flex;flex-direction:column;gap:4px}.scheduleDate small{color:#358fe5;font-weight:750}
+.scheduleType{font-size:11px;color:#358fe5;font-weight:800}
+@media(max-width:780px){.homeEventsSection{grid-template-columns:1fr;gap:30px;padding:25px 0}.homeScheduleCanvas{min-height:0}}
+@media(max-width:440px){.scheduleEntry{grid-template-columns:98px minmax(0,1fr)}.homeScheduleCanvas{padding:12px}.homeEventsSection .liveHead{gap:8px}}
