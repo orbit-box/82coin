@@ -613,3 +613,38 @@ input,textarea,select,button{font-family:inherit}
 .workspaceEmpty{padding:35px;text-align:center;font-size:13px;color:#8393a5}
 @media(max-width:850px){.workspaceNav{grid-template-columns:repeat(2,minmax(0,1fr))}.workspaceNav button{min-height:110px}}
 @media(max-width:540px){.workspaceNav{gap:8px}.workspaceNav button{padding:12px;min-height:120px}.workspaceNav strong{font-size:15px}.workspaceTitle{align-items:flex-start;flex-direction:column;gap:7px}.premiumRow{grid-template-columns:1.3fr 1fr .85fr .85fr;gap:6px;padding:12px 3px;font-size:11px}.premiumCoin{gap:5px}.premiumCoin small{display:none}.workspaceEvents a{grid-template-columns:110px minmax(0,1fr);gap:9px;padding:15px 4px}.workspaceEvents a b{font-size:12px}.workspaceEvents a small{font-size:10px}}
+
+/* 82coin Market Navigation v2 - restrained, high-density financial UI */
+.marketWorkspace{padding:4px 0 64px;color:#202d3e}
+.marketWorkspace .workspaceIntro{padding:22px 0 20px;border-bottom:0}
+.marketWorkspace .workspaceIntro .sectionKicker{color:#358fe5;font-size:12px;font-weight:700;letter-spacing:0}
+.marketWorkspace .workspaceIntro h1{font-size:clamp(29px,3vw,36px);line-height:1.3;letter-spacing:-1.2px;margin:6px 0 7px;font-weight:800}
+.marketWorkspace .workspaceIntro p{font-size:14px;color:#66788c;line-height:1.6}
+.marketWorkspace .workspaceNav{display:flex;flex-wrap:nowrap;gap:30px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;padding:0;border-bottom:1px solid #e6ebf1;white-space:nowrap}
+.marketWorkspace .workspaceNav button{position:relative;min-height:54px;min-width:max-content;display:flex;align-items:center;justify-content:center;gap:0;padding:0 4px;border:0;border-radius:0;background:transparent;color:#66788c;box-shadow:none;font:inherit;cursor:pointer;transition:color .15s ease}
+.marketWorkspace .workspaceNav button strong{font-size:16px;font-weight:650;letter-spacing:-.3px}
+.marketWorkspace .workspaceNav button:hover{color:#358fe5;background:transparent;border:0}
+.marketWorkspace .workspaceNav button.active{background:transparent;color:#202d3e;box-shadow:none;border:0}
+.marketWorkspace .workspaceNav button.active strong{font-weight:750}
+.marketWorkspace .workspaceNav button.active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:#358fe5;border-radius:3px 3px 0 0}
+.marketWorkspace .workspaceNav button:focus-visible,.marketWorkspace button:focus-visible,.marketWorkspace a:focus-visible{outline:2px solid #358fe5;outline-offset:3px}
+.marketWorkspace .workspaceView{padding:27px 0 0;min-height:360px}
+.marketWorkspace .workspaceTitle{margin-bottom:18px;align-items:flex-end}
+.marketWorkspace .workspaceTitle h2{font-size:23px;line-height:1.4;letter-spacing:-.6px;font-weight:750}
+.marketWorkspace .workspaceTitle p{font-size:13px;color:#66788c;line-height:1.6}
+.marketWorkspace .workspaceStatus{font-size:12px;color:#8394a9}
+.marketWorkspace .premiumTable{border-top:1px solid #cfdbe6}
+.marketWorkspace .premiumRow{min-height:60px;padding:14px 12px;font-size:14px;font-variant-numeric:tabular-nums}
+.marketWorkspace .premiumRow:not(.head):hover{background:#f7faff}
+.marketWorkspace .premiumRow.head{font-size:12px;color:#77889a;background:#fbfcfe;min-height:46px}
+.marketWorkspace .premiumCoin strong{font-size:15px}
+.marketWorkspace .premiumCoin small{font-size:12px}
+.marketWorkspace .workspaceEvents{border-top:1px solid #cfdbe6}
+.marketWorkspace .workspaceEvents a{min-height:74px;padding:17px 12px}
+.marketWorkspace .workspaceEvents a:hover{background:#f7faff}
+.marketWorkspace .workspaceEvents a small{font-size:12px}
+.marketWorkspace .workspaceSubtabs button{min-height:42px}
+.marketWorkspace .workspaceSubtabs button:focus-visible{outline-offset:3px}
+.marketWorkspace .pulseSection .sectionKicker{display:none}
+@media(max-width:850px){.marketWorkspace .workspaceNav{display:flex;gap:24px}.marketWorkspace .workspaceNav button{min-height:50px}}
+@media(max-width:540px){.marketWorkspace .workspaceIntro{padding:14px 0 15px}.marketWorkspace .workspaceIntro p{font-size:13px}.marketWorkspace .workspaceNav{gap:22px;margin-right:-8px}.marketWorkspace .workspaceNav button{min-height:48px}.marketWorkspace .workspaceNav button strong{font-size:14px}.marketWorkspace .workspaceView{padding-top:21px}.marketWorkspace .workspaceTitle h2{font-size:20px}.marketWorkspace .premiumRow{font-size:12px;min-height:54px}.marketWorkspace .premiumRow.head{font-size:11px}.marketWorkspace .workspaceEvents a small{font-size:11px}}
