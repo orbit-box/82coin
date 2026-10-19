@@ -6,7 +6,7 @@ export const metadata: Metadata={title:"82coin | 실시간 암호화폐 정보�
 export default function RootLayout({children}:{children:React.ReactNode}){
  return <html lang="ko"><body>
  <header className="header"><div className="shell headerInner">
- <Link className="logo" href="/" aria-label="82coin 홈"><picture className="uploadedLogo"><img src="/82coin-header-logo.png" alt="82coin MARKET & COMMUNITY" width="245" height="75"/></picture></Link>
+ <Link className="logo" href="/" aria-label="82coin 홈"><span className="logomark">82</span><span className="logoName">coin<small>MARKET & COMMUNITY</small></span></Link>
  <nav aria-label="주요 메뉴" className="mainNav"><Link href="/">홈</Link><Link href="/market">시장정보</Link><Link href="/community">커뮤니티</Link><Link href="/benefits">혜택</Link></nav>
  <div className="headerActions"><NewsSearch/><Link className="headerAccount" href="/profile">MY</Link><Link className="headerSignIn" href="/login">로그인</Link></div>
  </div></header>
