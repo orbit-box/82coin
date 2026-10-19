@@ -669,3 +669,11 @@ input,textarea,select,button{font-family:inherit}
 .marketNewsMore{display:block;width:100%;margin-top:15px;padding:13px;border:1px solid #e0e9f2;border-radius:8px;background:#fff;color:#358fe5;font-size:13px;font-weight:700;cursor:pointer}
 .marketNewsMore:hover{background:#f3f9ff}
 @media(max-width:700px){.marketNewsTools{align-items:stretch;flex-direction:column}.marketNewsTools input{width:100%}.marketNewsItem{grid-template-columns:57px minmax(0,1fr) 12px;gap:9px;padding:15px 2px}.marketNewsCopy>strong{font-size:13px}.marketNewsCopy>small{font-size:11px}}
+
+/* News: aligned filters and editorial importance */
+.marketWorkspace .marketNewsTools{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:18px;align-items:center}
+.marketWorkspace .marketNewsFilters{display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;white-space:nowrap;max-width:100%;scrollbar-width:thin}
+.marketWorkspace .marketNewsTools input{width:100%;min-width:0}
+.marketNewsLeading{display:flex;flex-direction:column;gap:7px}
+.marketNewsScore{font-size:11px;font-weight:750;color:#358fe5}
+@media(max-width:760px){.marketWorkspace .marketNewsTools{grid-template-columns:minmax(0,1fr);gap:11px}.marketWorkspace .marketNewsFilters{max-width:100%;}.marketWorkspace .marketNewsTools input{width:100%}}
