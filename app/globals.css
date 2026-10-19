@@ -738,3 +738,11 @@ input,textarea,select,button{font-family:inherit}
 .radarExplorer .dataFoot{margin-top:15px;line-height:1.65}
 @media(max-width:900px){.radarHighlightGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.radarControls{flex-direction:column;align-items:stretch}.radarControls input{width:100%}.radarTableScroll{overflow-x:auto}.radarTable{min-width:760px}}
 @media(max-width:550px){.radarIntro{flex-direction:column;align-items:flex-start}.radarSummaryItem{padding:14px 10px}.radarSummaryItem>strong{font-size:22px}.radarSummaryItem>small{font-size:10px}.radarHighlight{padding:14px 12px;gap:12px}.radarHighlightPrice{font-size:19px}.radarHighlightTop{flex-wrap:wrap}.radarHighlightFoot{flex-wrap:wrap}.radarTag{font-size:10px}.radarSectionHead h3{font-size:17px}}
+
+/* Radar filters: no cramped horizontal scroller beside search */
+.marketWorkspace .radarControls{display:grid;grid-template-columns:max-content minmax(200px,1fr);align-items:center;gap:18px;width:100%}
+.marketWorkspace .radarFilters{display:flex;flex-wrap:nowrap;overflow:visible;white-space:nowrap;gap:8px;min-width:max-content}
+.marketWorkspace .radarFilters button{flex:0 0 auto}
+.marketWorkspace .radarControls input{width:100%;min-width:0;max-width:none}
+@media(max-width:1050px){.marketWorkspace .radarControls{grid-template-columns:minmax(0,1fr);gap:12px}.marketWorkspace .radarFilters{flex-wrap:wrap;min-width:0;white-space:normal}.marketWorkspace .radarControls input{width:100%}}
+@media(max-width:550px){.marketWorkspace .radarFilters{gap:6px}.marketWorkspace .radarFilters button{padding:9px 11px;font-size:12px}}
