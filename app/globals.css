@@ -460,3 +460,37 @@ input,textarea,select,button{font-family:inherit}
 .homeEventsSection .homeSchedule>.homeScheduleCanvas{flex:1;display:flex;flex-direction:column}
 .homeEventsSection .homeScheduleCanvas>.sectionBottomMore{margin-top:auto}
 }
+
+/* Account experience — 82coin */
+.authPage{max-width:520px;margin:50px auto 78px;color:#202d3e}
+.authInner{padding:0 4px}
+.authBrand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:22px;letter-spacing:-.8px;margin-bottom:44px;color:#1e2e40}
+.authBrandMark{display:grid;place-items:center;background:#4dabf7;color:white;width:37px;height:37px;border-radius:10px;font-size:17px;letter-spacing:-1px}
+.authIntro{margin-bottom:30px}
+.authIntro h1{font-size:40px;font-weight:800;line-height:1.2;letter-spacing:-1.4px;margin:15px 0 10px}
+.authIntro p{font-size:14px;line-height:1.7;margin:0;color:#74859a}
+.authForm{display:flex;flex-direction:column;gap:0}
+.authForm>label:not(.authConsent){font-size:13px;font-weight:700;margin-bottom:9px;color:#33465b}
+.authForm>input,.authPassword input{height:56px;width:100%;border:1px solid #e0e8f0;border-radius:11px;padding:0 16px;font-size:15px;font-weight:500;background:#fff;outline:none}
+.authForm>input:not([type=hidden]){margin-bottom:22px}
+.authForm input:focus{border-color:#4dabf7;box-shadow:0 0 0 3px #4dabf71c}
+.authPassword{position:relative;margin-bottom:22px}
+.authPassword input{padding-right:52px}
+.authPassword button{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:40px;height:40px;display:grid;place-items:center;background:none;border:0;color:#8392a4}
+.authForm .authHint{margin:-14px 0 20px;font-size:12px;color:#7d8c9d}
+.authForm .authFieldError{color:#d94a5c;font-size:12px;margin:-15px 0 19px}
+.authConsent{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.7;color:#52677b;margin:4px 0 24px;cursor:pointer}
+.authConsent input[type=checkbox]{width:17px;height:17px;margin:2px 0 0;flex-shrink:0;accent-color:#358fe5}
+.authConsent a{color:#2d84db;text-decoration:underline;text-underline-offset:2px}
+.authConsent b{color:#358fe5}
+.authPrimary{width:100%;height:56px;margin-top:2px;border:0;background:#358fe5;color:white;border-radius:11px;display:flex;align-items:center;justify-content:center;gap:11px;font-size:16px;font-weight:750;transition:background .15s}
+.authPrimary:hover:not(:disabled){background:#287ccf}
+.authPrimary:disabled{opacity:.65;cursor:wait}
+.authAside{display:flex;justify-content:flex-end;font-size:12px;color:#96a3b1;margin:-8px 0 23px}
+.authSwitch{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:25px;font-size:13px;color:#7d8da0}
+.authSwitch a{display:inline-flex;align-items:center;gap:5px;color:#358fe5;font-weight:750}
+.authError{background:#fff2f2;color:#b33d48;border:1px solid #ffe0e3;border-radius:10px;padding:12px 14px;margin-bottom:22px;font-size:13px;line-height:1.5}
+.legalPage{max-width:790px;margin:50px auto 90px}
+.legalPage h1{font-size:34px}.legalPage h2{margin:32px 0 9px;font-size:19px}
+.legalPage p{font-size:14px}.legalWarning{border:1px solid #f0d6a7;background:#fffaf1;color:#875b28;padding:15px;border-radius:10px}
+@media(max-width:600px){.authPage{margin:22px auto 50px;padding:0 13px}.authBrand{margin-bottom:34px}.authIntro h1{font-size:35px}.authForm>input,.authPassword input{height:54px}.authPrimary{height:54px}}
