@@ -1,0 +1,3 @@
+import Link from "next/link";
+const links=[{href:"/benefits",label:"리워드 홈"},{href:"/benefits/wallet",label:"토큰함"},{href:"/benefits/attendance",label:"출석체크"},{href:"/benefits/coupons",label:"쿠폰"},{href:"/benefits/events",label:"커뮤니티 이벤트"},{href:"/benefits/earn",label:"토큰 획득방법"}];
+export default function RewardNav({current}:{current:string}){return <nav className="rewardNav rewardNavPages" aria-label="리워드존 세부 메뉴">{links.map(x=><Link key={x.href} href={x.href} className={current===x.href?"isActive":""} aria-current={current===x.href?"page":undefined}>{x.label}</Link>)}</nav>}
