@@ -1,5 +1,5 @@
-import MarketDataPanel from "./MarketDataPanel";
 "use client";
+import MarketDataPanel from "./MarketDataPanel";
 import {useEffect,useState} from "react";
 type Post={author:string;title:string;url:string;publishedAt:string|null;platform:string};
 type Row={symbol:string;fundingPercent:number|null;markPrice:number|null;longPct:number|null;shortPct:number|null;openInterest:number|null};
