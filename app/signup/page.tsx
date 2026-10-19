@@ -1,0 +1,1 @@
+import AuthForm from "@/components/AuthForm";export default async function Signup({searchParams}:{searchParams:Promise<{error?:string}>}){const p=await searchParams;return <AuthForm register error={p.error}/>}
