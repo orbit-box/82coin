@@ -687,3 +687,10 @@ input,textarea,select,button{font-family:inherit}
 .marketNewsCoinTag{font-size:11px;font-weight:700;color:#287ec8;background:#eff7ff;border:1px solid #e0f0ff;border-radius:6px;padding:5px 8px;white-space:nowrap}
 .marketNewsNoCoin{font-size:11px;color:#a1afbd}
 @media(max-width:760px){.marketNewsItem:has(.marketNewsRelated){grid-template-columns:57px minmax(0,1fr) 15px;gap:9px}.marketNewsAside:has(.marketNewsRelated){display:contents}.marketNewsRelated{grid-column:2;grid-row:2;align-items:flex-start;gap:5px}.marketNewsRelatedLabel{display:none}.marketNewsCoinTags{justify-content:flex-start}.marketNewsLink{grid-column:3;grid-row:1}.marketNewsNoCoin{font-size:10px}}
+
+/* Kimchi premium: domestic vs foreign price comparison */
+.marketWorkspace .premiumTable{overflow-x:auto}
+.marketWorkspace .premiumRow{grid-template-columns:minmax(150px,1.6fr) minmax(132px,1fr) minmax(138px,1fr) minmax(145px,1.1fr) minmax(110px,.85fr) minmax(110px,.85fr);min-width:850px;gap:12px}
+.marketWorkspace .premiumRow.head{font-size:12px}
+.marketWorkspace .premiumAnomaly{color:#a8762b;font-size:12px}
+@media(max-width:540px){.marketWorkspace .premiumRow{min-width:820px;grid-template-columns:145px 125px 130px 140px 110px 110px}.marketWorkspace .premiumTable{scrollbar-width:thin}}
