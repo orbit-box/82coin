@@ -252,3 +252,16 @@ input,textarea,select,button{font-family:inherit}
 .allCoinsOuter{margin:28px 0;border:1px solid #e5ebf2;padding:24px;border-radius:12px;scroll-margin-top:90px}
 .fullCoins .coinsTableRow{padding:12px 6px}.fullCoins .coinIdentity strong,.fullCoins .coinPrice,.fullCoins .coinChange{font-size:14px}
 @media(max-width:760px){.allCoinsOuter{padding:14px}.rankTabs{gap:4px}.rankTabs button{font-size:10px;padding:7px 9px}.fullCoins .coinIdentity strong,.fullCoins .coinPrice,.fullCoins .coinChange{font-size:12px}}
+
+/* 82coin ranking layout correction: remove oversized blank side columns */
+.portalSidebar{grid-template-columns:minmax(0,1fr) 268px;grid-template-rows:auto 1fr;gap:12px 24px;align-items:start}
+.portalSidebar>.allCoins{grid-column:1;grid-row:1 / span 2;min-width:0}
+.portalSidebar>.welcomeBox{grid-column:2;grid-row:1}
+.portalSidebar>.smallPromo{grid-column:2;grid-row:2;align-self:start;margin:0}
+.compactCoins .coinsTableRow{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.8fr);padding:9px 3px}
+.compactCoins .coinIdentity strong,.compactCoins .coinPrice,.compactCoins .coinChange{font-size:13px}
+.compactCoins .rankTabs{gap:7px}
+.compactCoins .rankTabs button{padding:8px 12px;font-size:12px}
+.compactCoins .rankTabs button.active{font-weight:750}
+@media(max-width:840px){.portalSidebar{grid-template-columns:minmax(0,1fr) 215px;gap:12px 15px}.compactCoins .rankTabs button{font-size:11px;padding:7px 9px}}
+@media(max-width:650px){.portalSidebar{display:flex;flex-direction:column;gap:16px}.portalSidebar>.allCoins{order:0;width:100%}.portalSidebar>.welcomeBox{order:1;width:100%}.portalSidebar>.smallPromo{order:2;width:100%}.compactCoins .rankTabs{flex-wrap:wrap}.compactCoins .rankTabs button{font-size:11px}}
