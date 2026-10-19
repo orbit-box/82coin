@@ -342,3 +342,47 @@ input,textarea,select,button{font-family:inherit}
 .macroNewsRow strong{font-size:12px;font-weight:650;line-height:1.5;min-width:0}
 .macroNewsRow small{font-size:10px;color:#8b9bad;white-space:nowrap}
 @media(max-width:1080px){.derivativeTabs{gap:4px}.derivativeTabs button{padding:7px 9px;font-size:10px}}
+
+/* 82coin market data v2 — consistent reference-inspired financial layout */
+.derivativesColumn{min-width:0}
+.derivativeTabs{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:14px 0}
+.derivativeTabs button{font-family:inherit;appearance:none;border:1px solid transparent;background:#f1f4f8;color:#758397;border-radius:999px;font-size:12px;font-weight:650;line-height:1;padding:11px 13px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.derivativeTabs button.active,.derivativeTabs button[aria-selected="true"]{background:#2f3541;color:white;border-color:#2f3541}
+.derivativeTabs button:hover:not(.active){background:#e5edf5;color:#354a61}
+.marketDataCanvas{padding:18px 20px 16px;min-height:348px;border-radius:18px;background:#f7f9fc;border:1px solid #edf1f6}
+.marketSelectBar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px}
+.coinPills,.rangePills{display:flex;flex-wrap:wrap;gap:7px}
+.coinPills button,.rangePills button{appearance:none;border:1px solid #dfe6ef;border-radius:9px;background:#fff;padding:8px 13px;color:#66778b;font-family:inherit;font-size:12px;font-weight:750;cursor:pointer}
+.coinPills button.active,.rangePills button.active{background:#358fe5;border-color:#358fe5;color:white}
+.rangePills{margin:-3px 0 16px}
+.rangePills button{border-radius:999px;padding:7px 11px}
+.marketLiveHint{color:#95a3b3;font-size:10px;white-space:nowrap}
+.marketLiveHint i{display:inline-block;width:6px;height:6px;background:#4dbb8b;border-radius:50%;margin-right:4px}
+.marketHighlight{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:10px 0 23px;min-height:125px}
+.marketHighlight small{font-size:11px;color:#8190a2;line-height:1.5}
+.marketHighlight strong{font-size:23px;color:#253b53;font-weight:800;letter-spacing:-.7px;line-height:1.35}
+.marketHighlight strong.up{color:#e54355}.marketHighlight strong.down{color:#276ff2}
+.marketHighlight strong span{font-size:12px;color:#8a98a8;font-weight:600;letter-spacing:0}
+.marketDualValues,.liqValues{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:6px 0 8px}
+.marketDualValues strong{font-size:17px;font-variant-numeric:tabular-nums}
+.marketBar{height:11px;border-radius:99px;background:#2973f6;overflow:hidden;margin-bottom:20px}
+.marketBar span{display:block;height:100%;border-radius:99px 0 0 99px;background:#ed4757}
+.marketTwoTiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.marketTwoTiles>div{min-width:0;display:flex;flex-direction:column;gap:9px;padding:17px;background:white;border:1px solid #edf1f5;border-radius:12px}
+.marketTwoTiles small{font-size:11px;color:#8593a6}
+.marketTwoTiles strong{font-size:15px;font-weight:800;color:#24394f;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.marketFinePrint{font-size:10px;line-height:1.65;color:#97a4b4;margin:17px 0 0}
+.marketEmpty{min-height:195px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;text-align:center;padding:24px 16px;color:#77899d}
+.marketEmpty strong{font-size:14px;color:#425a72}.marketEmpty p{font-size:12px;line-height:1.65;margin:0}
+.marketEmpty a{font-size:11px;color:#358fe5}
+.marketDataIntro{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:1px 0 12px;border-bottom:1px solid #e4eaf1}
+.marketDataIntro strong{font-size:14px;font-weight:800;color:#273b51}
+.marketDataIntro small{font-size:10px;color:#8b9aad}
+.economicEvent{display:grid;grid-template-columns:130px minmax(0,1fr);gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #e5ebf2}
+.economicEvent:hover .economicDescription strong{color:#328bdd}
+.economicDate{display:flex;flex-direction:column;gap:5px}.economicDate strong{font-size:12px;font-weight:750;color:#26394f}.economicDate small{font-size:11px;font-weight:750;color:#368edf}
+.economicDescription{display:flex;flex-direction:column;gap:3px;min-width:0}
+.economicDescription span{font-size:10px;font-weight:750;color:#5d99da}.economicDescription strong{font-size:12px;color:#2e4155;font-weight:650;line-height:1.4}
+.economicDescription small{font-size:10px;color:#98a7b6}
+@media(max-width:1100px){.derivativeTabs button{font-size:11px;padding:9px 10px}.marketDataCanvas{padding:16px}.economicEvent{grid-template-columns:115px minmax(0,1fr)}}
+@media(max-width:500px){.marketDataCanvas{padding:14px 13px}.marketDataIntro{flex-direction:column;align-items:flex-start}.economicEvent{grid-template-columns:112px minmax(0,1fr)}.marketHighlight strong{font-size:21px}}
