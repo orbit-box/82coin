@@ -221,3 +221,34 @@ input,textarea,select,button{font-family:inherit}
 @media(max-width:1080px){.headerInner{gap:16px}.header .mainNav{gap:15px}.headerSearch{width:172px}.portalSidebar{grid-template-columns:1fr 1.15fr}.smallPromo{grid-column:1/-1}}
 @media(max-width:760px){.shell{width:min(100% - 28px,1240px)}.headerInner{flex-wrap:wrap;min-height:0;gap:9px;padding:10px 0}.logo{font-size:23px}.header .mainNav{order:3;width:100%;overflow-x:auto;gap:20px;white-space:nowrap;margin:0;padding:4px 0 0}.headerActions{margin-left:auto;gap:6px}.headerSearch{width:140px}.headerAccount{display:none}.headerSignIn{padding:7px 9px}.portalMain{display:block}.breakingModule,.chartModule{padding:18px 0;border-left:0;border-bottom:1px solid var(--line)}.portalSidebar{display:grid;grid-template-columns:1fr 1fr;padding:17px 0;gap:12px}.marketRanks{grid-column:1/-1;grid-row:2}.smallPromo{grid-column:2;grid-row:1}.welcomeBox{grid-column:1;grid-row:1}.portalIntro h1{font-size:23px}.newsStream{max-height:300px}.marketChart{height:330px}.footerInner{grid-template-columns:1fr}.footerDisclaimer{grid-column:auto}}
 @media(max-width:480px){.headerSearch{width:120px}.portalSidebar{display:block}.portalSidebar>*{margin-bottom:14px}.portalIntro{padding:17px 0}.header .mainNav a{font-size:14px}.footerLinks{flex-wrap:wrap}}
+
+/* Upbit all-markets rank board */
+.allCoins{width:100%;min-width:0}
+.coinSectionHead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:14px}
+.coinSectionHead h2{font-size:18px;font-weight:750;margin:0 0 4px;color:#202d3e}
+.coinSectionHead .viewMore{margin:2px 0 0;white-space:nowrap}
+.marketSource{font-size:10px;color:#8899ad}
+.rankTabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.rankTabs button{border:0;background:#f3f5f8;border-radius:18px;padding:7px 11px;font-size:11px;font-weight:650;color:#7b8b9e;white-space:nowrap}
+.rankTabs button.active{background:#e5f3ff;color:#267fce}
+.coinsTableHead,.coinsTableRow{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.1fr) minmax(0,.9fr);gap:5px;align-items:center}
+.coinsTableHead{border-bottom:1px solid #e9edf3;padding:8px 0 10px;color:#8b9aab;font-size:10px}
+.coinsTableHead span:not(:first-child){text-align:right}
+.coinsTableRow{padding:10px 0;border-bottom:1px solid #f0f2f6;font-size:12px}
+.coinsTitle{display:flex;align-items:center;gap:7px;min-width:0}
+.coinOrder{font-size:11px;color:#95a3b3;min-width:14px}
+.coinIcon{border-radius:50%;background:#f3f6fa;flex-shrink:0;display:inline-flex;justify-content:center;align-items:center;color:#4b83b3;overflow:hidden}
+.coinIcon img{width:100%;height:100%;object-fit:contain}
+.coinIcon b{font-size:inherit;font-weight:800}
+.coinIdentity{display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.coinIdentity strong{font-size:12px;color:#2c394a;font-weight:750}
+.coinIdentity small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#98a3b3;font-size:10px}
+.coinPrice,.coinChange{font-size:12px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.coinPrice{font-weight:700;color:#243449}
+.coinChange{font-weight:700;color:#45566a}
+.coinsEmpty{text-align:center;color:#8999aa;padding:24px 8px;font-size:12px}
+.coinSearch{width:100%;height:39px;margin:5px 0 14px}
+.coinMore{width:100%;background:#f7f9fc;border:1px solid #e4ebf2;color:#3789d3;border-radius:8px;font-size:13px;font-weight:700;padding:12px;margin-top:16px}
+.allCoinsOuter{margin:28px 0;border:1px solid #e5ebf2;padding:24px;border-radius:12px;scroll-margin-top:90px}
+.fullCoins .coinsTableRow{padding:12px 6px}.fullCoins .coinIdentity strong,.fullCoins .coinPrice,.fullCoins .coinChange{font-size:14px}
+@media(max-width:760px){.allCoinsOuter{padding:14px}.rankTabs{gap:4px}.rankTabs button{font-size:10px;padding:7px 9px}.fullCoins .coinIdentity strong,.fullCoins .coinPrice,.fullCoins .coinChange{font-size:12px}}
