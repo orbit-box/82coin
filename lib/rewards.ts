@@ -2,6 +2,7 @@ import {db} from "@/lib/db";
 import {sessionId} from "@/lib/auth";
 export const ATTENDANCE_REWARD=10;
 export function kstDay(d=new Date()){return new Intl.DateTimeFormat("sv-SE",{timeZone:"Asia/Seoul",year:"numeric",month:"2-digit",day:"2-digit"}).format(d)}
+const previousDay=(day:string)=>{const d=new Date(day+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-1);return d.toISOString().slice(0,10)};
 let initialized:Promise<void>|undefined;
 export async function rewardSchema(){if(!initialized)initialized=(async()=>{const p=await db();await p.query(`
 CREATE TABLE IF NOT EXISTS reward_wallets(member_id INTEGER PRIMARY KEY REFERENCES members(id) ON DELETE CASCADE,balance BIGINT NOT NULL DEFAULT 0 CHECK(balance>=0),earned BIGINT NOT NULL DEFAULT 0 CHECK(earned>=0),updated_at TIMESTAMPTZ NOT NULL DEFAULT now());
@@ -9,10 +10,12 @@ CREATE TABLE IF NOT EXISTS reward_ledger(id BIGSERIAL PRIMARY KEY,member_id INTE
 CREATE INDEX IF NOT EXISTS reward_ledger_member_idx ON reward_ledger(member_id,created_at DESC);
 CREATE TABLE IF NOT EXISTS reward_coupons(id BIGSERIAL PRIMARY KEY,title VARCHAR(100) NOT NULL,description TEXT NOT NULL DEFAULT '',cost BIGINT NOT NULL CHECK(cost>=0),stock INT NOT NULL DEFAULT 0 CHECK(stock>=0),active BOOLEAN NOT NULL DEFAULT false,created_at TIMESTAMPTZ NOT NULL DEFAULT now());
 CREATE TABLE IF NOT EXISTS reward_coupon_claims(id BIGSERIAL PRIMARY KEY,coupon_id BIGINT NOT NULL REFERENCES reward_coupons(id),member_id INTEGER NOT NULL REFERENCES members(id),claim_code TEXT UNIQUE NOT NULL,claimed_at TIMESTAMPTZ NOT NULL DEFAULT now(),used_at TIMESTAMPTZ);
+CREATE TABLE IF NOT EXISTS reward_spin_wallets(member_id INTEGER PRIMARY KEY REFERENCES members(id) ON DELETE CASCADE,balance INTEGER NOT NULL DEFAULT 0 CHECK(balance>=0),earned INTEGER NOT NULL DEFAULT 0 CHECK(earned>=0));
+CREATE TABLE IF NOT EXISTS reward_spin_ledger(id BIGSERIAL PRIMARY KEY,member_id INTEGER NOT NULL REFERENCES members(id) ON DELETE CASCADE,amount INTEGER NOT NULL CHECK(amount<>0),reason TEXT NOT NULL,reference TEXT NOT NULL,created_at TIMESTAMPTZ NOT NULL DEFAULT now(),UNIQUE(member_id,reason,reference));
+CREATE INDEX IF NOT EXISTS reward_spin_member_idx ON reward_spin_ledger(member_id,created_at DESC);
 `);})().catch(e=>{initialized=undefined;throw e});await initialized;}
 export async function rewardOverview(member:number|null){
- await rewardSchema();const p=await db();
- const coupons=await p.query<{id:number;title:string;description:string;cost:string;stock:number}>("SELECT id,title,description,cost,stock FROM reward_coupons WHERE active=true AND stock>0 ORDER BY id DESC LIMIT 12");
+ await rewardSchema();const p=await db();const coupons=await p.query<{id:number;title:string;description:string;cost:string;stock:number}>("SELECT id,title,description,cost,stock FROM reward_coupons WHERE active=true AND stock>0 ORDER BY id DESC LIMIT 12");
  if(!member)return {wallet:null,attended:false,history:[],coupons:coupons.rows};
  const [wallet,attendance,ledger]=await Promise.all([
  p.query<{balance:string;earned:string}>("SELECT balance,earned FROM reward_wallets WHERE member_id=$1",[member]),
@@ -21,14 +24,49 @@ export async function rewardOverview(member:number|null){
  ]);
  return {wallet:{balance:Number(wallet.rows[0]?.balance??0),earned:Number(wallet.rows[0]?.earned??0)},attended:!!attendance.rowCount,history:ledger.rows,coupons:coupons.rows};
 }
+export async function attendanceDetails(member:number|null){
+ const today=kstDay();const empty={today,attended:false,streak:0,monthCount:0,nextStep:1,nextReward:10,coupons:null as number|null,cycle:Array.from({length:7},(_,i)=>({step:i+1,reward:(i+1)*10,complete:false,current:i===0})),stampDays:[] as string[],daysUntilSeven:7};
+ if(!member)return empty;
+ await rewardSchema();const p=await db();
+ const [a,b,c]=await Promise.all([
+ p.query<{reference:string}>("SELECT reference FROM reward_ledger WHERE member_id=$1 AND kind='ATTENDANCE' AND reference<=$2 ORDER BY reference DESC LIMIT 120",[member,today]),
+ p.query<{balance:number}>("SELECT balance FROM reward_spin_wallets WHERE member_id=$1",[member]),
+ p.query<{n:number}>("SELECT count(*)::int n FROM reward_ledger WHERE member_id=$1 AND kind='ATTENDANCE' AND reference LIKE $2",[member,today.slice(0,7)+"%"])
+ ]);
+ const stamps=a.rows.map(r=>r.reference),set=new Set(stamps),attended=set.has(today);let date=attended?today:previousDay(today),streak=0;
+ while(set.has(date)&&streak<120){streak++;date=previousDay(date)}
+ const nextStep=attended?(streak%7)+1:(streak%7)+1;
+ const completed=attended?((streak-1)%7)+1:streak%7;
+ return {today,attended,streak,monthCount:c.rows[0]?.n??0,nextStep,nextReward:nextStep*10,coupons:b.rows[0]?.balance??0,cycle:Array.from({length:7},(_,i)=>({step:i+1,reward:(i+1)*10,complete:i<completed,current:!attended&&i===completed})),stampDays:stamps,daysUntilSeven:attended&&streak%7===0?0:7-(streak%7)};
+}
 export async function claimAttendance(){
  const member=await sessionId();if(!member)throw Error("로그인이 필요합니다.");
- await rewardSchema();const p=await db(),c=await p.connect(),day=kstDay();
+ await rewardSchema();const pool=await db(),c=await pool.connect();const day=kstDay();
  try{
- await c.query("BEGIN");await c.query("INSERT INTO reward_wallets(member_id) VALUES($1) ON CONFLICT DO NOTHING",[member]);
- const insert=await c.query("INSERT INTO reward_ledger(member_id,amount,kind,reference) VALUES($1,$2,'ATTENDANCE',$3) ON CONFLICT DO NOTHING RETURNING id",[member,ATTENDANCE_REWARD,day]);
- if(!insert.rowCount){await c.query("COMMIT");return {ok:true,already:true,day};}
- await c.query("UPDATE reward_wallets SET balance=balance+$2,earned=earned+$2,updated_at=now() WHERE member_id=$1",[member,ATTENDANCE_REWARD]);
- await c.query("COMMIT");return {ok:true,already:false,day};
- }catch(e){await c.query("ROLLBACK");throw e}finally{c.release();}
+ await c.query("BEGIN");
+ // Serialize rewards for the same member, including duplicate concurrent requests.
+ await c.query("SELECT pg_advisory_xact_lock($1)",[member]);
+ await c.query("INSERT INTO reward_wallets(member_id) VALUES($1) ON CONFLICT DO NOTHING",[member]);
+ const check=await c.query("SELECT id FROM reward_ledger WHERE member_id=$1 AND kind='ATTENDANCE' AND reference=$2",[member,day]);
+ if(check.rowCount){await c.query("COMMIT");return {ok:true,already:true,day,amount:0,coupons:0};}
+ const prev=await c.query<{reference:string}>("SELECT reference FROM reward_ledger WHERE member_id=$1 AND kind='ATTENDANCE' AND reference<$2 ORDER BY reference DESC LIMIT 120",[member,day]);
+ const dates=new Set(prev.rows.map(x=>x.reference));let date=previousDay(day),previousStreak=0;
+ while(dates.has(date)&&previousStreak<120){previousStreak++;date=previousDay(date)}
+ const streak=previousStreak+1,step=(streak-1)%7+1,amount=step*10;
+ await c.query("INSERT INTO reward_ledger(member_id,amount,kind,reference) VALUES($1,$2,'ATTENDANCE',$3)",[member,amount,day]);
+ await c.query("UPDATE reward_wallets SET balance=balance+$2,earned=earned+$2,updated_at=now() WHERE member_id=$1",[member,amount]);
+ const couponCount=(step===7?1:0)+(streak===30?5:0);
+ if(couponCount){
+ await c.query("INSERT INTO reward_spin_wallets(member_id) VALUES($1) ON CONFLICT DO NOTHING",[member]);
+ if(step===7)await c.query("INSERT INTO reward_spin_ledger(member_id,amount,reason,reference) VALUES($1,1,'ATTENDANCE_7',$2)",[member,day]);
+ if(streak===30)await c.query("INSERT INTO reward_spin_ledger(member_id,amount,reason,reference) VALUES($1,5,'ATTENDANCE_30',$2)",[member,day]);
+ await c.query("UPDATE reward_spin_wallets SET balance=balance+$2,earned=earned+$2 WHERE member_id=$1",[member,couponCount]);
+ }
+ if(streak===30){
+ // An earned 30-day badge is saved permanently. No client-supplied award is accepted.
+ await c.query("CREATE TABLE IF NOT EXISTS member_badges(member_id INTEGER NOT NULL REFERENCES members(id) ON DELETE CASCADE,badge_id VARCHAR(40) NOT NULL,awarded_at TIMESTAMPTZ NOT NULL DEFAULT now(),source VARCHAR(48) NOT NULL,PRIMARY KEY(member_id,badge_id))");
+ await c.query("INSERT INTO member_badges(member_id,badge_id,source) VALUES($1,'attendance_30','attendance') ON CONFLICT DO NOTHING",[member]);
+ }
+ await c.query("COMMIT");return {ok:true,already:false,day,amount,coupons:couponCount,streak};
+ }catch(e){await c.query("ROLLBACK");throw e}finally{c.release()}
 }
