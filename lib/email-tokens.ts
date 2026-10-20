@@ -5,7 +5,7 @@ export const validEmail=(x:string)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x)&&x.leng
 export function mailReady(){return Boolean(process.env.RESEND_API_KEY&&process.env.MAIL_FROM&&process.env.AUTH_SECRET)}
 export async function initTokens(){await query(`CREATE TABLE IF NOT EXISTS auth_tokens(id BIGSERIAL PRIMARY KEY,email TEXT NOT NULL,purpose TEXT NOT NULL CHECK (purpose IN ('verify','reset')),token_hash TEXT NOT NULL,expires_at TIMESTAMPTZ NOT NULL,attempts INT NOT NULL DEFAULT 0,consumed_at TIMESTAMPTZ,created_at TIMESTAMPTZ NOT NULL DEFAULT now());CREATE INDEX IF NOT EXISTS auth_tokens_lookup ON auth_tokens(email,purpose,created_at DESC)`)}
 
-const escapeHtml=(v:string)=>v.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\\\"":"&quot;","'":"&#39;"}[c]||c));
+const escapeHtml=(v:string)=>v.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]||c));
 function mailTemplate(title:string,content:string,preview:string){
  const logo="https://82coin-web-production.up.railway.app/82coin-header-logo.png";
  return `<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
