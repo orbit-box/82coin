@@ -2,6 +2,7 @@
 import {useRef,useState,useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {spinRouletteAnimated} from "@/lib/roulette-actions";
+import type {SpinResult} from "@/lib/roulette-actions";
 const values=[1,10,100,500,1000] as const;
 export default function SpinningWheel({enabled,canSpin,initialId}:{enabled:boolean;canSpin:boolean;initialId:string}){
  const router=useRouter();
@@ -11,7 +12,7 @@ export default function SpinningWheel({enabled,canSpin,initialId}:{enabled:boole
  async function play(){
   if(lock.current||!enabled||!canSpin)return;
   lock.current=true;setRolling(true);setResult(null);setMessage("");
-  const reply=await spinRouletteAnimated(requestId.current).catch(()=>({ok:false,message:"잠시 후 다시 시도해주세요."}));
+  const reply:SpinResult=await spinRouletteAnimated(requestId.current).catch(():SpinResult=>({ok:false,message:"잠시 후 다시 시도해주세요."}));
   if(!reply.ok||!reply.prize){setMessage(reply.message);setRolling(false);lock.current=false;return;}
   requestId.current=crypto.randomUUID();
   const index=values.indexOf(reply.prize as typeof values[number]);
