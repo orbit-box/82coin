@@ -10,6 +10,7 @@ export async function authAction(data:FormData){
  const mode=clean(data.get("mode"))==="register"?"register":"login";
  const email=clean(data.get("email")).toLowerCase(),password=String(data.get("password")||"");
  if(!validEmail(email)||email.length>254||password.length<8||password.length>128)fail("이메일과 8자 이상의 비밀번호를 확인해주세요.",mode);
+ if(mode==="register"&&process.env.ADMIN_EMAIL&&email===process.env.ADMIN_EMAIL.trim().toLowerCase()&&!mailReady())fail("관리자 이메일은 이메일 인증 설정 후 가입할 수 있습니다.",mode);
  if(mode==="register"&&clean(data.get("consent"))!=="yes")fail("필수 약관 및 개인정보 처리방침 동의가 필요합니다.",mode);
  const found=await query<{id:number;password_hash:string}>("SELECT id,password_hash FROM members WHERE email=$1",[email]);
  let id=0;
