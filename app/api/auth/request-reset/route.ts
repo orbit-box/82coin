@@ -7,8 +7,10 @@ export async function POST(req:Request){
  try{
   if(!mailReady())return response({ok:false,error:"이메일 발송 설정을 확인해주세요."},503);
   const origin=req.headers.get("origin");
-  const host=req.headers.get("x-forwarded-host")?.split(",")[0].trim()||req.headers.get("host")||new URL(req.url).host;
-  if(!origin||new URL(origin).host!==host)return response({ok:false,error:"올바르지 않은 요청입니다."},403);
+  const allowedHosts=[new URL(req.url).host,req.headers.get("host"),req.headers.get("x-forwarded-host")?.split(",")[0].trim(),process.env.RAILWAY_PUBLIC_DOMAIN].filter(Boolean);
+  let allowed=false;
+  try{const u=new URL(origin||"");allowed=(u.protocol==="https:"||(process.env.NODE_ENV!=="production"&&u.protocol==="http:"))&&allowedHosts.includes(u.host)}catch{}
+  if(!allowed)return response({ok:false,error:"올바르지 않은 요청입니다."},403);
   const {email}=await req.json();
   const addr=String(email||"").trim().toLowerCase();
   if(!validEmail(addr))return response({ok:false,error:"이메일 형식을 확인해주세요."},400);
