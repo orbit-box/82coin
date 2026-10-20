@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS reward_spin_ledger(id BIGSERIAL PRIMARY KEY,member_id
 CREATE INDEX IF NOT EXISTS reward_spin_member_idx ON reward_spin_ledger(member_id,created_at DESC);
 `);})().catch(e=>{initialized=undefined;throw e});await initialized;}
 export async function rewardOverview(member:number|null){
- await rewardSchema();const p=await db();const coupons=await p.query<{id:number;title:string;description:string;cost:string;stock:number}>("SELECT id,title,description,cost,stock FROM reward_coupons WHERE active=true AND stock>0 ORDER BY id DESC LIMIT 12");
+ await rewardSchema();const p=await db();await p.query("CREATE TABLE IF NOT EXISTS reward_coupon_images(coupon_id BIGINT PRIMARY KEY REFERENCES reward_coupons(id) ON DELETE CASCADE,content BYTEA NOT NULL,mime TEXT NOT NULL CHECK(mime IN ('image/png','image/jpeg','image/webp')),updated_at TIMESTAMPTZ NOT NULL DEFAULT now())");
+ const coupons=await p.query<{id:number;title:string;description:string;cost:string;stock:number;has_image:boolean}>("SELECT c.id,c.title,c.description,c.cost,c.stock,(i.coupon_id IS NOT NULL) has_image FROM reward_coupons c LEFT JOIN reward_coupon_images i ON i.coupon_id=c.id WHERE c.active=true AND c.stock>0 ORDER BY c.id DESC LIMIT 12");
  if(!member)return {wallet:null,attended:false,history:[],coupons:coupons.rows};
  const [wallet,attendance,ledger]=await Promise.all([
  p.query<{balance:string;earned:string}>("SELECT balance,earned FROM reward_wallets WHERE member_id=$1",[member]),
