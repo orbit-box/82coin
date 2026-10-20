@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {query} from "@/lib/db";
-import {Users,Coins,Ticket,Settings2,FileText,ArrowUpRight,ShieldCheck} from "lucide-react";
+import {Users,Coins,Ticket,Settings2,FileText,Gift,ArrowUpRight,ShieldCheck} from "lucide-react";
 export const dynamic="force-dynamic";
 export default async function Admin(){
  const [members,posts,reports]=await Promise.all([
@@ -11,6 +11,7 @@ export default async function Admin(){
  {href:"/admin/members",title:"회원 관리",text:"회원 검색, 이용정지, 정지 해제",icon:Users},
  {href:"/admin/rewards",title:"82토큰 관리",text:"토큰 지급·회수, 잔고, 지급 기록",icon:Coins},
  {href:"/admin/coupons",title:"룰렛 쿠폰",text:"참여권 지급·회수와 수량 조회",icon:Ticket},
+ {href:"/admin/catalog",title:"쿠폰 상품 관리",text:"상품 등록, 가격, 재고와 노출 설정",icon:Gift},
  {href:"/admin/roulette",title:"룰렛 설정",text:"보상 확률 초안, 운영 준비",icon:Settings2},
  {href:"/admin/content",title:"게시글·신고",text:"게시글 숨김, 복구, 신고 처리",icon:FileText}
  ];
