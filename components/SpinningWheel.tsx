@@ -46,8 +46,8 @@ export default function SpinningWheel({enabled,canSpin,initialId}:{enabled:boole
        return <g key={value}><path d={wedge(i)} fill={colors[i]}/><text x={c.x} y={c.y} textAnchor="middle" dominantBaseline="central" className="rouletteSvgLabel">{value.toLocaleString()}T</text></g>;
      })}
      <circle cx="150" cy="150" r="118" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="5 5" opacity=".85"/>
-     <circle cx="150" cy="150" r="59" fill="#fff" stroke="#d8eeff" strokeWidth="8"/>
-     <image href="/82token_256.png" x="102" y="102" width="96" height="96"/>
+     
+     <image href="/82token_256.png" x="94" y="94" width="112" height="112"/>
     </svg>
    </div>
   </div>
