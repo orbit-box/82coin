@@ -859,3 +859,14 @@ input,textarea,select,button{font-family:inherit}
 .rouletteSafety{display:flex;align-items:flex-start;gap:8px;padding:13px;background:#fff;border:1px solid #e0edf8;border-radius:9px;color:#65819c;font-size:12px;line-height:1.6;margin:22px 0}.rouletteSafety svg{flex:0 0 auto;color:#398fe0}
 .rouletteLinks{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.rouletteLinks>a{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;padding:12px 16px;border-radius:9px;font-size:13px;font-weight:800}
 @media(max-width:760px){.rouletteComingSoon{grid-template-columns:1fr;gap:8px;padding:25px 20px}.rouletteVisual{min-height:235px}.rouletteWheel{width:205px;height:205px}.rouletteWheelCenter{width:90px;height:90px}.rouletteWheelCenter img{width:72px;height:72px}}
+
+
+/* Roulette alignment polish: shared left edge and consistent vertical rhythm */
+.rouletteCopy{display:flex;flex-direction:column;align-items:flex-start;min-width:0;width:100%}
+.rouletteCopy .rouletteFlag{align-self:flex-start}
+.rouletteCopy h2{margin:18px 0 14px}
+.rouletteCopy>p{width:100%;max-width:100%;margin:0;line-height:1.85}
+.rouletteCopy .rouletteSafety{box-sizing:border-box;width:100%;margin:22px 0 16px;display:flex;align-items:center;min-height:50px}
+.rouletteCopy .rouletteLinks{display:flex;width:100%;justify-content:flex-start;align-items:stretch;gap:10px;margin:0}
+.rouletteCopy .rouletteLinks>a{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;height:46px;min-height:46px;padding:0 18px;margin:0;line-height:1.2;white-space:nowrap}
+@media(max-width:760px){.rouletteCopy{width:100%}.rouletteCopy .rouletteSafety{margin:18px 0 14px}.rouletteCopy .rouletteLinks{flex-direction:column;align-items:stretch}.rouletteCopy .rouletteLinks>a{width:100%;white-space:normal}}
