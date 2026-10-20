@@ -901,3 +901,25 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 .rouletteTopWinner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-radius:12px;background:#fff9e9;border:1px solid #f8e4a4;padding:17px 20px;color:#926519;margin-bottom:21px}.rouletteTopWinner strong{font-size:15px}.rouletteTopWinner small{margin-left:auto;color:#a68b52;font-size:11px}
 .rouletteWinnerList{display:grid}.rouletteWinnerRow{display:flex;align-items:center;gap:14px;padding:15px 3px;border-bottom:1px solid #edf2f8}.rouletteWinnerRow:last-child{border:0}.rouletteWinAvatar{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#e8f4ff;color:#2d8bda}.rouletteWinnerRow>div{flex:1;display:grid;gap:5px}.rouletteWinnerRow strong{font-size:13px;color:#1c324b}.rouletteWinnerRow small{font-size:11px;color:#90a0b3}.rouletteWinnerRow>b{color:#2386d5;font-size:15px}.rouletteHistoryEmpty{display:grid;justify-items:center;gap:10px;padding:34px 15px;color:#8fa4b8;text-align:center}.rouletteHistoryEmpty p{font-size:13px;margin:0}
 @media(max-width:600px){.rouletteWinnerSection{padding:20px 16px}.rouletteTopWinner{padding:15px}.rouletteTopWinner strong{font-size:13px}.rouletteTopWinner small{margin-left:0;width:100%}.rouletteWinnerRow>b{font-size:13px}.rouletteSpinForm{width:100%}.rouletteSpinForm .button{width:100%}}
+
+
+/* Animated roulette: fixed top indicator and five prize sectors */
+.rouletteInteractive{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0}
+.rouletteInteractive .rouletteVisual{position:relative;width:100%}
+.rouletteInteractive .rouletteVisual:after{content:"";position:absolute;z-index:3;top:calc(50% - 155px);left:50%;transform:translateX(-50%);border-left:14px solid transparent;border-right:14px solid transparent;border-top:32px solid #187bcf;filter:drop-shadow(0 2px 2px #0f529844);pointer-events:none}
+.rouletteAnimatedWheel{transition:transform 4.8s cubic-bezier(.10,.70,.12,1);will-change:transform}
+.rouletteAnimatedWheel:after{display:none}
+.rouletteAnimatedWheel .roulettePrizeLabel{position:absolute;left:50%;top:50%;z-index:2;color:#103f75;font-size:14px;font-weight:900;white-space:nowrap;text-shadow:0 1px 1px #fff9;pointer-events:none}
+.rouletteAnimatedWheel .rouletteWheelCenter{z-index:3}
+.rouletteDesktopSpin{margin:0!important;min-height:45px;border:0;white-space:nowrap}
+.rouletteMobileSpin{display:none!important}
+.rouletteReadyHint{font-size:13px!important;color:#358fe5!important;font-weight:750;margin:8px 0 0!important}
+.roulettePlayError{font-size:12px;color:#b43232;text-align:center}
+.rouletteResultOverlay{position:fixed;inset:0;z-index:150;background:#0d234aaa;display:grid;place-items:center;padding:20px}
+.rouletteResultCard{width:min(390px,100%);text-align:center;background:#fff;border-radius:20px;padding:34px 24px;box-shadow:0 30px 70px #102a5050}
+.rouletteResultSpark{font-size:30px;display:block;margin-bottom:9px}
+.rouletteResultCard h3{font-size:23px;color:#172c46;margin:0 0 15px}
+.rouletteResultCard strong{font-size:39px;font-weight:900;color:#288ae1;display:block}
+.rouletteResultCard p{color:#6d849b;font-size:13px;margin:12px 0 26px}
+.rouletteResultCard button{background:#358fe5;color:white;border:0;border-radius:10px;padding:13px 45px;font-weight:800}
+@media(max-width:760px){.rouletteInteractive .rouletteVisual:after{top:calc(50% - 122px)}.rouletteAnimatedWheel .roulettePrizeLabel{font-size:11px;transform-origin:center!important}.rouletteDesktopSpin{display:none!important}.rouletteMobileSpin{display:inline-flex!important;align-items:center;justify-content:center;margin:0!important;border:0;min-height:46px}.rouletteInteractive{gap:8px;width:100%}}
