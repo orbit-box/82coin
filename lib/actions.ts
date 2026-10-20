@@ -24,6 +24,7 @@ export async function authAction(data:FormData){
  try{const created=await query<{id:number}>("INSERT INTO members(email,name,password_hash) VALUES ($1,$2,$3) RETURNING id",[email,name,passwordHash(password)]);id=created.rows[0].id}catch(e){const code=(e as {code?:string})?.code;fail(code==="23505"?"이미 가입된 이메일입니다.":"회원가입을 완료하지 못했습니다.",mode)}
  }else{
  if(!found.rows.length||!verifyPassword(password,found.rows[0].password_hash))fail("이메일 또는 비밀번호를 확인해주세요.");
+ const access=await query<{suspended:boolean}>("SELECT suspended FROM members WHERE id=$1",[found.rows[0].id]);if(access.rows[0]?.suspended)fail("이용이 정지된 계정입니다. 운영자에게 문의해주세요.");
  id=found.rows[0].id;
  }
  (await cookies()).set("82coin_session",signSession(id),{httpOnly:true,secure:process.env.NODE_ENV==="production",sameSite:"lax",path:"/",maxAge:60*60*24*14});redirect("/community")
