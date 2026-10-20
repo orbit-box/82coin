@@ -826,3 +826,7 @@ input,textarea,select,button{font-family:inherit}
 /* Keep authenticated logout control visually consistent with header login link. */
 .headerLogoutForm{margin:0;display:flex;align-items:center}
 .headerLogoutForm .headerSignIn{font:inherit;cursor:pointer;white-space:nowrap}
+
+/* Password recovery: separate feedback from primary submit button. */
+.authInner>.authInlineNote{display:block;position:static;margin:15px 0 18px;padding:0 2px;line-height:1.7;font-size:12px;color:#4389c5}
+.authInner>.authSwitch{margin-top:18px}
