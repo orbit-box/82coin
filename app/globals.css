@@ -887,3 +887,8 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 @media(max-width:620px){.adminStandalone .adminCenter{width:calc(100% - 24px);padding-top:14px}.profileAdminActions{justify-content:flex-end}}
 
 .adminCatalogList{display:grid;gap:9px}.adminCatalogItem{border:1px solid #e2eaf4;border-radius:10px;padding:13px}.adminCatalogItem summary{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer}.adminCatalogItem summary b{font-size:13px}.adminCatalogItem summary span{font-size:11px;color:#7b8fa2}.adminCatalogItem form{margin-top:18px;border-top:1px solid #edf2f6;padding-top:14px}
+
+/* Coupon image uploads */
+.adminRewardForm input[type=file]{padding:11px;cursor:pointer;background:#f8fbff}
+.adminCatalogPreview{display:block;width:160px;height:160px;object-fit:contain;border:1px solid #e0e9f4;border-radius:12px;margin:15px 0;background:#f8fbff}
+.rewardCouponProductImage{width:100%;height:160px;object-fit:contain;background:#f7fbff;border:1px solid #e2edf8;border-radius:12px;display:block;margin-bottom:12px}
