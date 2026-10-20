@@ -25,7 +25,7 @@ export async function rewardOverview(member:number|null){
  return {wallet:{balance:Number(wallet.rows[0]?.balance??0),earned:Number(wallet.rows[0]?.earned??0)},attended:!!attendance.rowCount,history:ledger.rows,coupons:coupons.rows};
 }
 export async function attendanceDetails(member:number|null){
- const today=kstDay();const empty={today,attended:false,streak:0,monthCount:0,nextStep:1,nextReward:10,coupons:null as number|null,cycle:Array.from({length:7},(_,i)=>({step:i+1,reward:(i+1)*10,complete:false,current:i===0})),stampDays:[] as string[],daysUntilSeven:7};
+ const today=kstDay();const empty={today,attended:false,streak:0,completed:0,lastStep:null as number|null,monthCount:0,nextStep:1,nextReward:10,coupons:null as number|null,cycle:Array.from({length:7},(_,i)=>({step:i+1,reward:(i+1)*10,complete:false,current:i===0})),stampDays:[] as string[],daysUntilSeven:7};
  if(!member)return empty;
  await rewardSchema();const p=await db();
  const [a,b,c]=await Promise.all([
