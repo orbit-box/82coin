@@ -923,3 +923,17 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 .rouletteResultCard p{color:#6d849b;font-size:13px;margin:12px 0 26px}
 .rouletteResultCard button{background:#358fe5;color:white;border:0;border-radius:10px;padding:13px 45px;font-weight:800}
 @media(max-width:760px){.rouletteInteractive .rouletteVisual:after{top:calc(50% - 122px)}.rouletteAnimatedWheel .roulettePrizeLabel{font-size:11px;transform-origin:center!important}.rouletteDesktopSpin{display:none!important}.rouletteMobileSpin{display:inline-flex!important;align-items:center;justify-content:center;margin:0!important;border:0;min-height:46px}.rouletteInteractive{gap:8px;width:100%}}
+
+
+/* Precise SVG roulette geometry: all labels centered on five 72-degree sectors */
+.rouletteInteractive .rouletteVisual{width:100%;display:grid;place-items:center;min-height:305px}
+.rouletteSvgDisk{width:270px;height:270px;flex:none;filter:drop-shadow(0 12px 18px #267fd633);transform-origin:center center}
+.rouletteSvg{display:block;width:100%;height:100%;overflow:visible}
+.rouletteSvgLabel{font-family:Arial,"Malgun Gothic",sans-serif;font-size:15px;font-weight:900;fill:#164574;paint-order:stroke;stroke:#ffffff55;stroke-width:.8px}
+.rouletteInteractive .rouletteVisual:after{top:calc(50% - 165px)}
+@media(max-width:760px){
+ .rouletteInteractive .rouletteVisual{min-height:235px}
+ .rouletteSvgDisk{width:205px;height:205px}
+ .rouletteInteractive .rouletteVisual:after{top:calc(50% - 134px)}
+ .rouletteSvgLabel{font-size:15px}
+}
