@@ -1,8 +1,8 @@
+import {attendanceState,awardForStreak,kstDate,streakBefore} from "./attendance-rules.mjs";
 import {db} from "@/lib/db";
 import {sessionId} from "@/lib/auth";
 export const ATTENDANCE_REWARD=10;
-export function kstDay(d=new Date()){return new Intl.DateTimeFormat("sv-SE",{timeZone:"Asia/Seoul",year:"numeric",month:"2-digit",day:"2-digit"}).format(d)}
-const previousDay=(day:string)=>{const d=new Date(day+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-1);return d.toISOString().slice(0,10)};
+export function kstDay(d=new Date()){return kstDate(d)}
 let initialized:Promise<void>|undefined;
 export async function rewardSchema(){if(!initialized)initialized=(async()=>{const p=await db();await p.query(`
 CREATE TABLE IF NOT EXISTS reward_wallets(member_id INTEGER PRIMARY KEY REFERENCES members(id) ON DELETE CASCADE,balance BIGINT NOT NULL DEFAULT 0 CHECK(balance>=0),earned BIGINT NOT NULL DEFAULT 0 CHECK(earned>=0),updated_at TIMESTAMPTZ NOT NULL DEFAULT now());
@@ -29,40 +29,39 @@ export async function attendanceDetails(member:number|null){
  if(!member)return empty;
  await rewardSchema();const p=await db();
  const [a,b,c]=await Promise.all([
- p.query<{reference:string}>("SELECT reference FROM reward_ledger WHERE member_id=$1 AND kind='ATTENDANCE' AND reference<=$2 ORDER BY reference DESC LIMIT 120",[member,today]),
+ p.query<{reference:string}>("SELECT reference FROM reward_ledger WHERE member_id=$1 AND kind='ATTENDANCE' AND reference<=$2 ORDER BY reference DESC",[member,today]),
  p.query<{balance:number}>("SELECT balance FROM reward_spin_wallets WHERE member_id=$1",[member]),
  p.query<{n:number}>("SELECT count(*)::int n FROM reward_ledger WHERE member_id=$1 AND kind='ATTENDANCE' AND reference LIKE $2",[member,today.slice(0,7)+"%"])
  ]);
- const stamps=a.rows.map(r=>r.reference),set=new Set(stamps),attended=set.has(today);let date=attended?today:previousDay(today),streak=0;
- while(set.has(date)&&streak<120){streak++;date=previousDay(date)}
- const nextStep=attended?(streak%7)+1:(streak%7)+1;
- const completed=attended?((streak-1)%7)+1:streak%7;
- return {today,attended,streak,monthCount:c.rows[0]?.n??0,nextStep,nextReward:nextStep*10,coupons:b.rows[0]?.balance??0,cycle:Array.from({length:7},(_,i)=>({step:i+1,reward:(i+1)*10,complete:i<completed,current:!attended&&i===completed})),stampDays:stamps,daysUntilSeven:attended&&streak%7===0?0:7-(streak%7)};
+ const stamps=a.rows.map(r=>r.reference);const state=attendanceState(stamps,today);
+ return {...state,today,monthCount:c.rows[0]?.n??0,coupons:b.rows[0]?.balance??0,stampDays:stamps};
+
 }
 export async function claimAttendance(){
  const member=await sessionId();if(!member)throw Error("로그인이 필요합니다.");
- await rewardSchema();const pool=await db(),c=await pool.connect();const day=kstDay();
+ await rewardSchema();const pool=await db(),c=await pool.connect();
  try{
  await c.query("BEGIN");
  // Serialize rewards for the same member, including duplicate concurrent requests.
  await c.query("SELECT pg_advisory_xact_lock($1)",[member]);
+ const dayResult=await c.query<{day:string}>(`SELECT to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD') AS day`);
+ const day=dayResult.rows[0].day;
  await c.query("INSERT INTO reward_wallets(member_id) VALUES($1) ON CONFLICT DO NOTHING",[member]);
  const check=await c.query("SELECT id FROM reward_ledger WHERE member_id=$1 AND kind='ATTENDANCE' AND reference=$2",[member,day]);
  if(check.rowCount){await c.query("COMMIT");return {ok:true,already:true,day,amount:0,coupons:0};}
- const prev=await c.query<{reference:string}>("SELECT reference FROM reward_ledger WHERE member_id=$1 AND kind='ATTENDANCE' AND reference<$2 ORDER BY reference DESC LIMIT 120",[member,day]);
- const dates=new Set(prev.rows.map(x=>x.reference));let date=previousDay(day),previousStreak=0;
- while(dates.has(date)&&previousStreak<120){previousStreak++;date=previousDay(date)}
- const streak=previousStreak+1,step=(streak-1)%7+1,amount=step*10;
+ const prev=await c.query<{reference:string}>("SELECT reference FROM reward_ledger WHERE member_id=$1 AND kind='ATTENDANCE' AND reference<$2 ORDER BY reference DESC",[member,day]);
+ const streak=streakBefore(prev.rows.map(x=>x.reference),day)+1;
+ const reward=awardForStreak(streak);const {step,amount}=reward;
  await c.query("INSERT INTO reward_ledger(member_id,amount,kind,reference) VALUES($1,$2,'ATTENDANCE',$3)",[member,amount,day]);
  await c.query("UPDATE reward_wallets SET balance=balance+$2,earned=earned+$2,updated_at=now() WHERE member_id=$1",[member,amount]);
- const couponCount=(step===7?1:0)+(streak===30?5:0);
+ const couponCount=reward.coupons;
  if(couponCount){
  await c.query("INSERT INTO reward_spin_wallets(member_id) VALUES($1) ON CONFLICT DO NOTHING",[member]);
- if(step===7)await c.query("INSERT INTO reward_spin_ledger(member_id,amount,reason,reference) VALUES($1,1,'ATTENDANCE_7',$2)",[member,day]);
- if(streak===30)await c.query("INSERT INTO reward_spin_ledger(member_id,amount,reason,reference) VALUES($1,5,'ATTENDANCE_30',$2)",[member,day]);
+ if(reward.sevenCoupon)await c.query("INSERT INTO reward_spin_ledger(member_id,amount,reason,reference) VALUES($1,1,'ATTENDANCE_7',$2)",[member,day]);
+ if(reward.thirtyCoupon)await c.query("INSERT INTO reward_spin_ledger(member_id,amount,reason,reference) VALUES($1,5,'ATTENDANCE_30',$2)",[member,day]);
  await c.query("UPDATE reward_spin_wallets SET balance=balance+$2,earned=earned+$2 WHERE member_id=$1",[member,couponCount]);
  }
- if(streak===30){
+ if(reward.badge){
  // An earned 30-day badge is saved permanently. No client-supplied award is accepted.
  await c.query("CREATE TABLE IF NOT EXISTS member_badges(member_id INTEGER NOT NULL REFERENCES members(id) ON DELETE CASCADE,badge_id VARCHAR(40) NOT NULL,awarded_at TIMESTAMPTZ NOT NULL DEFAULT now(),source VARCHAR(48) NOT NULL,PRIMARY KEY(member_id,badge_id))");
  await c.query("INSERT INTO member_badges(member_id,badge_id,source) VALUES($1,'attendance_30','attendance') ON CONFLICT DO NOTHING",[member]);
