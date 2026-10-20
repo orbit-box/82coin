@@ -3,7 +3,7 @@ import {randomUUID} from "node:crypto";
 import RewardNav from "@/components/RewardNav";
 import {sessionId} from "@/lib/auth";
 import {rouletteData} from "@/lib/roulette";
-import {spinRoulette} from "@/lib/roulette-actions";
+import SpinningWheel from "@/components/SpinningWheel";
 import {Ticket,Trophy,History,ShieldCheck} from "lucide-react";
 export const dynamic="force-dynamic";
 export const metadata={title:"82 룰렛 | 82coin"};
@@ -15,13 +15,13 @@ export default async function Roulette({searchParams}:{searchParams:Promise<{not
  <RewardNav current="/benefits/roulette"/>
  {params.notice&&<p className="rewardNotice" role="status">{params.notice.slice(0,160)}</p>}
  <section className="rouletteComingSoon rouletteLivePanel">
-  <div className="rouletteVisual" aria-hidden="true"><div className="rouletteWheel"><div className="rouletteWheelCenter"><img src="/82token_256.png" alt="" width="90" height="90"/></div></div></div>
+  <SpinningWheel enabled={data.enabled} canSpin={Boolean(user&&data.coupons>0)} initialId={randomUUID()}/>
   <div className="rouletteCopy">
    <span className="rouletteFlag"><Ticket size={15}/>{data.enabled?"82 룰렛 운영 중":"룰렛 운영 준비 중"}</span>
    <h2>{data.enabled?"오늘의 행운을 확인하세요!":"룰렛 오픈을 기다려 주세요!"}</h2>
    <p>룰렛 쿠폰 1장으로 행운에 도전하고 82토큰을 받아보세요!</p>
    <div className="rouletteSafety"><ShieldCheck size={18}/><span>보유 룰렛 쿠폰 <b>{user?data.coupons:"로그인 필요"}</b>{user?"장":""}</span></div>
-   {data.enabled&&user&&data.coupons>0?<form action={spinRoulette} className="rouletteSpinForm"><input type="hidden" name="operationId" value={randomUUID()}/><button className="button" type="submit">쿠폰 1장으로 룰렛 돌리기 →</button></form>:<div className="rouletteLinks"><Link className="button" href={user?"/benefits/attendance":"/login"}>{user?"출석체크 하러 가기":"로그인 후 참여"}</Link><Link className="subtleButton" href="/benefits/wallet">토큰함 살펴보기 →</Link></div>}
+   {data.enabled&&user&&data.coupons>0?<p className="rouletteReadyHint">왼쪽 룰렛의 참여 버튼을 눌러보세요!</p>:<div className="rouletteLinks"><Link className="button" href={user?"/benefits/attendance":"/login"}>{user?"출석체크 하러 가기":"로그인 후 참여"}</Link><Link className="subtleButton" href="/benefits/wallet">토큰함 살펴보기 →</Link></div>}
   </div>
  </section>
  <section className="rouletteWinnerSection">
