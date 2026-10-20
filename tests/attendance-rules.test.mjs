@@ -1,0 +1,14 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {attendanceState,awardForStreak,kstDate,previousDay,streakBefore} from "../lib/attendance-rules.mjs";
+const makeDays=(end,length)=>{const arr=[];let day=end;for(let i=0;i<length;i++){arr.push(day);day=previousDay(day)}return arr};
+test("first day awards 10T",()=>{const s=attendanceState([],"2026-10-20");assert.equal(s.nextReward,10);assert.equal(awardForStreak(1).amount,10)});
+test("seventh day 70T plus exactly one spin coupon",()=>{const s=attendanceState(makeDays("2026-10-19",6),"2026-10-20");assert.equal(s.nextReward,70);assert.equal(s.completed,6);const a=awardForStreak(7);assert.deepEqual([a.amount,a.coupons,a.sevenCoupon,a.thirtyCoupon],[70,1,true,false]);const done=attendanceState(makeDays("2026-10-20",7),"2026-10-20");assert.equal(done.completed,7);assert.equal(done.daysUntilSeven,0);assert.equal(done.cycle[6].complete,true)});
+test("eighth day resets to 10T while full streak continues",()=>{const before=attendanceState(makeDays("2026-10-19",7),"2026-10-20");assert.deepEqual([before.streak,before.nextReward,before.completed],[7,10,0]);const done=attendanceState(makeDays("2026-10-20",8),"2026-10-20");assert.equal(done.streak,8);assert.equal(done.completed,1);assert.equal(awardForStreak(8).amount,10)});
+test("missed day resets streak and does not claw back previous awards",()=>{const state=attendanceState(makeDays("2026-10-17",7),"2026-10-20");assert.deepEqual([state.streak,state.nextReward,state.completed],[0,10,0])});
+test("30 day milestone awards five coupons and badge exactly at day 30",()=>{const award=awardForStreak(30);assert.deepEqual([award.amount,award.coupons,award.badge,award.thirtyCoupon],[20,5,true,true]);assert.equal(awardForStreak(31).badge,false);assert.equal(awardForStreak(31).coupons,0)});
+test("49 day milestone awards seven-day coupon, independent of thirty-day badge",()=>{const award=awardForStreak(49);assert.equal(award.coupons,1);assert.equal(award.badge,false)});
+test("streaks remain accurate beyond previous 120-day cap",()=>assert.equal(streakBefore(makeDays("2026-10-19",155),"2026-10-20"),155));
+test("KST midnight boundary, just before and at 00:00",()=>{assert.equal(kstDate(new Date("2026-10-19T14:59:59.000Z")),"2026-10-19");assert.equal(kstDate(new Date("2026-10-19T15:00:00.000Z")),"2026-10-20")});
+test("year and month transition",()=>{assert.equal(previousDay("2027-01-01"),"2026-12-31");assert.equal(streakBefore(["2026-12-31","2026-12-30"],"2027-01-01"),2)});
+test("duplicate attendance date cannot increment streak",()=>{const s=attendanceState(["2026-10-20","2026-10-20","2026-10-19"],"2026-10-20");assert.equal(s.streak,2);assert.equal(s.nextReward,0)});
