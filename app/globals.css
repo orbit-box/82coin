@@ -822,3 +822,7 @@ input,textarea,select,button{font-family:inherit}
 .authForm>.authCodeCheck{display:block;width:100%;position:relative;min-height:46px;flex-shrink:0;margin:0 0 0}
 .authForm>.authHint{display:block;position:static;margin:9px 0 20px;line-height:1.6;min-height:18px;color:#7d8c9d}
 .authForm>.authCodeCheck+.authHint{margin-top:10px}
+
+/* Keep authenticated logout control visually consistent with header login link. */
+.headerLogoutForm{margin:0;display:flex;align-items:center}
+.headerLogoutForm .headerSignIn{font:inherit;cursor:pointer;white-space:nowrap}
