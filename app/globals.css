@@ -885,3 +885,5 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 .profileAdminActions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .profileAdminActions .button{margin:0}
 @media(max-width:620px){.adminStandalone .adminCenter{width:calc(100% - 24px);padding-top:14px}.profileAdminActions{justify-content:flex-end}}
+
+.adminCatalogList{display:grid;gap:9px}.adminCatalogItem{border:1px solid #e2eaf4;border-radius:10px;padding:13px}.adminCatalogItem summary{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer}.adminCatalogItem summary b{font-size:13px}.adminCatalogItem summary span{font-size:11px;color:#7b8fa2}.adminCatalogItem form{margin-top:18px;border-top:1px solid #edf2f6;padding-top:14px}
