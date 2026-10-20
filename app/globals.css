@@ -960,3 +960,32 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 .paperTerminalToPreview{background:#358fe5;color:#fff;font-weight:800;text-align:center;text-decoration:none;padding:13px 10px;border-radius:10px;font-size:12px}
 @media(max-width:1020px){.paperTerminalLayout{grid-template-columns:minmax(0,1fr)}.paperTerminalSide{gap:10px}.paperTerminalNumbers{grid-template-columns:1fr auto}}
 @media(max-width:560px){.paperTerminalChart{padding:10px 7px}.paperChartToolbar{padding:9px 5px}.paperSymbolTabs button,.paperIntervalTabs button{font-size:11px;padding:8px}.paperTerminalSide{padding:20px}.paperChartFootnote{padding-left:7px}}
+
+
+/* Integrated paper order book: chart + order entry, positions below */
+.paperTerminalLayout{grid-template-columns:minmax(0,1fr) 335px;align-items:stretch}
+.paperOrderSide{gap:13px}
+.paperOrderSide .paperOrderBalance{display:grid;gap:7px;padding:12px 0;border-bottom:1px solid #e8eef5}
+.paperOrderBalance span{font-size:12px;color:#7c92a6}
+.paperOrderBalance strong{font-size:23px;color:#18334f}
+.paperOrderSide .paperTradePreview{padding:0;border:0;border-radius:0;box-shadow:none;background:transparent;margin:0;min-width:0}
+.paperOrderSide .paperPreviewHead{gap:8px;flex-wrap:wrap}
+.paperOrderSide .paperPreviewHead h2{font-size:16px}
+.paperOrderSide .paperPreviewHead p{font-size:11px}
+.paperOrderSide .paperPreviewGrid{grid-template-columns:1fr 1fr;gap:10px}
+.paperOrderSide .paperPreviewGrid label{min-width:0;font-size:11px}
+.paperOrderSide .paperPreviewGrid select,.paperOrderSide .paperPreviewGrid input{width:100%;box-sizing:border-box}
+.paperOrderSide .paperPreviewGrid label:nth-child(n+3){grid-column:1 / -1}
+.paperOrderSide .paperPreviewButton{width:100%}
+.paperOrderSide .paperPreviewResult{grid-template-columns:1fr}
+.paperOrderSide .paperNotice{font-size:11px;line-height:1.65}
+.paperOrderLogin{display:grid;gap:14px}
+.paperOrderLogin p{color:#71869b;font-size:13px;line-height:1.7}
+.paperPositionStrip{background:#fff;border:1px solid #e3eaf3;border-radius:16px;padding:20px 24px;margin-bottom:24px}
+.paperPositionStrip h2{font-size:18px;margin:0 0 13px}
+.paperPositionStrip>p{font-size:12px;color:#859aac}
+.paperPositionRow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-top:1px solid #edf2f7;padding:13px 0;font-size:12px;color:#54718a}
+.paperPositionRow strong{color:#203d5a}
+.paperPositionRow small{margin-left:auto;color:#98a8b6}
+@media(max-width:1020px){.paperTerminalLayout{grid-template-columns:minmax(0,1fr)}.paperOrderSide .paperPreviewGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.paperOrderSide .paperPreviewGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.paperPositionStrip{padding:16px}}
