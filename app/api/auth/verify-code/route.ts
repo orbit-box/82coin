@@ -4,7 +4,11 @@ export const dynamic="force-dynamic";
 export async function POST(req:Request){
  try{
  if(!mailReady())return NextResponse.json({verified:false,message:"이메일 발송 설정이 완료되지 않았습니다."},{status:503});
- const origin=req.headers.get("origin");if(!origin||new URL(origin).origin!==new URL(req.url).origin)return NextResponse.json({verified:false,message:"요청 출처를 확인할 수 없습니다."},{status:403});
+ const origin=req.headers.get("origin");
+ const allowedHosts=[new URL(req.url).host,req.headers.get("host"),req.headers.get("x-forwarded-host")?.split(",")[0].trim(),process.env.RAILWAY_PUBLIC_DOMAIN].filter(Boolean);
+ let trustedOrigin=false;
+ try{const u=new URL(origin||"");trustedOrigin=(u.protocol==="https:"||(process.env.NODE_ENV!=="production"&&u.protocol==="http:"))&&allowedHosts.includes(u.host)}catch{}
+ if(!trustedOrigin)return NextResponse.json({verified:false,message:"요청 출처를 확인할 수 없습니다."},{status:403});
  const b=await req.json() as {email?:unknown;code?:unknown};
  const email=String(b.email||"").trim().toLowerCase(),code=String(b.code||"");
  if(!validEmail(email)||!/^[0-9]{6}$/.test(code))return NextResponse.json({verified:false,message:"이메일과 6자리 인증번호를 확인하세요."},{status:400});
