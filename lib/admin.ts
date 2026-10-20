@@ -1,2 +1,2 @@
-import {query} from "./db";import {sessionId} from "./auth";
-export async function currentAdmin(){const id=await sessionId();if(!id)return null;const r=await query<{email:string;role:string}>("SELECT email,role FROM members WHERE id=$1",[id]);if(r.rows[0]&&(r.rows[0].role==="admin"||Boolean(process.env.ADMIN_EMAIL&&r.rows[0].email.toLowerCase()===process.env.ADMIN_EMAIL.toLowerCase())))return id;return null}
+import {adminId} from "./admin-auth";
+export const currentAdmin=adminId;
