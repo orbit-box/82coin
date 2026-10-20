@@ -1,3 +1,21 @@
-import {adminId} from "@/lib/admin-auth";import {query} from "@/lib/db";import Link from "next/link";import {moderate} from "@/lib/moderation";
+import Link from "next/link";
+import {query} from "@/lib/db";
+import {Users,Coins,Ticket,Settings2,FileText,ArrowUpRight,ShieldCheck} from "lucide-react";
 export const dynamic="force-dynamic";
-export default async function Admin(){const id=await adminId();if(!id)return <div className="panel"><h1>관리자 접근</h1><p>로그인이 필요합니다.</p><Link href="/login" className="inlineLink">로그인</Link></div>;const [members,posts,reports]=await Promise.all([query<{count:string}>("SELECT count(*) FROM members"),query<{count:string}>("SELECT count(*) FROM posts"),query<{id:number;reason:string;status:string;created_at:Date;post_id:number}>("SELECT id,reason,status,created_at,post_id FROM reports ORDER BY created_at DESC LIMIT 20")]);return <><section className="pageHeading"><div><span className="eyebrow">82COIN ADMIN</span><h1>운영 대시보드</h1><p>운영 현황과 사용자 신고 접수 상태를 확인합니다.</p></div></section><div className="panel"><h2>리워드 운영</h2><p>82토큰 지급·회수, 회원별 잔고 및 쿠폰 내역, 관리자 감사 기록을 확인합니다.</p><Link className="button" href="/admin/rewards">82토큰 관리하기 →</Link></div><div className="grid two"><div className="panel"><span className="label">전체 회원</span><h2>{members.rows[0].count}명</h2></div><div className="panel"><span className="label">전체 게시글</span><h2>{posts.rows[0].count}개</h2></div></div><div className="panel"><h2>최근 신고</h2>{reports.rows.length?reports.rows.map(x=><div className="adminReport" key={x.id}><p>신고 #{x.id} · 게시글 #{x.post_id} · {x.reason} · {x.status}</p><div className="actionRow"><form action={moderate}><input type="hidden" name="target" value={x.post_id}/><button type="submit" name="action" value="hide" className="subtleButton">글 숨김</button><button type="submit" name="action" value="show" className="subtleButton">숨김 해제</button></form><form action={moderate}><input type="hidden" name="target" value={x.id}/><button name="action" value="resolve" className="subtleButton">처리 완료</button></form></div></div>):<p>접수된 신고가 없습니다.</p>}</div><p className="hint">운영자 계정은 Railway ADMIN_EMAIL 환경변수로 지정합니다. 제재·정산·광고 편집 등 고급 운영 기능은 추가 구현 대상입니다.</p></>}
+export default async function Admin(){
+ const [members,posts,reports]=await Promise.all([
+ query<{n:string}>("SELECT count(*)::text n FROM members"),
+ query<{n:string}>("SELECT count(*)::text n FROM posts"),
+ query<{n:string}>("SELECT count(*)::text n FROM reports WHERE status='open'")]);
+ const links=[
+ {href:"/admin/members",title:"회원 관리",text:"회원 검색, 이용정지, 정지 해제",icon:Users},
+ {href:"/admin/rewards",title:"82토큰 관리",text:"토큰 지급·회수, 잔고, 지급 기록",icon:Coins},
+ {href:"/admin/coupons",title:"룰렛 쿠폰",text:"참여권 지급·회수와 수량 조회",icon:Ticket},
+ {href:"/admin/roulette",title:"룰렛 설정",text:"보상 확률 초안, 운영 준비",icon:Settings2},
+ {href:"/admin/content",title:"게시글·신고",text:"게시글 숨김, 복구, 신고 처리",icon:FileText}
+ ];
+ return <><div className="adminPageTitle"><span>82COIN CONTROL CENTER</span><h1>운영 대시보드</h1><p>필요한 메뉴를 눌러 사이트를 관리하세요.</p></div>
+ <div className="adminKpi"><div><small>전체 회원</small><strong>{members.rows[0]?.n||0}</strong><span>명</span></div><div><small>전체 게시글</small><strong>{posts.rows[0]?.n||0}</strong><span>개</span></div><div><small>미처리 신고</small><strong>{reports.rows[0]?.n||0}</strong><span>건</span></div></div>
+ <h2 className="adminSectionHeading">무엇을 관리할까요?</h2><div className="adminMenuCards">{links.map(x=><Link href={x.href} key={x.href}><span className="adminMenuIcon"><x.icon size={23}/></span><strong>{x.title}</strong><small>{x.text}</small><ArrowUpRight size={18} className="adminCardArrow"/></Link>)}</div>
+ <div className="adminNotice"><ShieldCheck size={20}/><span>관리자 계정 전용 · 변경 작업은 서버에서 다시 권한을 검사하며 주요 자산 변경은 원장에 기록됩니다.</span></div></>;
+}
