@@ -937,3 +937,26 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
  .rouletteInteractive .rouletteVisual:after{top:calc(50% - 134px)}
  .rouletteSvgLabel{font-size:15px}
 }
+
+
+/* Paper futures terminal — calm brokerage-inspired UI and exchange trading conventions */
+.paperTerminalLayout{display:grid;grid-template-columns:minmax(0,1fr) 294px;gap:16px;align-items:stretch;margin:24px 0 30px}
+.paperTerminalChart,.paperTerminalSide{background:#fff;border:1px solid #e3eaf3;border-radius:17px;min-width:0}
+.paperTerminalChart{position:relative;padding:18px 18px 12px}
+.paperChartToolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;padding-bottom:16px}
+.paperSymbolTabs,.paperIntervalTabs{display:flex;gap:4px;flex-wrap:wrap}
+.paperSymbolTabs button,.paperIntervalTabs button{border:0;border-radius:8px;padding:9px 12px;background:transparent;font-weight:750;font-size:12px;color:#7991a9;cursor:pointer}
+.paperSymbolTabs button.selected{color:#257ed5;background:#e9f4ff}.paperIntervalTabs button.selected{color:#163f65;background:#f1f5fa}
+.paperChartCanvas{min-height:410px}.paperChartFootnote{margin:12px 0 0;border-top:1px solid #eff3f8;padding-top:12px;font-size:11px;line-height:1.6;color:#91a2b6}
+.paperChartLoading{position:absolute;top:75px;right:22px;background:#eaf5ff;padding:7px 11px;border-radius:8px;color:#3485ce;font-size:11px}
+.paperTerminalSide{display:flex;flex-direction:column;gap:12px;padding:27px 23px}
+.paperTerminalSideLabel{font-size:11px;font-weight:850;color:#358fe5;letter-spacing:1.3px}
+.paperTerminalSide h2{font-size:20px;margin:4px 0 0;color:#19334a}
+.paperTerminalSide>strong{font-size:29px;font-weight:900;color:#172d43;letter-spacing:-1px}
+.paperTerminalSide>p{font-size:12px;color:#879bb0;margin:0 0 9px}
+.paperTerminalNumbers{border-top:1px solid #e9eff5;border-bottom:1px solid #e9eff5;padding:19px 0;display:grid;grid-template-columns:1fr auto;gap:15px 8px;font-size:12px}
+.paperTerminalNumbers span{color:#7e93a8}.paperTerminalNumbers b{color:#244259}
+.paperTerminalOrderStatus{margin-top:auto;background:#f2f7fc;padding:13px;border-radius:9px;color:#64829e;font-size:12px;line-height:1.5}
+.paperTerminalToPreview{background:#358fe5;color:#fff;font-weight:800;text-align:center;text-decoration:none;padding:13px 10px;border-radius:10px;font-size:12px}
+@media(max-width:1020px){.paperTerminalLayout{grid-template-columns:minmax(0,1fr)}.paperTerminalSide{gap:10px}.paperTerminalNumbers{grid-template-columns:1fr auto}}
+@media(max-width:560px){.paperTerminalChart{padding:10px 7px}.paperChartToolbar{padding:9px 5px}.paperSymbolTabs button,.paperIntervalTabs button{font-size:11px;padding:8px}.paperTerminalSide{padding:20px}.paperChartFootnote{padding-left:7px}}
