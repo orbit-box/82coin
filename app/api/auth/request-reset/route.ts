@@ -17,7 +17,7 @@ export async function POST(req:Request){
   const exists=await query("SELECT id FROM members WHERE email=$1 LIMIT 1",[addr]);
   if(!exists.rowCount)return response({ok:false,error:"등록되지 않은 이메일 주소입니다. 주소를 확인하거나 회원가입을 진행해주세요."},404);
   try{
-   await newToken(addr,"reset",new URL(origin).origin);
+   await newToken(addr,"reset",new URL(origin||req.url).origin);
    return response({ok:true,message:"비밀번호 재설정 메일을 발송했습니다. 받은편지함과 스팸함을 확인해주세요."});
   }catch(e){
    if((e as Error).message==="TOO_SOON")return response({ok:false,error:"최근에 재설정 메일을 발송했습니다. 90초 후 다시 시도하거나 기존 메일을 확인해주세요."},429);
