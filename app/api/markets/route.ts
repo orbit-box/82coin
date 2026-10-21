@@ -13,7 +13,7 @@ const eligibleSymbols=new Set(Object.keys(coinIds).filter(t=>!["USDT","USDC"].in
 const minForeignQuoteVolume=100000; // USDT, trailing 24 hours
 const minDomesticVolume=100000000; // KRW, trailing 24 hours
 async function foreignQuotes(){
- const endpoints=["https://api.binance.com/api/v3/ticker/24hr","https://data-api.binance.vision/api/v3/ticker/24hr","https://api1.binance.com/api/v3/ticker/24hr"];
+ const endpoints=["https://data-api.binance.vision/api/v3/ticker/24hr","https://api.binance.com/api/v3/ticker/24hr","https://api1.binance.com/api/v3/ticker/24hr"];
  for(const url of endpoints){try{
  const quotes=await json<{symbol:string;lastPrice:string;quoteVolume:string;count:number}[]>(url,5000);
  const p=new Map<string,number>();
@@ -36,7 +36,7 @@ async function fxRate(){
 
 const respond=(snap:Snapshot,stale=false)=>NextResponse.json({coins:snap.coins,source:snap.source,updatedAt:new Date(snap.at).toISOString(),usdKrw:snap.fx,foreignSource:snap.foreignSource,premiumCoverage:snap.coverage,sourceUpdatedAt:snap.sourceAt?new Date(snap.sourceAt).toISOString():null,fxUpdatedAt:snap.fxAt?new Date(snap.fxAt).toISOString():null,fxSource:snap.fxSource,stale:stale||!snap.sourceAt||Date.now()-snap.sourceAt>120000},{headers:{"Cache-Control":"public, s-maxage=15, stale-while-revalidate=10"}});
 export async function GET(){try{
- if(cached&&Date.now()-cached.at<25000)return respond(cached);
+ if(cached&&Date.now()-cached.at<25000&&cached.sourceAt&&Date.now()-cached.sourceAt<120000)return respond(cached);
  const [markets,foreign,exchange]=await Promise.all([json<Market[]>("https://api.upbit.com/v1/market/all?isDetails=false"),foreignQuotes(),fxRate()]);
  const krw=markets.filter(x=>x.market.startsWith("KRW-"));if(!krw.length)throw Error("No KRW markets");
  const batches:Market[][]=[];for(let i=0;i<krw.length;i+=80)batches.push(krw.slice(i,i+80));
