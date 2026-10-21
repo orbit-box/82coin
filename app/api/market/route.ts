@@ -11,7 +11,7 @@ export async function GET(){
  try{
   const [domestic,foreign,fx]=await Promise.allSettled([
    json<Ticker[]>("https://api.upbit.com/v1/ticker?markets="+codes.map(t=>"KRW-"+t).join("%2C")),
-   json<Binance[]>("https://api.binance.com/api/v3/ticker/price"),
+   json<Binance[]>("https://data-api.binance.vision/api/v3/ticker/price"),
    json<{rates?:{KRW?:number};time_last_update_unix?:number}>("https://open.er-api.com/v6/latest/USD")
   ]);
   if(domestic.status!=="fulfilled"||!Array.isArray(domestic.value))throw Error("Upbit ticker unavailable");
