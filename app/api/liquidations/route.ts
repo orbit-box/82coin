@@ -20,6 +20,6 @@ export async function GET(request:Request){
  for(const r of rows.rows){const amount=Number(r.amount);if(!Number.isFinite(amount))continue;const side=r.position_side as "LONG"|"SHORT";totals[side]+=amount;(byVenue[r.venue]??={LONG:0,SHORT:0})[side]+=amount}
  const total=totals.LONG+totals.SHORT;
  const complete=totalCoverage>=95&&sourcesData.every(s=>s.connected);
- return NextResponse.json({available:true,periodHours:hours,ticker,windowComplete:complete,coveragePct:totalCoverage,sources:sourcesData,byVenue,longUsd:totals.LONG,shortUsd:totals.SHORT,totalUsd:total,longPct:total>0?totals.LONG/total*100:null,shortPct:total>0?totals.SHORT/total*100:null,updatedAt:new Date().toISOString(),label:"82coin 관측 청산 규모",disclaimer:"Binance 청산 스트림은 구간별 스냅샷이므로 실제 전체 청산 총액이 아닙니다. 거래소별 관측 범위가 서로 다르고 수집 누락 가능성이 있습니다."},{headers:{"Cache-Control":"public, s-maxage=10"}});
+ return NextResponse.json({available:sourcesData.some(s=>s.connected),periodHours:hours,ticker,windowComplete:complete,coveragePct:totalCoverage,sources:sourcesData,byVenue,longUsd:totals.LONG,shortUsd:totals.SHORT,totalUsd:total,longPct:total>0?totals.LONG/total*100:null,shortPct:total>0?totals.SHORT/total*100:null,updatedAt:new Date().toISOString(),label:"수집기 관측 청산 규모 (실제 전체 청산액 아님)",disclaimer:"Binance 청산 스트림은 구간별 스냅샷이므로 실제 전체 청산 총액이 아닙니다. 거래소별 관측 범위가 서로 다르고 수집 누락 가능성이 있습니다."},{headers:{"Cache-Control":"public, s-maxage=10"}});
  }catch(e){console.error("liquidation aggregation error",e);return NextResponse.json({available:false,error:"Liquidation data unavailable"},{status:503})}
 }
