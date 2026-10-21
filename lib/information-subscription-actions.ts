@@ -4,8 +4,8 @@ import {db} from "@/lib/db";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
 
-export const SUBSCRIPTION_COINS=["BTC","ETH","XRP","SOL","DOGE","ADA","LINK","AVAX","SUI","TRX"] as const;
-export const SUBSCRIPTION_ALERTS=["coin_news","price_move","price_target","economic_calendar","market_brief"] as const;
+const SUBSCRIPTION_COINS=["BTC","ETH","XRP","SOL","DOGE","ADA","LINK","AVAX","SUI","TRX"] as const;
+const SUBSCRIPTION_ALERTS=["coin_news","price_move","price_target","economic_calendar","market_brief"] as const;
 export async function subscriptionSchema(){
  const pool=await db();
  await pool.query(`CREATE TABLE IF NOT EXISTS information_subscriptions(
