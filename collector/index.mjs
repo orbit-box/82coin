@@ -30,18 +30,19 @@ async function collectNews(){try{
  await pool.query(`CREATE TABLE IF NOT EXISTS news_articles (id BIGSERIAL PRIMARY KEY,title TEXT NOT NULL,source TEXT NOT NULL,url TEXT NOT NULL UNIQUE,published_at TIMESTAMPTZ NOT NULL,importance_score INT NOT NULL,related_coins TEXT[] NOT NULL DEFAULT '{}',category TEXT NOT NULL,collected_at TIMESTAMPTZ NOT NULL DEFAULT now())`);
  await pool.query(`CREATE INDEX IF NOT EXISTS news_score_index ON news_articles(importance_score DESC,published_at DESC)`);
  await pool.query(`CREATE INDEX IF NOT EXISTS news_coins_gin ON news_articles USING GIN(related_coins)`);
- const q="(암호화폐 OR 비트코인 OR XRP OR 이더리움 OR 솔라나 OR FOMC OR CPI OR SEC OR ETF) when:3d";
- const response=await fetch("https://news.google.com/rss/search?q="+encodeURIComponent(q)+"&hl=ko&gl=KR&ceid=KR:ko",{signal:AbortSignal.timeout(12000)});
- if(!response.ok)throw Error("news feed "+response.status);
- const xml=new XMLParser({ignoreAttributes:false}).parse(await response.text());const raw=xml?.rss?.channel?.item;const entries=Array.isArray(raw)?raw:raw?[raw]:[];
- let inserted=0;
- for(const e of entries){const title=String(e.title||"").trim().slice(0,250),url=String(e.link||""),when=Date.parse(e.pubDate||"");if(!title||!url.startsWith("https://")||!Number.isFinite(when))continue;
+ const newsQueries=["(비트코인 OR 이더리움 OR 리플 OR 솔라나 OR 암호화폐) when:2d","(FOMC OR CPI OR PPI OR 연준 OR SEC OR 가상자산 ETF) when:2d","(업비트 OR 빗썸 OR 코인 상장 OR 코인 청산 OR 블록체인) when:2d"];
+ const results=await Promise.allSettled(newsQueries.map(async q=>{const response=await fetch("https://news.google.com/rss/search?q="+encodeURIComponent(q)+"&hl=ko&gl=KR&ceid=KR:ko",{signal:AbortSignal.timeout(12000),headers:{"User-Agent":"82coin-news-collector/1.0"}});if(!response.ok)throw Error("news feed "+response.status);const xml=new XMLParser({ignoreAttributes:false}).parse(await response.text());const raw=xml?.rss?.channel?.item;return Array.isArray(raw)?raw:raw?[raw]:[];}));
+ const entries=results.flatMap(r=>r.status==="fulfilled"?r.value:[]);
+ if(!results.some(r=>r.status==="fulfilled"))throw Error("all RSS feeds unavailable");
+ let processed=0,inserted=0;const seen=new Set();
+
+ for(const e of entries){const title=String(e.title||"").trim().slice(0,250),url=String(e.link||""),when=Date.parse(e.pubDate||"");if(!title||!url.startsWith("https://")||!Number.isFinite(when)||Date.now()-when>3*86400000||when>Date.now()+60000)continue;const fingerprint=title.toLowerCase().replace(/[^a-z0-9가-힣]/g,"").slice(0,100);if(seen.has(fingerprint))continue;seen.add(fingerprint);
  const patterns=[[/해킹|보안 사고|파산|거래 중단|상장폐지|자산 동결|규제 제재/i,42],[/FOMC|금리 결정|CPI|PCE|고용보고서|실업률|연준|파월/i,36],[/SEC|ETF 승인|ETF 출시|현물 ETF|소송 판결|금융위원회|가상자산 법/i,30],[/ETF|고래|청산|거래소 상장|기관 투자/i,16],[/비트코인|리플|솔라나|이더리움|암호화폐/i,8]];
  const coins=Object.entries({BTC:["BTC","비트코인","BITCOIN"],ETH:["ETH","이더리움","ETHEREUM"],XRP:["XRP","리플","RIPPLE"],SOL:["SOL","솔라나","SOLANA"],DOGE:["DOGE","도지코인","DOGECOIN"],ADA:["ADA","에이다","CARDANO"],BNB:["BNB","바이낸스코인"],SUI:["SUI","수이"],TRX:["TRX","트론"],USDT:["USDT","테더"]}).filter(([,terms])=>terms.some(term=>new RegExp("(^|[^A-Z0-9가-힣])"+term+"(?=$|[^A-Z0-9가-힣])","i").test(title)||(/[가-힣]/.test(term)&&title.includes(term)))).map(([coin])=>coin);
  const score=Math.max(0,Math.min(100,15+patterns.reduce((n,[re,value])=>n+(re.test(title)?value:0),0)+(coins.length?8:0)-(/목표가|몇 배|예언|전문가 추천|시세 전망|투자해야|단독 예측|광고|협찬|이벤트 참여/i.test(title)?40:0)));
  if(score<25)continue;const source=typeof e.source==="string"?e.source:e.source?.["#text"]||"Google News";const category=patterns[0][0].test(title)?"시장 리스크":patterns[1][0].test(title)?"거시경제":patterns[2][0].test(title)?"정책·규제":"시장 뉴스";
- await pool.query(`INSERT INTO news_articles(title,url,source,published_at,importance_score,related_coins,category) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(url) DO UPDATE SET importance_score=EXCLUDED.importance_score,related_coins=EXCLUDED.related_coins,category=EXCLUDED.category`,[title,url,source,new Date(when),score,coins,category]);inserted++;
- }console.log("RSS archived",inserted);
- }catch(e){console.warn("news archive failed",e.message)}}
+ const result=await pool.query(`INSERT INTO news_articles(title,url,source,published_at,importance_score,related_coins,category) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(url) DO NOTHING RETURNING id`,[title,url,source,new Date(when),score,coins,category]);processed++;if(result.rowCount)inserted++;
+ }await pool.query(`CREATE TABLE IF NOT EXISTS news_collector_status(id SMALLINT PRIMARY KEY CHECK(id=1),last_success_at TIMESTAMPTZ,last_attempt_at TIMESTAMPTZ,processed INTEGER NOT NULL DEFAULT 0,inserted INTEGER NOT NULL DEFAULT 0,error TEXT)`);await pool.query(`INSERT INTO news_collector_status(id,last_success_at,last_attempt_at,processed,inserted,error) VALUES(1,now(),now(),$1,$2,NULL) ON CONFLICT(id) DO UPDATE SET last_success_at=now(),last_attempt_at=now(),processed=$1,inserted=$2,error=NULL`,[processed,inserted]);console.log("NEWS sync",JSON.stringify({processed,inserted,feedsOk:results.filter(r=>r.status==="fulfilled").length}));
+ }catch(e){console.warn("news archive failed",e.message);await pool.query(`CREATE TABLE IF NOT EXISTS news_collector_status(id SMALLINT PRIMARY KEY CHECK(id=1),last_success_at TIMESTAMPTZ,last_attempt_at TIMESTAMPTZ,processed INTEGER NOT NULL DEFAULT 0,inserted INTEGER NOT NULL DEFAULT 0,error TEXT)`).then(()=>pool.query(`INSERT INTO news_collector_status(id,last_attempt_at,error) VALUES(1,now(),$1) ON CONFLICT(id) DO UPDATE SET last_attempt_at=now(),error=$1`,[String(e.message).slice(0,160)])).catch(()=>{})}}
 collectNews().catch(console.error);setInterval(()=>collectNews().catch(console.error),300000);
 console.log("82coin collector started",venues.map(v=>v.id).join(","));
