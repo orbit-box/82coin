@@ -1,3 +1,4 @@
+import {rewardHistoryTitle,rewardHistoryDetail} from "@/lib/reward-history-label";
 import Link from "next/link";
 import RewardNav from "@/components/RewardNav";
 import {sessionId} from "@/lib/auth";
@@ -29,7 +30,7 @@ export default async function Wallet(){
    <Link href="/benefits/earn"><span className="tokenQuickIcon">＋</span><span><strong>토큰 획득 방법</strong><small>참여 가능한 리워드 살펴보기</small></span><span className="tokenQuickArrow">→</span></Link>
   </section>
   <section className="tokenWalletHistory"><div className="tokenHistoryHeader"><div><span className="eyebrow">TOKEN ACTIVITY</span><h2>최근 토큰 내역</h2><p>토큰이 지급되거나 사용된 기록을 확인할 수 있어요.</p></div><span className="tokenHistoryCount">최근 {history.length}건</span></div>
-   {!member?<div className="tokenHistoryEmpty"><p>로그인 후 나의 토큰 내역을 확인할 수 있어요.</p><Link href="/login">로그인하기 →</Link></div>:!data?<div className="tokenHistoryEmpty">내역을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>:history.length?history.map((x,i)=><div className="tokenHistoryItem" key={i}><div className={"tokenHistoryMark "+(Number(x.amount)>0?"isGain":"isSpent")}>{Number(x.amount)>0?"+":"−"}</div><div className="tokenHistoryInfo"><strong>{x.kind==="ATTENDANCE"?"출석체크":x.kind}</strong><small>{x.reference}</small></div><b className={Number(x.amount)>0?"isGain":"isSpent"}>{Number(x.amount)>0?"+":""}{number(x.amount)} T</b></div>):<div className="tokenHistoryEmpty">아직 토큰 내역이 없어요. 오늘 첫 출석으로 시작해보세요.</div>}
+   {!member?<div className="tokenHistoryEmpty"><p>로그인 후 나의 토큰 내역을 확인할 수 있어요.</p><Link href="/login">로그인하기 →</Link></div>:!data?<div className="tokenHistoryEmpty">내역을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>:history.length?history.map((x,i)=><div className="tokenHistoryItem" key={i}><div className={"tokenHistoryMark "+(Number(x.amount)>0?"isGain":"isSpent")}>{Number(x.amount)>0?"+":"−"}</div><div className="tokenHistoryInfo"><strong>{rewardHistoryTitle(x.kind,Number(x.amount))}</strong><small>{rewardHistoryDetail(x.kind,x.reference,x.created_at)}</small></div><b className={Number(x.amount)>0?"isGain":"isSpent"}>{Number(x.amount)>0?"+":""}{number(x.amount)} T</b></div>):<div className="tokenHistoryEmpty">아직 토큰 내역이 없어요. 오늘 첫 출석으로 시작해보세요.</div>}
   </section>
   <p className="tokenWalletLegal">82토큰은 82coin 서비스 내부에서 사용하는 리워드 포인트이며 현금 환전 및 외부 전송을 지원하지 않습니다.</p>
  </div>;
