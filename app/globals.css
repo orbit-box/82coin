@@ -1030,3 +1030,11 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 .infoSubSignIn{text-align:center;display:grid;justify-items:center;gap:14px}.infoSubSignIn>svg{color:#358fe5}.infoSubSignIn h2{font-size:21px;margin:0}.infoSubSignIn p{font-size:13px;color:#8295a8}.infoSubSignIn .button{margin:3px 0}
 .infoSubFooterNote{display:flex;align-items:start;gap:7px;font-size:11px;line-height:1.8;color:#8ba1b5;margin:20px 4px}.infoSubFooterNote svg{flex:none}
 @media(max-width:720px){.infoSubPage{padding:37px 0 60px}.infoSubHero h1{font-size:33px}.infoSubHero p{font-size:13px}.infoSubIntro{gap:8px}.infoSubIntro>div{padding:14px}.infoSubIntro strong{font-size:12px}.infoSubIntro small{font-size:10px}.infoSubCard{padding:22px 16px}.infoSubCoinGrid{grid-template-columns:repeat(3,1fr)}.infoSubAlertGrid{grid-template-columns:1fr}.infoSubChannels{gap:8px}.infoSubSubmit{padding:18px;flex-direction:column;align-items:stretch}.infoSubSubmit .button{width:100%}}
+
+/* Human-readable reward history rows */
+.rewardLedgerDescription{display:flex;flex-direction:column;gap:5px;min-width:0;line-height:1.3}
+.rewardLedgerDescription strong{font-size:12px;font-weight:750;color:#17334f}
+.rewardLedgerDescription small{font-size:11px;color:#8a9cb1;font-weight:400}
+.rewardBottomLedger{align-items:center;gap:14px}
+.rewardBottomLedger>b{white-space:nowrap;color:#2781d9}
+.tokenHistoryInfo small{color:#91a2b5;font-size:11px}
