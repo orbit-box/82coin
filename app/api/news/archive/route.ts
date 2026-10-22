@@ -1,16 +1,17 @@
 import {NextResponse} from "next/server";
-import {readNews,ingestNews,lastNewsRefresh,fetchCuratedNews} from "../../../../lib/news-store";
+import {readNews} from "../../../../lib/news-store";
+import {db} from "@/lib/db";
 export const dynamic="force-dynamic";
 export async function GET(){
  try{
-  let refreshFailed=false;
-  if(Date.now()-lastNewsRefresh()>5*60*1000){
-   try{await ingestNews()}catch(e){refreshFailed=true;console.warn("82coin news refresh failed",e instanceof Error?e.message:"unknown")}
-  }
-  const rows=await readNews("",100);
-  const recent=rows.filter(x=>x.publishedAt&&Date.now()-Date.parse(x.publishedAt)<7*86400000&&Date.parse(x.publishedAt)<=Date.now()+60000);
-  if(recent.length)return NextResponse.json({items:recent,updatedAt:new Date().toISOString(),refreshFailed,source:"Google News RSS / 저장 뉴스",stale:refreshFailed},{headers:{"Cache-Control":"no-store"}});
-  const fallback=(await fetchCuratedNews()).filter(x=>x.publishedAt&&Date.now()-Date.parse(x.publishedAt)<7*86400000);
-  return NextResponse.json({items:fallback,updatedAt:new Date().toISOString(),refreshFailed,source:"Google News RSS",stale:false},{headers:{"Cache-Control":"no-store"}});
- }catch(e){console.error("82coin news archive error",e);return NextResponse.json({items:[],error:"현재 검증 가능한 뉴스가 없습니다.",stale:true},{status:503,headers:{"Cache-Control":"no-store"}})}
+  const pool=await db();
+  const [rows,status]=await Promise.all([
+   readNews("",100),
+   pool.query<{last_success_at:Date|null;last_attempt_at:Date|null;error:string|null;inserted:number}>("SELECT last_success_at,last_attempt_at,error,inserted FROM news_collector_status WHERE id=1").catch(()=>({rows:[] as {last_success_at:Date|null;last_attempt_at:Date|null;error:string|null;inserted:number}[]}))
+  ]);
+  const last=status.rows[0],lastSuccess=last?.last_success_at?new Date(last.last_success_at).getTime():0;
+  const stale=!lastSuccess||Date.now()-lastSuccess>15*60*1000;
+  const items=rows.filter(x=>x.publishedAt&&Date.parse(x.publishedAt)<=Date.now()+60000&&Date.now()-Date.parse(x.publishedAt)<3*86400000);
+  return NextResponse.json({items,source:"저장된 암호화폐 뉴스",lastCollectedAt:lastSuccess?new Date(lastSuccess).toISOString():null,collectorStatus:stale?"delayed":"running",stale,updatedAt:new Date().toISOString(),warning:stale?"뉴스 수집이 지연되고 있습니다. 마지막 저장된 기사를 표시합니다.":null},{headers:{"Cache-Control":"no-store"}});
+ }catch(e){console.error("news archive unavailable",e);return NextResponse.json({items:[],error:"현재 뉴스 데이터를 확인할 수 없습니다.",stale:true},{status:503,headers:{"Cache-Control":"no-store"}})}
 }
