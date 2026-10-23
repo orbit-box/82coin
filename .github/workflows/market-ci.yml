@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - feature/paper-trading-terminal
+      - hotfix/paper-chart-20261023
   pull_request:
     branches:
       - main
