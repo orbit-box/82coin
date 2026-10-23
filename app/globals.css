@@ -1038,3 +1038,15 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 .rewardBottomLedger{align-items:center;gap:14px}
 .rewardBottomLedger>b{white-space:nowrap;color:#2781d9}
 .tokenHistoryInfo small{color:#91a2b5;font-size:11px}
+
+/* Compact, data-backed paper futures metrics in the former unused chart footer */
+.paperTerminalChart{display:flex;flex-direction:column;align-self:stretch}
+.paperChartCanvas{flex:none}
+.paperMarketStats{margin-top:14px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;border-top:1px solid #e8eef5;padding-top:17px}
+.paperMarketStat{min-width:0;padding:12px 10px;border-radius:9px;background:#f6f9fd;display:flex;flex-direction:column;gap:8px}
+.paperMarketStat small{color:#8095aa;font-size:10px;line-height:1.3}
+.paperMarketStat strong{font-size:13px;color:#173a57;font-weight:800;overflow-wrap:anywhere}
+.paperMarketSource{margin:10px 0 0;color:#8a9db2;font-size:11px;line-height:1.55}
+.paperChartFootnote{margin-top:12px}
+@media(max-width:850px){.paperMarketStats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:520px){.paperMarketStats{grid-template-columns:repeat(2,minmax(0,1fr))}.paperMarketStat{padding:10px 8px}}
