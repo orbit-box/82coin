@@ -29,5 +29,5 @@ export default function PaperTradingChart({positions=[]}:{positions?:Position[]}
   {label:"펀딩비",value:summary?.fundingRatePct===null||summary?.fundingRatePct===undefined?"—":price(summary.fundingRatePct,4)+"%"},
   {label:"미결제약정 (기초자산)",value:price(summary?.openInterestBase??null,2)}
  ].map(item=><div key={item.label} className="paperMarketStat"><small>{item.label}</small><strong>{item.value}</strong></div>)}
- </div><p className="paperMarketSource">{summaryError?"시장정보 연결 지연 · 확인된 데이터가 없어 값을 표시하지 않습니다.":summary?"출처: "+summary.source+" · "+new Date(summary.asOf).toLocaleTimeString("ko-KR",{timeZone:"Asia/Seoul"})+" 기준":"선물 시장정보 조회 중"} · 차트와 시장정보는 별도 출처일 수 있습니다.</p><p className="paperChartFootnote">TradingView Lightweight Charts · {source||"거래소 연결 확인 중"} · 표시 가격은 참고용입니다. 열린 포지션의 평단가와 진입 위치가 차트에 표시됩니다.</p></section>
+ </div></section>
 }
