@@ -18,7 +18,7 @@ export default function AllCoins({compact=false}:{compact?:boolean}){
  <div aria-live="polite">{rows.map((c,i)=><div className="coinsTableRow" key={c.market}><div className="coinsTitle"><span className="coinOrder">{i+1}</span><CoinIcon ticker={c.ticker} size={compact?23:27}/><span className="coinIdentity"><strong>{c.ticker}</strong>{!compact&&<small>{c.name}</small>}</span></div><span className="coinVolume">{formatValue(c.volume24hKrw)}원</span><strong className="coinPrice">{formatPrice(c.krwPrice)}</strong><span className={"coinChange "+(c.change24h>=0?"up":"down")}>{(c.change24h>0?"+":"")+c.change24h.toFixed(2)+"%"}</span><span className={"coinPremium "+(c.premium===null?"":c.premium>=0?"up":"down")}>{c.premium===null?"—":(c.premium>0?"+":"")+c.premium.toFixed(2)+"%"}</span></div>)}</div>
  {!rows.length&&<div className="coinsEmpty">{coins.length?"검색 결과가 없습니다.":status==="연결 중"?"시세를 불러오는 중입니다.":"현재 시세를 표시할 수 없습니다."}</div>}
  {!compact&&rows.length<sorted.length&&<button className="coinMore" type="button" onClick={()=>setPage(p=>p+1)}>더 보기 ({rows.length}/{sorted.length})</button>}
- <p className="dataFoot">김프 데이터: {coverage===null?"조회 중":coverage+" / "+coins.length+"개 종목"} · 해외 시세: {foreignSource||"연결 중"}. 김프 표시는 해외 시세와 최신 환율이 모두 확인된 종목에 한합니다. {stale?"거래소 데이터가 지연되어 과거 시세를 표시 중입니다.":""}</p>
- <p className="dataFoot">HOT은 24시간 등락률 절댓값 순, 상승·하락은 등락률 순, 거래량 정렬은 24시간 원화 거래대금 기준입니다. 김프는 국내 KRW가격 ÷ (Binance USDT가격 × USD/KRW 환율) 기준 추정치입니다. USDT/USD 차이와 시세 시차·수수료는 반영되지 않습니다. 해외 가격이 없는 종목은 —로 표시됩니다.</p>
+
+
  </section>
 }
