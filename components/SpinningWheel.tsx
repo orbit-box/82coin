@@ -47,7 +47,8 @@ export default function SpinningWheel({enabled,canSpin,initialId}:{enabled:boole
      })}
      <circle cx="150" cy="150" r="118" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="5 5" opacity=".85"/>
      
-     <image href="/82token_256.png" x="94" y="94" width="112" height="112"/>
+     <defs><clipPath id="rouletteTokenCrop"><circle cx="150" cy="150" r="48"/></clipPath></defs>
+     <image href="/82token_256.png" x="94" y="94" width="112" height="112" preserveAspectRatio="xMidYMid meet" clipPath="url(#rouletteTokenCrop)"/>
     </svg>
    </div>
   </div>

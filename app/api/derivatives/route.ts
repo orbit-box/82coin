@@ -1,19 +1,46 @@
 import {NextResponse} from "next/server";
 export const dynamic="force-dynamic";
-const symbols=["BTCUSDT","ETHUSDT","SOLUSDT"];
-async function get<T>(url:string):Promise<T>{const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),5000);try{const r=await fetch(url,{cache:"no-store",signal:ctrl.signal});if(!r.ok)throw Error("HTTP "+r.status);return await r.json() as T}finally{clearTimeout(timer)}}
-type Premium={symbol:string;lastFundingRate:string;markPrice:string};
-type LongShort={symbol:string;longShortRatio:string;longAccount:string;shortAccount:string;timestamp:number};
-type OI={symbol:string;openInterest:string;time:number};
-type Result={symbol:string;fundingPercent:number|null;markPrice:number|null;longPct:number|null;shortPct:number|null;openInterest:number|null;source?:string};
-async function one(symbol:string):Promise<Result>{const b="https://fapi.binance.com";const values=await Promise.allSettled([get<Premium>(b+"/fapi/v1/premiumIndex?symbol="+symbol),get<LongShort[]>(b+"/futures/data/globalLongShortAccountRatio?symbol="+symbol+"&period=5m&limit=1"),get<OI>(b+"/fapi/v1/openInterest?symbol="+symbol)]);const v=<T,>(n:number)=>values[n].status==="fulfilled"?(values[n] as PromiseFulfilledResult<T>).value:null;const p=v<Premium>(0),l=v<LongShort[]>(1)?.[0],o=v<OI>(2);const safe=(n:unknown)=>Number.isFinite(Number(n))?Number(n):null;return {symbol:symbol.replace("USDT",""),fundingPercent:p?safe(Number(p.lastFundingRate)*100):null,markPrice:p?safe(p.markPrice):null,longPct:l?safe(Number(l.longAccount)*100):null,shortPct:l?safe(Number(l.shortAccount)*100):null,openInterest:o?safe(o.openInterest):null,source:p||l||o?"Binance":undefined}}
-
-type Bybit<T>={retCode:number;result:{list:T[]}};
-async function bybit(symbol:string){const base="https://api.bybit.com/v5/market/";const [r,o,t]=await Promise.allSettled([get<Bybit<{buyRatio:string;sellRatio:string}>>(base+"account-ratio?category=linear&symbol="+symbol+"&period=5min&limit=1"),get<Bybit<{openInterest:string}>>(base+"open-interest?category=linear&symbol="+symbol+"&intervalTime=5min&limit=1"),get<Bybit<{fundingRate:string;markPrice:string}>>(base+"tickers?category=linear&symbol="+symbol)]);const v=<T,>(x:PromiseSettledResult<Bybit<T>>)=>x.status==="fulfilled"&&x.value.retCode===0?x.value.result.list[0]:null;return {ratio:v(r),oi:v(o),tick:v(t)}}
-type OKX<T>={code:string;data:T[]};
-async function okx(symbol:string){const base="https://www.okx.com";const id=symbol+"-USDT-SWAP";const [f,o,l]=await Promise.allSettled([
-get<OKX<{fundingRate:string;markPx?:string}>>(base+"/api/v5/public/funding-rate?instId="+id),
-get<OKX<{oiCcy?:string;oi?:string}>>(base+"/api/v5/public/open-interest?instType=SWAP&instId="+id),
-get<OKX<string[]>>(base+"/api/v5/rubik/stat/contracts/long-short-account-ratio?ccy="+symbol+"&period=5m")
-]);const first=<T,>(r:PromiseSettledResult<OKX<T>>)=>r.status==="fulfilled"&&r.value.code==="0"?r.value.data?.[0]:null;return {funding:first(f),interest:first(o),ratio:first(l)}}
-export async function GET(){const items=await Promise.all(symbols.map(one));await Promise.all(items.map(async item=>{if(item.longPct!==null&&item.openInterest!==null&&item.fundingPercent!==null)return;try{const b=await bybit(item.symbol+"USDT");if(item.longPct===null&&b.ratio){item.longPct=Number(b.ratio.buyRatio)*100;item.shortPct=Number(b.ratio.sellRatio)*100}if(item.openInterest===null&&b.oi)item.openInterest=Number(b.oi.openInterest);if(item.fundingPercent===null&&b.tick){item.fundingPercent=Number(b.tick.fundingRate)*100;item.markPrice=Number(b.tick.markPrice)}if(b.ratio||b.oi||b.tick)item.source=item.source?"Binance / Bybit":"Bybit"}catch{}}));await Promise.all(items.map(async item=>{if(item.longPct!==null&&item.fundingPercent!==null&&item.openInterest!==null)return;try{const o=await okx(item.symbol);let used=false;if(item.fundingPercent===null&&o.funding){const n=Number(o.funding.fundingRate);if(Number.isFinite(n)){item.fundingPercent=n*100;used=true}}if(item.openInterest===null&&o.interest){const n=Number(o.interest.oiCcy);if(Number.isFinite(n)&&n>=0){item.openInterest=n;used=true}}if(item.longPct===null&&o.ratio){const n=Number(o.ratio[1]);if(Number.isFinite(n)&&n>0){item.longPct=n/(1+n)*100;item.shortPct=100-item.longPct;used=true}}if(used)item.source=item.source?item.source+" / OKX":"OKX"}catch{}}));return NextResponse.json({items,availability:{longShort:items.filter(x=>x.longPct!==null).length,funding:items.filter(x=>x.fundingPercent!==null).length,openInterest:items.filter(x=>x.openInterest!==null).length},source:"Binance · Bybit · OKX 무료 API (항목별 대체 공급처)",updatedAt:new Date().toISOString(),definitions:{longshort:"5분 주기 글로벌 계정 롱숏 비율",openInterest:"미결제약정 코인 수량",funding:"최근 펀딩비율"},liquidations:{available:false,reason:"검증된 청산 합계 데이터 공급처 미연동"}},{headers:{"Cache-Control":"public, s-maxage=60"}})}
+// Never merge derivatives metrics from different venues into a synthetic row.
+const symbols=["BTCUSDT","ETHUSDT","SOLUSDT"] as const;
+async function read<T>(url:string):Promise<T>{
+ const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),5500);
+ try{const r=await fetch(url,{cache:"no-store",signal:controller.signal,headers:{Accept:"application/json"}});if(!r.ok)throw Error("HTTP "+r.status);return await r.json() as T}finally{clearTimeout(timeout)}
+}
+type Premium={symbol:string;lastFundingRate:string;markPrice:string;time:number};
+type Ratio={symbol:string;longAccount:string;shortAccount:string;timestamp:number};
+type Interest={symbol:string;openInterest:string;time:number};
+const positive=(value:unknown)=>{const n=Number(value);return value!==null&&value!==undefined&&value!==""&&Number.isFinite(n)&&n>0?n:null};
+const recent=(value:number,maxAge:number)=>Number.isFinite(value)&&value>0&&Date.now()>=value-60000&&Date.now()-value<=maxAge;
+async function one(symbol:typeof symbols[number]){
+ const b="https://fapi.binance.com";
+ const [p,l,o]=await Promise.allSettled([
+ read<Premium>(b+"/fapi/v1/premiumIndex?symbol="+symbol),
+ read<Ratio[]>(b+"/futures/data/globalLongShortAccountRatio?symbol="+symbol+"&period=5m&limit=1"),
+ read<Interest>(b+"/fapi/v1/openInterest?symbol="+symbol)
+ ]);
+ const premium=p.status==="fulfilled"&&p.value.symbol===symbol&&recent(p.value.time,120000)?p.value:null;
+ const ratio=l.status==="fulfilled"&&Array.isArray(l.value)&&l.value[0]?.symbol===symbol&&recent(l.value[0].timestamp,12*60000)?l.value[0]:null;
+ const oi=o.status==="fulfilled"&&o.value.symbol===symbol&&recent(o.value.time,120000)?o.value:null;
+ const funding=premium?Number(premium.lastFundingRate):NaN;
+ const long=ratio?Number(ratio.longAccount):NaN,short=ratio?Number(ratio.shortAccount):NaN;
+ const usableRatio=Number.isFinite(long)&&Number.isFinite(short)&&long>=0&&short>=0&&Math.abs(long+short-1)<0.02;
+ return {symbol:symbol.replace("USDT",""),
+   fundingPercent:Number.isFinite(funding)&&Math.abs(funding)<=0.05?funding*100:null,
+   markPrice:premium?positive(premium.markPrice):null,
+   longPct:usableRatio?long*100:null,shortPct:usableRatio?short*100:null,
+   openInterest:oi?positive(oi.openInterest):null,
+   source:"Binance USDⓈ-M Futures",
+   metricSources:{funding:premium?"Binance":null,longShort:usableRatio?"Binance":null,openInterest:oi?"Binance":null},
+   timestamps:{funding:premium?new Date(premium.time).toISOString():null,longShort:usableRatio?new Date(ratio!.timestamp).toISOString():null,openInterest:oi?new Date(oi.time).toISOString():null}
+ };
+}
+export async function GET(){
+ const items=await Promise.all(symbols.map(one));
+ return NextResponse.json({items,
+  availability:{longShort:items.filter(x=>x.longPct!==null).length,funding:items.filter(x=>x.fundingPercent!==null).length,openInterest:items.filter(x=>x.openInterest!==null).length},
+  source:"Binance USDⓈ-M Futures (single venue, no cross-exchange substitution)",
+  updatedAt:new Date().toISOString(),
+  definitions:{longshort:"5분 글로벌 계정 기준 롱·숏 비율 (포지션 규모 비율 아님)",openInterest:"미결제약정 기초자산 수량 (USD 금액 아님)",funding:"최근 공개된 펀딩 비율"},
+  liquidations:{available:false,reason:"검증된 전체 시장 청산 합계 데이터 미연동"}
+ },{headers:{"Cache-Control":"no-store"}});
+}

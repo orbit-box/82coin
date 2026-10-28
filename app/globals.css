@@ -937,3 +937,123 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
  .rouletteInteractive .rouletteVisual:after{top:calc(50% - 134px)}
  .rouletteSvgLabel{font-size:15px}
 }
+
+
+/* Paper futures terminal — calm brokerage-inspired UI and exchange trading conventions */
+.paperTerminalLayout{display:grid;grid-template-columns:minmax(0,1fr) 294px;gap:16px;align-items:stretch;margin:24px 0 30px}
+.paperTerminalChart,.paperTerminalSide{background:#fff;border:1px solid #e3eaf3;border-radius:17px;min-width:0}
+.paperTerminalChart{position:relative;padding:18px 18px 12px}
+.paperChartToolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;padding-bottom:16px}
+.paperSymbolTabs,.paperIntervalTabs{display:flex;gap:4px;flex-wrap:wrap}
+.paperSymbolTabs button,.paperIntervalTabs button{border:0;border-radius:8px;padding:9px 12px;background:transparent;font-weight:750;font-size:12px;color:#7991a9;cursor:pointer}
+.paperSymbolTabs button.selected{color:#257ed5;background:#e9f4ff}.paperIntervalTabs button.selected{color:#163f65;background:#f1f5fa}
+.paperChartCanvas{min-height:410px}.paperChartFootnote{margin:12px 0 0;border-top:1px solid #eff3f8;padding-top:12px;font-size:11px;line-height:1.6;color:#91a2b6}
+.paperChartLoading{position:absolute;top:75px;right:22px;background:#eaf5ff;padding:7px 11px;border-radius:8px;color:#3485ce;font-size:11px}
+.paperTerminalSide{display:flex;flex-direction:column;gap:12px;padding:27px 23px}
+.paperTerminalSideLabel{font-size:11px;font-weight:850;color:#358fe5;letter-spacing:1.3px}
+.paperTerminalSide h2{font-size:20px;margin:4px 0 0;color:#19334a}
+.paperTerminalSide>strong{font-size:29px;font-weight:900;color:#172d43;letter-spacing:-1px}
+.paperTerminalSide>p{font-size:12px;color:#879bb0;margin:0 0 9px}
+.paperTerminalNumbers{border-top:1px solid #e9eff5;border-bottom:1px solid #e9eff5;padding:19px 0;display:grid;grid-template-columns:1fr auto;gap:15px 8px;font-size:12px}
+.paperTerminalNumbers span{color:#7e93a8}.paperTerminalNumbers b{color:#244259}
+.paperTerminalOrderStatus{margin-top:auto;background:#f2f7fc;padding:13px;border-radius:9px;color:#64829e;font-size:12px;line-height:1.5}
+.paperTerminalToPreview{background:#358fe5;color:#fff;font-weight:800;text-align:center;text-decoration:none;padding:13px 10px;border-radius:10px;font-size:12px}
+@media(max-width:1020px){.paperTerminalLayout{grid-template-columns:minmax(0,1fr)}.paperTerminalSide{gap:10px}.paperTerminalNumbers{grid-template-columns:1fr auto}}
+@media(max-width:560px){.paperTerminalChart{padding:10px 7px}.paperChartToolbar{padding:9px 5px}.paperSymbolTabs button,.paperIntervalTabs button{font-size:11px;padding:8px}.paperTerminalSide{padding:20px}.paperChartFootnote{padding-left:7px}}
+
+
+/* Integrated paper order book: chart + order entry, positions below */
+.paperTerminalLayout{grid-template-columns:minmax(0,1fr) 335px;align-items:stretch}
+.paperOrderSide{gap:13px}
+.paperOrderSide .paperOrderBalance{display:grid;gap:7px;padding:12px 0;border-bottom:1px solid #e8eef5}
+.paperOrderBalance span{font-size:12px;color:#7c92a6}
+.paperOrderBalance strong{font-size:23px;color:#18334f}
+.paperOrderSide .paperTradePreview{padding:0;border:0;border-radius:0;box-shadow:none;background:transparent;margin:0;min-width:0}
+.paperOrderSide .paperPreviewHead{gap:8px;flex-wrap:wrap}
+.paperOrderSide .paperPreviewHead h2{font-size:16px}
+.paperOrderSide .paperPreviewHead p{font-size:11px}
+.paperOrderSide .paperPreviewGrid{grid-template-columns:1fr 1fr;gap:10px}
+.paperOrderSide .paperPreviewGrid label{min-width:0;font-size:11px}
+.paperOrderSide .paperPreviewGrid select,.paperOrderSide .paperPreviewGrid input{width:100%;box-sizing:border-box}
+.paperOrderSide .paperPreviewGrid label:nth-child(n+3){grid-column:1 / -1}
+.paperOrderSide .paperPreviewButton{width:100%}
+.paperOrderSide .paperPreviewResult{grid-template-columns:1fr}
+.paperOrderSide .paperNotice{font-size:11px;line-height:1.65}
+.paperOrderLogin{display:grid;gap:14px}
+.paperOrderLogin p{color:#71869b;font-size:13px;line-height:1.7}
+.paperPositionStrip{background:#fff;border:1px solid #e3eaf3;border-radius:16px;padding:20px 24px;margin-bottom:24px}
+.paperPositionStrip h2{font-size:18px;margin:0 0 13px}
+.paperPositionStrip>p{font-size:12px;color:#859aac}
+.paperPositionRow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-top:1px solid #edf2f7;padding:13px 0;font-size:12px;color:#54718a}
+.paperPositionRow strong{color:#203d5a}
+.paperPositionRow small{margin-left:auto;color:#98a8b6}
+@media(max-width:1020px){.paperTerminalLayout{grid-template-columns:minmax(0,1fr)}.paperOrderSide .paperPreviewGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.paperOrderSide .paperPreviewGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.paperPositionStrip{padding:16px}}
+
+
+/* Personalized information subscriptions */
+.infoSubPage{max-width:1080px;margin:0 auto;padding:60px 0 90px}
+.infoSubHero{text-align:center;padding:5px 10px 31px}.infoSubHero .eyebrow{font-size:11px;letter-spacing:2px;color:#358fe5;font-weight:850}
+.infoSubHero h1{font-size:42px;letter-spacing:-1.7px;color:#17324c;margin:15px 0}
+.infoSubHero p{font-size:15px;color:#6d849d;line-height:1.85;margin:0 auto;max-width:600px}
+.infoSubState{display:inline-flex;align-items:center;gap:7px;background:#e8f4ff;color:#2883ce;border-radius:999px;padding:8px 14px;font-size:11px;font-weight:800;margin-top:22px}
+.infoSubIntro{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0 28px}
+.infoSubIntro>div{border:1px solid #e3ebf5;border-radius:15px;background:#f7fbff;padding:23px;display:flex;flex-direction:column;gap:10px;color:#358fe5}
+.infoSubIntro strong{color:#183755;font-size:15px}.infoSubIntro small{font-size:12px;color:#869bb0}
+.infoSubForm{display:grid;gap:18px}
+.infoSubCard{background:#fff;border:1px solid #e0eaf3;border-radius:17px;padding:31px}
+.infoSubSectionHead{display:flex;align-items:center;gap:15px;margin-bottom:24px}
+.infoSubStep{background:#e7f3ff;color:#2887d8;border-radius:10px;width:37px;height:37px;display:grid;place-items:center;font-weight:850;font-size:12px;flex:none}
+.infoSubSectionHead h2{font-size:21px;margin:0 0 8px;color:#1b344b}.infoSubSectionHead p{font-size:12px;margin:0;color:#8b9dae}
+.infoSubCoinGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.infoSubCoin{cursor:pointer;position:relative}.infoSubCoin input{position:absolute;opacity:0;pointer-events:none}
+.infoSubCoin span{min-height:57px;border:1px solid #dce8f4;border-radius:12px;display:grid;place-items:center;font-weight:850;color:#53718d;background:#fff;font-size:14px}
+.infoSubCoin input:checked+span{border-color:#358fe5;background:#eaf5ff;color:#2484da;box-shadow:inset 0 0 0 1px #358fe5}
+.infoSubCoin input:focus-visible+span{outline:3px solid #8bc8fb;outline-offset:2px}
+.infoSubAlertGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.infoSubAlert{border:1px solid #e1eaf2;background:#fafdff;border-radius:12px;padding:17px;display:flex;gap:12px;align-items:center;cursor:pointer}
+.infoSubAlert input,.infoSubActive input{accent-color:#358fe5;width:17px;height:17px;flex:none}
+.infoSubAlert span{display:grid;gap:6px}.infoSubAlert strong{font-size:13px;color:#1c354e}.infoSubAlert small{font-size:11px;line-height:1.5;color:#8da0b1}
+.infoSubChannels{display:grid;grid-template-columns:1fr 1fr;gap:12px}.infoSubChannels label{position:relative;cursor:pointer}
+.infoSubChannels input{position:absolute;top:15px;right:15px;accent-color:#358fe5}
+.infoSubChannels label>span{display:flex;flex-direction:column;gap:9px;padding:23px;border:1px solid #dfe8f2;border-radius:13px;color:#358fe5}
+.infoSubChannels input:checked+span{border-color:#358fe5;background:#f0f8ff}
+.infoSubChannels strong{font-size:14px;color:#19384f}.infoSubChannels small{font-size:11px;color:#8a9eaf}
+.infoSubTiming{display:flex;align-items:center;gap:18px;margin-top:23px}.infoSubTiming label{font-size:12px;font-weight:800;color:#34536e}
+.infoSubTiming select{border:1px solid #dce8f2;border-radius:9px;padding:11px 13px;background:#fff;font-size:12px;color:#264765}
+.infoSubActive{display:flex;align-items:center;gap:10px;margin-top:22px;font-weight:750;font-size:12px;color:#355b7a}
+.infoSubSubmit{border:1px solid #d4e5f6;background:#f4faff;border-radius:15px;padding:21px 27px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.infoSubSubmit>div{display:grid;gap:8px}.infoSubSubmit strong{font-size:16px;color:#183b5d}.infoSubSubmit small{font-size:12px;color:#7896ae}
+.infoSubSubmit .button{margin:0;border:0;white-space:nowrap}
+.infoSubMessage{display:flex;align-items:center;gap:10px;border:1px solid #cde8d9;background:#f0fff6;color:#266d49;border-radius:10px;padding:14px 18px;font-size:12px;font-weight:750}
+.infoSubMessage.error{color:#a74141;background:#fff4f3;border-color:#f2d5d4}
+.infoSubSignIn{text-align:center;display:grid;justify-items:center;gap:14px}.infoSubSignIn>svg{color:#358fe5}.infoSubSignIn h2{font-size:21px;margin:0}.infoSubSignIn p{font-size:13px;color:#8295a8}.infoSubSignIn .button{margin:3px 0}
+.infoSubFooterNote{display:flex;align-items:start;gap:7px;font-size:11px;line-height:1.8;color:#8ba1b5;margin:20px 4px}.infoSubFooterNote svg{flex:none}
+@media(max-width:720px){.infoSubPage{padding:37px 0 60px}.infoSubHero h1{font-size:33px}.infoSubHero p{font-size:13px}.infoSubIntro{gap:8px}.infoSubIntro>div{padding:14px}.infoSubIntro strong{font-size:12px}.infoSubIntro small{font-size:10px}.infoSubCard{padding:22px 16px}.infoSubCoinGrid{grid-template-columns:repeat(3,1fr)}.infoSubAlertGrid{grid-template-columns:1fr}.infoSubChannels{gap:8px}.infoSubSubmit{padding:18px;flex-direction:column;align-items:stretch}.infoSubSubmit .button{width:100%}}
+
+/* Human-readable reward history rows */
+.rewardLedgerDescription{display:flex;flex-direction:column;gap:5px;min-width:0;line-height:1.3}
+.rewardLedgerDescription strong{font-size:12px;font-weight:750;color:#17334f}
+.rewardLedgerDescription small{font-size:11px;color:#8a9cb1;font-weight:400}
+.rewardBottomLedger{align-items:center;gap:14px}
+.rewardBottomLedger>b{white-space:nowrap;color:#2781d9}
+.tokenHistoryInfo small{color:#91a2b5;font-size:11px}
+
+/* Compact, data-backed paper futures metrics in the former unused chart footer */
+.paperTerminalChart{display:flex;flex-direction:column;align-self:stretch}
+.paperChartCanvas{flex:none}
+.paperMarketStats{margin-top:14px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;border-top:1px solid #e8eef5;padding-top:17px}
+.paperMarketStat{min-width:0;padding:12px 10px;border-radius:9px;background:#f6f9fd;display:flex;flex-direction:column;gap:8px}
+.paperMarketStat small{color:#8095aa;font-size:10px;line-height:1.3}
+.paperMarketStat strong{font-size:13px;color:#173a57;font-weight:800;overflow-wrap:anywhere}
+.paperMarketSource{margin:10px 0 0;color:#8a9db2;font-size:11px;line-height:1.55}
+.paperChartFootnote{margin-top:12px}
+@media(max-width:850px){.paperMarketStats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:520px){.paperMarketStats{grid-template-columns:repeat(2,minmax(0,1fr))}.paperMarketStat{padding:10px 8px}}
+
+/* Center the 82 Token disc and conceal asymmetric shadow/padding baked into the PNG. */
+.rewardTokenImage img,.tokenWalletCoin img,.rewardWalletTokenImg,.rewardTokenInline,.attendanceTokenImg,.profileTokenLabel img{
+  object-position:center center;
+  clip-path:circle(44% at 50% 49%);
+}
+.rewardTokenImage img,.tokenWalletCoin img{display:block;flex:none}

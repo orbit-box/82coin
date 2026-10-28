@@ -9,7 +9,7 @@ export default function SiteChrome({children,signedIn}:{children:React.ReactNode
  return <>
  <header className="header"><div className="shell headerInner">
  <Link className="logo" href="/" aria-label="82coin 홈"><img className="officialHeaderLogo" src="/82coin-header-logo.png" width="178" height="54" alt="82coin MARKET & COMMUNITY"/></Link>
- <nav aria-label="주요 메뉴" className="mainNav"><Link href="/">홈</Link><Link href="/market">시장정보</Link><Link href="/community">커뮤니티</Link><Link href="/benefits">리워드존</Link><Link href="/paper-trading">가상매매</Link></nav>
+ <nav aria-label="주요 메뉴" className="mainNav"><Link href="/">홈</Link><Link href="/market">시장정보</Link><Link href="/community">커뮤니티</Link><Link href="/benefits">리워드존</Link><Link href="/paper-trading">가상매매</Link><Link href="/information-subscription">정보구독</Link></nav>
  <div className="headerActions"><NewsSearch/><Link className="headerAccount" href="/profile">MY</Link>{signedIn?<form action={logout} className="headerLogoutForm"><button className="headerSignIn" type="submit">로그아웃</button></form>:<Link className="headerSignIn" href="/login">로그인</Link>}</div>
  </div></header>
  <main className="shell">{children}</main>
