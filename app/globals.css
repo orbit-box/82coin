@@ -1050,3 +1050,10 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 .paperChartFootnote{margin-top:12px}
 @media(max-width:850px){.paperMarketStats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:520px){.paperMarketStats{grid-template-columns:repeat(2,minmax(0,1fr))}.paperMarketStat{padding:10px 8px}}
+
+/* Center the 82 Token disc and conceal asymmetric shadow/padding baked into the PNG. */
+.rewardTokenImage img,.tokenWalletCoin img,.rewardWalletTokenImg,.rewardTokenInline,.attendanceTokenImg,.profileTokenLabel img{
+  object-position:center center;
+  clip-path:circle(44% at 50% 49%);
+}
+.rewardTokenImage img,.tokenWalletCoin img{display:block;flex:none}
