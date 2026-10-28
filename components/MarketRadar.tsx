@@ -28,6 +28,6 @@ export default function MarketRadar(){
  <div className="radarControls"><div className="radarFilters" role="group" aria-label="시장 레이더 분류">{filters.map(f=><button key={f.id} type="button" className={mode===f.id?"active":""} aria-pressed={mode===f.id} onClick={()=>{setMode(f.id);setMore(15)}}>{f.label}</button>)}</div><input type="search" aria-label="시장 레이더 종목 검색" placeholder="코인명 또는 심볼 검색" value={q} onChange={e=>{setQ(e.target.value);setMore(15)}}/></div>
  <div className="radarTableScroll"><div className="radarTable"><div className="radarTableRow radarTableHeader"><span>종목</span><span>현재가 (KRW)</span><span>24시간 거래대금</span><span>24시간 등락</span><span>감지 기준</span></div>{filtered.slice(0,more).map(c=><div key={c.ticker} className="radarTableRow"><span className="radarCoin"><CoinIcon ticker={c.ticker} size={25}/><strong>{c.ticker}</strong><small>{c.name}</small></span><span>{price(c.krwPrice)}</span><span>{turnover(c.volume24hKrw)}</span><strong className={c.change24h>=0?"up":"down"}>{signed(c.change24h)}</strong><span>{c.change24h>=4?"상승 4% 이상":c.change24h<=-4?"하락 4% 이상":"거래대금 상위"}</span></div>)}{filtered.length===0&&<div className="radarEmpty">{status==="loading"?"데이터를 불러오는 중입니다.":status==="error"?"현재 데이터를 가져올 수 없습니다.":"선택한 조건에 맞는 종목이 없습니다."}</div>}</div></div>
  {more<filtered.length&&<button className="radarMore" onClick={()=>setMore(v=>v+15)} type="button">더보기 ({Math.min(more,filtered.length)}/{filtered.length})</button>}
- <p className="dataFoot">선별 기준: 업비트 원화마켓 · 24시간 거래대금 10억원 이상 · 스테이블코인 제외. 가격 급등·급락은 24시간 등락률 절댓값 4% 이상입니다. 거래대금 상위는 과거 대비 급증을 의미하지 않습니다. 이전 거래대금과의 비교 데이터가 확보되기 전까지 ‘급증’ 신호는 제공하지 않습니다.</p>
- <p className="dataFoot">데이터는 약 60초마다 다시 조회합니다. 시세가 지연될 수 있으며 종목 선정은 투자 추천이 아닙니다.</p></section>
+
+</section>
 }
