@@ -1114,3 +1114,16 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 .paperOrderBookFoot{font-size:10px;color:#a5b4c1;margin:auto 5px 0;padding-top:16px;line-height:1.6}
 @media(max-width:1280px){.paperExchangeLayout.paperTerminalLayout{grid-template-columns:minmax(0,1fr) 310px}.paperOrderBook{grid-column:1/-1;display:none}}
 @media(max-width:1020px){.paperExchangeLayout.paperTerminalLayout{grid-template-columns:minmax(0,1fr)}.paperOrderBook{display:flex;grid-column:auto}}
+
+@media(min-width:1021px) and (max-width:1280px){
+ .paperExchangeLayout.paperTerminalLayout{grid-template-areas:"chart order" "book order"}
+ .paperExchangeLayout>.paperTerminalChart{grid-area:chart}
+ .paperExchangeLayout>.paperOrderBook{grid-area:book;display:flex;grid-column:auto}
+ .paperExchangeLayout>.paperExchangeOrder{grid-area:order}
+}
+@media(max-width:1020px){
+ .paperExchangeLayout.paperTerminalLayout{grid-template-areas:"chart" "book" "order"}
+ .paperExchangeLayout>.paperTerminalChart{grid-area:chart}
+ .paperExchangeLayout>.paperOrderBook{grid-area:book}
+ .paperExchangeLayout>.paperExchangeOrder{grid-area:order}
+}
