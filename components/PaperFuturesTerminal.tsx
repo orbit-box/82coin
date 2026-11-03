@@ -25,6 +25,7 @@ export default function PaperFuturesTerminal({initialBalance,initialPositions,lo
  const available=Math.max(0,state.balanceKrw),maxMargin=available*.25;
  const estimatedSize=Number.isFinite(marginValue)&&marginValue>0?marginValue*leverage:0;
  const open=state.positions[0];
+ const chartPositions=useMemo(()=>state.positions.map(x=>({id:x.id,symbol:x.symbol,side:x.side,entryPrice:x.entryPrice,openedAt:x.openedAt})),[state.positions]);
  const unrealized=useMemo(()=>{if(!open||!state.mark||state.mark.symbol!==open.symbol)return null;
  const n=(state.mark.markUsdt-open.entryPrice)*open.quantity*state.mark.usdKrw*(open.side==="LONG"?1:-1);
  return Number.isFinite(n)?n:null},[open,state.mark]);
@@ -40,7 +41,7 @@ export default function PaperFuturesTerminal({initialBalance,initialPositions,lo
  }catch(e){setError(e instanceof Error?e.message:"거래 처리 오류. 내역을 확인해 주세요.")}finally{pending.current=false;setBusy(false)}};
  return <>
  <div className="paperTerminalLayout paperExchangeLayout">
- <PaperTradingChart positions={state.positions.map(x=>({id:x.id,symbol:x.symbol,side:x.side,entryPrice:x.entryPrice,openedAt:x.openedAt}))} selectedSymbol={symbol} onSymbolChange={setSymbol}/>
+ <PaperTradingChart positions={chartPositions} selectedSymbol={symbol} onSymbolChange={setSymbol}/>
  <PaperOrderBook symbol={symbol}/>
  <aside className="paperTerminalSide paperExchangeOrder">
    <div className="paperExchangeTitle"><strong>선물 주문</strong><span>USDT 무기한 · 모의거래</span></div>
