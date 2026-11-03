@@ -1,6 +1,6 @@
 import {randomUUID} from "node:crypto";
 import {db} from "@/lib/db";
-import {ensurePaperAccount,paperSchema,monthKst} from "@/lib/paper";
+import {ensurePaperAccount,paperSchema,monthKst,accountSnapshot} from "@/lib/paper";
 import {fetchPaperQuote,PAPER_SYMBOLS,previewPaperOrder,type PaperSymbol} from "@/lib/paper-quote";
 import {paperUnrealized,PAPER_TAKER_FEE_RATE} from "@/lib/paper-math";
 import type {PoolClient} from "pg";
@@ -94,6 +94,7 @@ export async function paperTerminalState(member:number){
   pool.query<{id:string;symbol:string;side:PaperSide;quantity:string;entry_price_usdt:string;margin_krw:string;leverage:number;opened_at:Date}>(`SELECT id,symbol,side,quantity,entry_price_usdt,margin_krw,leverage,opened_at FROM paper_positions WHERE member_id=$1 AND closed_at IS NULL ORDER BY opened_at DESC LIMIT 10`,[member]),
   pool.query<{id:string;symbol:string;side:PaperSide;realized_pnl_krw:string;closed_at:Date}>(`SELECT id,symbol,side,realized_pnl_krw,closed_at FROM paper_positions WHERE member_id=$1 AND closed_at IS NOT NULL ORDER BY closed_at DESC LIMIT 20`,[member])
  ]);
+ const wallet=await accountSnapshot(member);
  const mark=positions.rows.length?await fetchPaperQuote(positions.rows[0].symbol).then(x=>x.stale?null:{symbol:x.symbol,markUsdt:x.markUsdt,usdKrw:x.usdKrw,asOf:x.asOf}).catch(()=>null):null;
- return {balanceKrw:Number(a.rows[0].balance_krw),mark,positions:positions.rows.map(x=>({id:Number(x.id),symbol:x.symbol,side:x.side,quantity:Number(x.quantity),entryPrice:Number(x.entry_price_usdt),marginKrw:Number(x.margin_krw),leverage:x.leverage,openedAt:x.opened_at.toISOString()})),history:history.rows.map(x=>({id:Number(x.id),symbol:x.symbol,side:x.side,realizedPnlKrw:Number(x.realized_pnl_krw),closedAt:x.closed_at.toISOString()}))};
+ return {balanceKrw:Number(a.rows[0].balance_krw),equityKrw:wallet.equity,lockedMarginKrw:wallet.lockedMargin,remainingResets:wallet.remainingResets,resetEligible:wallet.resetEligible,mark,positions:positions.rows.map(x=>({id:Number(x.id),symbol:x.symbol,side:x.side,quantity:Number(x.quantity),entryPrice:Number(x.entry_price_usdt),marginKrw:Number(x.margin_krw),leverage:x.leverage,openedAt:x.opened_at.toISOString()})),history:history.rows.map(x=>({id:Number(x.id),symbol:x.symbol,side:x.side,realizedPnlKrw:Number(x.realized_pnl_krw),closedAt:x.closed_at.toISOString()}))};
 }
