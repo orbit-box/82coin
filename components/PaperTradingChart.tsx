@@ -7,6 +7,7 @@ type Position={id:number;symbol:string;side:"LONG"|"SHORT";entryPrice:number;ope
 const intervals=["1m","5m","15m","1h","4h","1d"] as const;
 export default function PaperTradingChart({positions=[],selectedSymbol,onSymbolChange}:{positions?:Position[];selectedSymbol?:string;onSymbolChange?:(symbol:string)=>void}){
  const host=useRef<HTMLDivElement>(null),[localSymbol,setLocalSymbol]=useState("BTCUSDT"),[interval,setInterval]=useState<string>("15m"),[error,setError]=useState(""),[source,setSource]=useState(""),[busy,setBusy]=useState(false),[summary,setSummary]=useState<Summary|null>(null),[summaryError,setSummaryError]=useState(false);
+ const symbol=selectedSymbol??localSymbol;const chooseSymbol=onSymbolChange??setLocalSymbol;
  useEffect(()=>{
   const element=host.current;if(!element)return;
   const chart=createChart(element,{width:element.clientWidth,height:410,layout:{background:{type:ColorType.Solid,color:"#ffffff"},textColor:"#62768b",fontFamily:"Arial, sans-serif",fontSize:12},grid:{vertLines:{color:"#f2f5fa"},horzLines:{color:"#f2f5fa"}},crosshair:{mode:CrosshairMode.Normal},rightPriceScale:{borderColor:"#e8eef5"},timeScale:{borderColor:"#e8eef5",timeVisible:true,secondsVisible:false},handleScroll:true,handleScale:true});
