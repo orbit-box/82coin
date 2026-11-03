@@ -40,15 +40,19 @@ export async function openPaperPosition(member:number,args:{symbol:string;side:P
   const occupied=await c.query("SELECT id FROM paper_positions WHERE member_id=$1 AND closed_at IS NULL LIMIT 1 FOR UPDATE",[member]);
   if(occupied.rowCount)throw Error("진행 중인 포지션을 먼저 청산해 주세요.");
   const preview=previewPaperOrder({symbol:args.symbol as PaperSymbol,side:args.side,marginKrw:args.marginKrw,leverage:args.leverage},quote,balance);
-  const fee=round(preview.estimatedOpeningFeeKrw),margin=round(args.marginKrw);
+  const quantity=Math.floor(preview.quantity*1e10)/1e10;
+  if(quantity<=0)throw Error("주문 수량이 최소 단위에 미달합니다.");
+  const margin=round(args.marginKrw);
+  const fee=round(quantity*quote.markUsdt*quote.usdKrw*PAPER_TAKER_FEE_RATE);
   const cash=round(balance-margin-fee);
   if(cash<0)throw Error("수수료를 포함한 잔고가 부족합니다.");
   const position=await c.query<{id:string}>(`INSERT INTO paper_positions(member_id,symbol,side,quantity,entry_price_usdt,leverage,margin_krw,entry_fx_krw,opening_fee_krw,opening_reference)
   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id`,
-  [member,args.symbol,args.side,preview.quantity,quote.markUsdt,args.leverage,margin,quote.usdKrw,fee,args.requestId]);
+  [member,args.symbol,args.side,quantity,quote.markUsdt,args.leverage,margin,quote.usdKrw,fee,args.requestId]);
   const id=Number(position.rows[0].id);
   await c.query("UPDATE paper_accounts SET balance_krw=$2,updated_at=now() WHERE member_id=$1",[member,cash]);
-  await c.query("INSERT INTO paper_ledger(member_id,kind,amount_krw,balance_after_krw,reference_key,details) VALUES($1,'FEE',$2,$3,$4,$5::jsonb)",[member,-fee,cash,"open:"+args.requestId,JSON.stringify({positionId:id,marginReserved:margin,symbol:args.symbol})]);
+  await c.query("INSERT INTO paper_ledger(member_id,kind,amount_krw,balance_after_krw,reference_key,details) VALUES($1,'MARGIN_LOCK',$2,$3,$4,$5::jsonb)",[member,-margin,round(balance-margin),"reserve:"+args.requestId,JSON.stringify({positionId:id,symbol:args.symbol})]);
+  await c.query("INSERT INTO paper_ledger(member_id,kind,amount_krw,balance_after_krw,reference_key,details) VALUES($1,'FEE',$2,$3,$4,$5::jsonb)",[member,-fee,cash,"open:"+args.requestId,JSON.stringify({positionId:id,symbol:args.symbol})]);
   await audit(c,member,"PAPER_OPEN",{id,symbol:args.symbol,side:args.side,margin,fee,price:quote.markUsdt,fx:quote.usdKrw});
   const response={ok:true,action:"OPEN",positionId:id,entryPrice:quote.markUsdt,marginKrw:margin,feeKrw:fee,balanceKrw:cash};
   await record(c,member,args.requestId,response);await c.query("COMMIT");return response;
@@ -78,7 +82,7 @@ export async function closePaperPosition(member:number,args:{positionId:number;r
   const netPnl=round(unlocked-margin-Number(pos.opening_fee_krw));
   await c.query(`UPDATE paper_positions SET closed_at=now(),closing_price_usdt=$2,realized_pnl_krw=$3,closing_fee_krw=$4,exit_fx_krw=$5,closing_reference=$6 WHERE id=$1`,[args.positionId,quote.markUsdt,netPnl,closingFee,quote.usdKrw,args.requestId]);
   await c.query("UPDATE paper_accounts SET balance_krw=$2,trading_realized_pnl_krw=trading_realized_pnl_krw+$3,updated_at=now() WHERE member_id=$1",[member,next,netPnl]);
-  await c.query("INSERT INTO paper_ledger(member_id,kind,amount_krw,balance_after_krw,reference_key,details) VALUES($1,'TRADE_PNL',$2,$3,$4,$5::jsonb)",[member,round(gross-closingFee),next,"close:"+args.requestId,JSON.stringify({positionId:args.positionId,collateralReturned:unlocked,closingFee,netPnl})]);
+  await c.query("INSERT INTO paper_ledger(member_id,kind,amount_krw,balance_after_krw,reference_key,details) VALUES($1,'MARGIN_SETTLEMENT',$2,$3,$4,$5::jsonb)",[member,unlocked,next,"close:"+args.requestId,JSON.stringify({positionId:args.positionId,marginReserved:margin,grossPnl:gross,closingFee,netPnl})]);
   await c.query("UPDATE paper_season_entries SET closed_trade_count=closed_trade_count+1,last_activity_at=now() WHERE member_id=$1 AND month_key=$2",[member,monthKst()]);
   await audit(c,member,"PAPER_CLOSE",{id:args.positionId,price:quote.markUsdt,gross,closingFee,netPnl});
   const response={ok:true,action:"CLOSE",positionId:args.positionId,exitPrice:quote.markUsdt,realizedPnlKrw:netPnl,balanceKrw:next};
