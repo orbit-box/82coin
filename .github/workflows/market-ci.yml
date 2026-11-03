@@ -4,6 +4,7 @@ on:
     branches:
       - feature/paper-trading-terminal
       - hotfix/paper-chart-20261023
+      - feature/paper-futures-execution-20261103
   pull_request:
     branches:
       - main
