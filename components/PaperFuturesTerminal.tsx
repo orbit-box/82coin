@@ -1,6 +1,7 @@
 "use client";
 import {useCallback,useEffect,useMemo,useRef,useState} from "react";
 import PaperTradingChart from "@/components/PaperTradingChart";
+import PaperOrderBook from "@/components/PaperOrderBook";
 import {useRouter} from "next/navigation";
 type Side="LONG"|"SHORT";
 type Position={id:number;symbol:string;side:Side;quantity:number;entryPrice:number;marginKrw:number;leverage:number;openedAt:string};
@@ -40,6 +41,7 @@ export default function PaperFuturesTerminal({initialBalance,initialPositions,lo
  return <>
  <div className="paperTerminalLayout paperExchangeLayout">
  <PaperTradingChart positions={state.positions.map(x=>({id:x.id,symbol:x.symbol,side:x.side,entryPrice:x.entryPrice,openedAt:x.openedAt}))} selectedSymbol={symbol} onSymbolChange={setSymbol}/>
+ <PaperOrderBook symbol={symbol}/>
  <aside className="paperTerminalSide paperExchangeOrder">
    <div className="paperExchangeTitle"><strong>선물 주문</strong><span>USDT 무기한 · 모의거래</span></div>
    <div className="paperExchangeMode"><span className="selected">격리</span><span>{leverage}x</span><span>단방향</span></div>
