@@ -1097,3 +1097,20 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 .paperExchangeAccountTools button{border:1px solid #d5e3ef;background:#f6faff;border-radius:8px;padding:9px 13px;color:#2c7fcb;font-size:11px;font-weight:800;cursor:pointer}
 .paperExchangeAccountTools button:disabled{cursor:not-allowed;color:#a6b4c3;background:#f7f9fb}
 @media(max-width:520px){.paperExchangeAccountTools{align-items:flex-start;flex-direction:column}}
+
+/* Live futures order book — independent read-only depth data */
+.paperExchangeLayout.paperTerminalLayout{grid-template-columns:minmax(0,1fr) 210px 320px;gap:12px}
+.paperOrderBook{min-width:0;border:1px solid #dce7f1;border-radius:15px;background:#fff;padding:17px 10px;display:flex;flex-direction:column}
+.paperOrderBookHead{display:flex;justify-content:space-between;align-items:center;gap:5px;border-bottom:1px solid #eaf0f5;padding:0 5px 15px}
+.paperOrderBookHead strong{font-size:16px;color:#203c55}.paperOrderBookHead small{font-size:10px;color:#899cb0}
+.paperOrderBookColumns{display:flex;justify-content:space-between;gap:4px;padding:14px 4px;color:#98a7b7;font-size:10px}
+.paperOrderBookRows{display:grid;gap:2px}.paperOrderBookRow{position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:29px;padding:4px 6px;font-size:11px;overflow:hidden}
+.paperOrderBookRow .depth{position:absolute;inset:0 0 0 auto;opacity:.55;pointer-events:none}
+.paperOrderBookRow.asks .depth{background:#fce4e9}.paperOrderBookRow.bids .depth{background:#e2f8ef}
+.paperOrderBookRow b,.paperOrderBookRow span{position:relative;z-index:1;font-variant-numeric:tabular-nums}
+.paperOrderBookRow.asks b{color:#df526e}.paperOrderBookRow.bids b{color:#10a077}
+.paperOrderBookRow span{color:#637c94}.paperOrderBookMid{margin:10px 0;padding:10px 5px;border-block:1px solid #eef2f6;color:#1e3852;font-size:17px;font-weight:850;display:flex;align-items:center;gap:8px}
+.paperOrderBookMid small{color:#8899ac;font-size:10px;font-weight:500}.paperOrderBookLoading{color:#95a5b5;font-size:12px;text-align:center;padding:55px 7px}
+.paperOrderBookFoot{font-size:10px;color:#a5b4c1;margin:auto 5px 0;padding-top:16px;line-height:1.6}
+@media(max-width:1280px){.paperExchangeLayout.paperTerminalLayout{grid-template-columns:minmax(0,1fr) 310px}.paperOrderBook{grid-column:1/-1;display:none}}
+@media(max-width:1020px){.paperExchangeLayout.paperTerminalLayout{grid-template-columns:minmax(0,1fr)}.paperOrderBook{display:flex;grid-column:auto}}
