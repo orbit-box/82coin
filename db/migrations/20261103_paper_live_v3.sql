@@ -15,3 +15,8 @@ ALTER TABLE paper_positions ADD COLUMN IF NOT EXISTS opening_reference TEXT;
 ALTER TABLE paper_positions ADD COLUMN IF NOT EXISTS closing_reference TEXT;
 CREATE UNIQUE INDEX IF NOT EXISTS paper_positions_open_reference_unique ON paper_positions(opening_reference) WHERE opening_reference IS NOT NULL;
 CREATE UNIQUE INDEX IF NOT EXISTS paper_positions_close_reference_unique ON paper_positions(closing_reference) WHERE closing_reference IS NOT NULL;
+
+-- Account ledger should reconcile collateral locks and settlements.
+ALTER TABLE paper_ledger DROP CONSTRAINT IF EXISTS paper_ledger_kind_check;
+ALTER TABLE paper_ledger ADD CONSTRAINT paper_ledger_kind_check CHECK(kind IN
+ ('INITIAL','RESET','TRADE_PNL','FEE','FUNDING','LIQUIDATION','MONTH_BOUNDARY','MARGIN_LOCK','MARGIN_SETTLEMENT'));
