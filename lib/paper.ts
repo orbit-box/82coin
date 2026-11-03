@@ -41,11 +41,12 @@ export async function accountSnapshot(memberId:number){
  pool.query<{balance_krw:string;cumulative_reset_adjustment_krw:string}>("SELECT balance_krw,cumulative_reset_adjustment_krw FROM paper_accounts WHERE member_id=$1",[memberId]),
  pool.query<{total:string}>("SELECT count(*)::text AS total FROM paper_resets WHERE member_id=$1 AND week_key=$2",[memberId,w]),
  pool.query<{start_equity_krw:string;reset_injections_krw:string;closed_trade_count:number}>("SELECT start_equity_krw,reset_injections_krw,closed_trade_count FROM paper_season_entries WHERE month_key=$1 AND member_id=$2",[m,memberId]),
- pool.query("SELECT 1 FROM paper_positions WHERE member_id=$1 AND closed_at IS NULL LIMIT 1",[memberId])
+ pool.query<{locked:string}>("SELECT coalesce(sum(margin_krw),0)::text AS locked FROM paper_positions WHERE member_id=$1 AND closed_at IS NULL",[memberId])
  ]);
  const balance=Number(a.rows[0].balance_krw),entry=e.rows[0];
- const pnl=balance-Number(entry.start_equity_krw)-Number(entry.reset_injections_krw);
- return {balance,month:m,week:w,remainingResets:Math.max(0,2-Number(r.rows[0].total)),openPositions:open.rowCount!>0,adjustedPnl:pnl,adjustedRoi:entry.start_equity_krw?100*pnl/Number(entry.start_equity_krw):0,tradeCount:entry.closed_trade_count,resetEligible:balance<=500000&&Number(r.rows[0].total)<2&&!open.rowCount};
+ const lockedMargin=Number(open.rows[0]?.locked||0),equity=balance+lockedMargin;
+ const pnl=equity-Number(entry.start_equity_krw)-Number(entry.reset_injections_krw);
+ return {balance,month:m,week:w,remainingResets:Math.max(0,2-Number(r.rows[0].total)),openPositions:lockedMargin>0,lockedMargin,equity,adjustedPnl:pnl,adjustedRoi:entry.start_equity_krw?100*pnl/Number(entry.start_equity_krw):0,tradeCount:entry.closed_trade_count,resetEligible:equity<=500000&&Number(r.rows[0].total)<2&&lockedMargin===0};
 }
 export async function resetVirtualWallet(memberId:number){
  await ensurePaperAccount(memberId);const pool=await db(),c=await pool.connect();
