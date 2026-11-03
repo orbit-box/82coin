@@ -1057,3 +1057,37 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
   clip-path:circle(44% at 50% 49%);
 }
 .rewardTokenImage img,.tokenWalletCoin img{display:block;flex:none}
+
+/* Paper futures execution terminal — compact Bitget-like trading interaction, 82coin branding */
+.paperExchangeLayout{align-items:stretch;gap:14px}
+.paperExchangeOrder{border:1px solid #dce7f1;border-radius:16px;background:#fff;padding:22px 18px;display:flex;flex-direction:column;gap:15px;min-width:0}
+.paperExchangeTitle{display:flex;justify-content:space-between;align-items:center;gap:8px}.paperExchangeTitle strong{font-size:18px;color:#162f47}.paperExchangeTitle span{font-size:10px;color:#7990a5}
+.paperExchangeMode{display:flex;align-items:center;gap:7px}.paperExchangeMode span{padding:7px 12px;border-radius:7px;background:#f0f5fa;color:#52708e;font-size:11px;font-weight:750}.paperExchangeMode span.selected{background:#e8f4ff;color:#237fd0}
+.paperExchangeBalance{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid #e7edf5;border-bottom:1px solid #e7edf5;gap:9px}.paperExchangeBalance small{color:#7890a6;font-size:11px}.paperExchangeBalance strong{font-size:17px;color:#193954}
+.paperExchangeSymbol,.paperExchangeField{display:flex;flex-direction:column;gap:10px;color:#6b8197;font-size:12px;font-weight:700}
+.paperExchangeSymbol select,.paperExchangeField input[type=number]{width:100%;border:1px solid #dde8f3;background:#fff;border-radius:9px;min-height:43px;padding:0 11px;color:#1c3852;font-size:14px;font-weight:700;outline:none}
+.paperExchangeSymbol select:focus,.paperExchangeField input[type=number]:focus{border-color:#358fe5}
+.paperExchangeTabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #e7edf5;gap:14px}.paperExchangeTabs button{border:0;background:none;color:#95a4b4;font-weight:800;font-size:12px;padding:10px 3px;cursor:pointer}.paperExchangeTabs button.selected{border-bottom:2px solid #358fe5;color:#358fe5}.paperExchangeTabs button:disabled{cursor:not-allowed;opacity:.5}
+.paperExchangeSides{display:grid;grid-template-columns:1fr 1fr;gap:8px}.paperExchangeSides button{border:1px solid #e3ebf3;border-radius:9px;padding:13px 7px;background:#f7f9fc;font-size:12px;font-weight:800;cursor:pointer}.paperExchangeSides .long.selected{color:#0e9b74;background:#e5f8f0;border-color:#8fe0c2}.paperExchangeSides .short.selected{color:#d34b68;background:#fff0f3;border-color:#f6b5c2}
+.paperExchangeMark{display:flex;justify-content:space-between;color:#778ba0;font-size:12px}.paperExchangeMark strong{color:#203c58;font-weight:800}
+.paperExchangeField strong{color:#1c4f7d;font-size:12px}.paperExchangeField input[type=range]{accent-color:#358fe5;width:100%;cursor:pointer}.paperExchangeTicks{display:flex;justify-content:space-between;color:#9aaabb;font-size:10px}
+.paperExchangePercent{display:flex;gap:5px}.paperExchangePercent button{flex:1;border:1px solid #e5ebf3;background:#f6f9fd;border-radius:6px;font-size:10px;padding:7px 0;color:#627d99;cursor:pointer}
+.paperExchangeEstimate{display:grid;gap:11px;padding:14px 0;border-top:1px solid #e9eff5}.paperExchangeEstimate div{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11px}.paperExchangeEstimate span{color:#889cb0}.paperExchangeEstimate b{font-size:12px;color:#1b3b57}
+.paperExchangeSubmit{border:0;border-radius:9px;min-height:49px;color:#fff;font-weight:850;cursor:pointer;font-size:14px}.paperExchangeSubmit.long{background:#0da978}.paperExchangeSubmit.short{background:#e45871}.paperExchangeSubmit:disabled{opacity:.52;cursor:not-allowed}
+.paperExchangeDisclosure{color:#9cabb9;font-size:10px!important;line-height:1.5!important;margin:0!important}.paperExchangeError{color:#cf344f!important;font-size:12px!important}.paperExchangeSuccess{color:#128764!important;font-size:12px!important}
+.paperExchangePositions{background:white;border:1px solid #e1eaf4;border-radius:15px;margin:16px 0 25px;padding:0 20px 10px}
+.paperExchangePositionTabs{display:flex;gap:25px;border-bottom:1px solid #e7edf4}.paperExchangePositionTabs button{padding:16px 2px;border:0;border-bottom:2px solid transparent;background:none;color:#91a2b3;font-size:13px;font-weight:850;cursor:pointer}.paperExchangePositionTabs button.selected{color:#277fd0;border-color:#277fd0}
+.paperExchangeEmpty{padding:30px 12px!important;text-align:center;color:#8d9daf;font-size:12px}
+.paperExchangePositionRow{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.5fr auto;align-items:center;gap:13px;border-bottom:1px solid #eef2f7;padding:18px 0}.paperExchangePositionRow:last-child{border:0}
+.paperExchangePositionRow>div{display:flex;flex-direction:column;gap:7px}.paperExchangePositionRow small{font-size:10px;color:#8c9bad}.paperExchangePositionRow strong{font-size:12px;color:#203e59}
+.paperExchangePositionMain{flex-direction:row!important;align-items:center;flex-wrap:wrap}.paperExchangePositionMain>b{font-size:13px;color:#18374f}
+.paperLongTag,.paperShortTag{font-size:10px;padding:5px 7px;border-radius:5px;font-weight:850}.paperLongTag{background:#e7f8f2;color:#0e9b74}.paperShortTag{background:#fff0f3;color:#cf4e67}
+.paperProfit{color:#0f9c76!important}.paperLoss{color:#d9526e!important}
+.paperExchangeClose{background:white;color:#51708c;border:1px solid #bacada;border-radius:8px;padding:10px 14px;font-size:11px;font-weight:800;cursor:pointer}
+.paperExchangeClose:hover{border-color:#348ddd;color:#237bd0}
+.paperExchangeHistoryRow{display:flex;align-items:center;gap:17px;border-bottom:1px solid #edf3f8;padding:15px 0;font-size:12px}.paperExchangeHistoryRow strong{color:#1b3853}.paperExchangeHistoryRow span{color:#8094a8}.paperExchangeHistoryRow b{margin-left:auto}
+.paperExchangeOverlay{position:fixed;inset:0;z-index:2000;background:#0b1d32a8;display:grid;place-items:center;padding:20px}
+.paperExchangeConfirm{width:min(420px,100%);background:#fff;border-radius:16px;padding:25px;box-shadow:0 16px 50px #0002;display:grid;gap:15px}.paperExchangeConfirm h3{margin:0;font-size:20px;color:#1b3b55}.paperExchangeConfirm p{font-size:13px;line-height:1.7;margin:0;color:#3d5873}.paperExchangeConfirm small{color:#8095a8;line-height:1.6}.paperExchangeConfirm>div{display:flex;gap:10px}.paperExchangeConfirm>div button{flex:1;padding:13px 10px;border:1px solid #dce6f0;border-radius:9px;font-weight:800;cursor:pointer;background:#f4f8fc;color:#386081}.paperExchangeConfirm>div button:last-child{background:#358fe5;color:#fff;border-color:#358fe5}.paperExchangeConfirm button:disabled{opacity:.5}
+@media(max-width:1120px){.paperExchangePositionRow{grid-template-columns:repeat(3,1fr)}.paperExchangePositionRow>.paperExchangeClose{justify-self:start}}
+@media(max-width:1020px){.paperExchangeLayout{grid-template-columns:minmax(0,1fr)}.paperExchangeOrder{padding:20px}.paperExchangePositions{padding:0 14px 10px}}
+@media(max-width:600px){.paperExchangePositionRow{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.paperExchangePositionMain{grid-column:1/-1}.paperExchangePositionRow>.paperExchangeClose{grid-column:1/-1}.paperExchangeBalance strong{font-size:15px}.paperExchangeHistoryRow{flex-wrap:wrap}}
