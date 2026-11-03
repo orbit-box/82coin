@@ -1091,3 +1091,9 @@ main.adminStandalone{width:100%;max-width:none;min-height:100vh;padding:0;margin
 @media(max-width:1120px){.paperExchangePositionRow{grid-template-columns:repeat(3,1fr)}.paperExchangePositionRow>.paperExchangeClose{justify-self:start}}
 @media(max-width:1020px){.paperExchangeLayout{grid-template-columns:minmax(0,1fr)}.paperExchangeOrder{padding:20px}.paperExchangePositions{padding:0 14px 10px}}
 @media(max-width:600px){.paperExchangePositionRow{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.paperExchangePositionMain{grid-column:1/-1}.paperExchangePositionRow>.paperExchangeClose{grid-column:1/-1}.paperExchangeBalance strong{font-size:15px}.paperExchangeHistoryRow{flex-wrap:wrap}}
+
+.paperExchangeAccountTools{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #e9eff5}
+.paperExchangeAccountTools span{color:#617d96;font-size:12px;font-weight:750}
+.paperExchangeAccountTools button{border:1px solid #d5e3ef;background:#f6faff;border-radius:8px;padding:9px 13px;color:#2c7fcb;font-size:11px;font-weight:800;cursor:pointer}
+.paperExchangeAccountTools button:disabled{cursor:not-allowed;color:#a6b4c3;background:#f7f9fb}
+@media(max-width:520px){.paperExchangeAccountTools{align-items:flex-start;flex-direction:column}}
